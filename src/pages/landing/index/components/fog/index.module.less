@@ -1,0 +1,124 @@
+.page {
+  position: relative;
+  height: 100vh;
+  background-image: url(https://xsad-tdmd.oss-cn-shanghai.aliyuncs.com/weapp/landing/background-normal.jpeg);
+  background-size: 100%;
+}
+
+.top {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 40px;
+  color: #fff;
+  padding-top: 124px;
+  z-index: 12;
+}
+
+.topFooter {
+  margin-top: 32px;
+}
+
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.fog {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  z-index: 5;
+}
+
+.fogImage {
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 240px;
+  position: absolute;
+  bottom: 120px;
+  z-index: 12;
+}
+
+.footerText {
+  color: #6443ff;
+  text-align: center;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.fogButton {
+  width: 500px;
+}
+
+.animeBox {
+  position: absolute;
+  top: 88px;
+  right: 88px;
+}
+
+.clickEffectBox {
+  position: absolute;
+}
+
+.clickEffectIn {
+  position: absolute;
+  top: -32px;
+  left: px;
+  z-index: 1;
+  width: 64px;
+}
+
+.clickEffectOut {
+  position: absolute;
+  top: -48px;
+  left: -16px;
+  z-index: 1;
+  width: 96px;
+  animation: zoom 2s infinite;
+}
+
+.finger {
+  position: relative;
+  width: 152px;
+  z-index: 8;
+  animation: tap 2s infinite alternate;
+}
+
+@keyframes zoom {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes tap {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(30rpx) translateX(30rpx); }
+  75% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}

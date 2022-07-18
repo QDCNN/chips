@@ -1,4 +1,3 @@
-import system from '@/models/system';
 import global from '@/models/global';
 
 import { createImmerPlugin } from '@dura/immer';
@@ -8,7 +7,6 @@ import { ExtractState } from '@dura/types'
 import Taro from '@tarojs/taro';
 
 const initialModel = {
-  system,
   global
 };
 

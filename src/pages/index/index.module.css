@@ -4,13 +4,11 @@
   height: 100%;
   background-size: 100%;
 }
-
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-
 .contact {
   position: fixed;
   bottom: 100px;

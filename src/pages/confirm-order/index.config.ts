@@ -1,4 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: '星鲨会员',
+  navigationBarTitleText: '确认订单',
   navigationStyle: 'custom',
 })

@@ -7,16 +7,23 @@ import CustomNavigationBar from '@/custom-navigation-bar'
 import ListItem from '@/components/ListItem'
 import addressIcon from '@/assets/icon/address.svg'
 import rightIcon from '@/assets/icon/right.svg'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 
 
 const Mine = () => {
+  const { global: { userInfo, goods } } = useSelector((store: RootState) => store);
+
   // const onOrderDetails = () => Taro.navigateTo({ url: Routes.RightsList });
   // const onMyOrder = () => Taro.navigateTo({ url: Routes.MyOrder })
   const onOrderDetails = () => {
     console.log('订单详情');
   }
+
+
   const onMyOrder = () => {
-    Taro.navigateTo({ url: Routes.MyOrder })
+    console.log('userInfo', userInfo);
+    console.log('goods', goods[0]);
   }
   return (
     <View className={classnames('page', styles.page)}>
@@ -44,8 +51,7 @@ const Mine = () => {
             </View>
           </View>
           <ListItem
-            title={'请提交资料'}
-            badge={'线上办结'}
+            badge={3}
             iconRight={rightIcon}
             onClick={onMyOrder}
           ></ListItem>

@@ -1,71 +1,89 @@
-import Taro from '@tarojs/taro';
+/** 请求封装 */
+
+import { RootState, store } from "@/store";
+import Taro from "@tarojs/taro";
 import qs from 'qs';
 
-const skipTokenUrls = [];
-const API_ROOT = 'https://xsad.tech-done.com/index.php';
+// 域名前缀
+const API_ROOT = 'https://api.oscac-sh.com/weixin';
 
+// 请求方式
 enum Method {
   POST = 'POST',
   GET = 'GET',
 }
 
+// 请求菜单
 enum APIPath {
-  京东发送短信 = '/api/sms/jdsend',
-  淘宝发送短信 = '/api/sms/tbsend',
+  登录 = '/passport/login',
+  获取首页资源 = '/page/index',
+  立即下单 = '/order/buynow'
 }
 
+
+// 请求方法封装
+
 const commomRequest = async ({ action, method, params }) => {
-  // if (!skipTokenUrls.includes(action)) {
-  //   const result = await loginQueue();
-  //   if (!result) await promiseLogin();
-  //   const { global: { userBaseInfo } }: RootState = store.getState();
-  //   params.token = userBaseInfo.token;
-  // }
+  console.log('method', method);
+  const { global: { userInfo } }: RootState = store.getState();
 
-  const finalParams = { s: action };
-  const urlSearch = qs.stringify(method === Method.GET ? { ...finalParams, ...params } : finalParams);
-  const requestParams: any = {
-    url: `${API_ROOT}?${urlSearch}`,
-    method,
-    header: {
-      'content-type': 'application/x-www-form-urlencoded'
-    },
-  };
-  if (method === Method.POST) requestParams.data = params;
+  const openid = userInfo.openid
+  const finalParams = { openid };
+  const urlSearch = qs.stringify(openid ? { ...finalParams } : '');
+  console.log('userInfo', urlSearch);
+
+
+  const requestParams: any = openid ?
+    {
+      url: `${API_ROOT}${action}`,
+      data: params,
+      method: method,
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'openid': openid
+      }
+    } :
+    {
+      url: `${API_ROOT}${action}`,
+      data: params,
+      method: method,
+      header: {
+        'content-type': 'multipart/form-data'
+      }
+    };
+
+  // const requestParams: any = 
+
+
+  console.log('requestParams', requestParams);
+
+
   return Taro.request(requestParams).then(response => {
-    const { data } = response;
-
+    const { data } = response
     if (data.code == -1) {
-      // globalVariable.userInfo = null;
-      // promiseLogin();
-      // store.dispatch(actionCreator.global.login());
       const error = new Error('服务器 0 报错');
       error.message = data.msg;
       error.code = data.code;
       return Promise.reject(error);
     }
-    if (data.code == 0) {
-      const error = new Error('服务器 0 报错');
-      error.message = data.msg;
-      error.code = data.code;
-      return Promise.reject(error);
-    }
-    if (data.code != 1) {
-      const error = new Error('服务器报错');
-      error.message = data.msg;
-      error.code = data.code;
-      return Promise.reject(error);
-    }
+
     return data;
   })
 }
 
-// 京东发送短信
-export function jdSendSms(params) {
-  return commomRequest({ action: APIPath.京东发送短信, params, method: Method.POST });
+
+
+// 登录
+export function Login(params) {
+  return commomRequest({ action: APIPath.登录, method: Method.GET, params })
 }
 
-// 淘宝发送短信
-export function tbSendSms(params) {
-  return commomRequest({ action: APIPath.淘宝发送短信, params, method: Method.POST });
+// 获取首页资源
+export function getResources(params) {
+  return commomRequest({ action: APIPath.获取首页资源, params, method: Method.GET });
+}
+
+// 立即下单
+export function buynow(params) {
+  return commomRequest({ action: APIPath.立即下单, params, method: Method.POST })
 }

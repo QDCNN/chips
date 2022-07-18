@@ -1,5 +1,4 @@
 import { Routes } from './routes';
-import homeIcon from '@/assets/icon/home.svg'
 
 export const pages = Object.values(Routes).map(item => item.slice(1));
 
@@ -31,9 +30,7 @@ export default defineAppConfig({
     // 如果这里图片路径没有配置或配置出错的话，图片icon不会显示
     list: tabBarList
   },
-  "useExtendedLib": {
-    "weui": true
-  },
+
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
