@@ -72,7 +72,7 @@ const model = {
 
 
 const ConfirmOrder = () => {
-  const { global: { goods, userInfo } } = useSelector((store: RootState) => store);
+  const { global: { goods, asserts, userInfo } } = useSelector((store: RootState) => store);
 
   const [dState, dDispatch, dActionCreator] = useDuraArray(model);
 
@@ -80,6 +80,7 @@ const ConfirmOrder = () => {
     console.log('提交表单', dState.formData);
     // Taro.navigateTo({ url: Routes.PayResultAwait })
   }
+
 
   // 获取收货地址
   const getAddress = () => {
@@ -94,17 +95,6 @@ const ConfirmOrder = () => {
       })
     })
   }
-
-  useEffect(() => {
-    Taro.login({
-      success(result) {
-        console.log('result', result);
-      },
-    })
-  }, [])
-
-
-
 
   // 姓名
   const onChangeName = (res) => {
@@ -130,34 +120,24 @@ const ConfirmOrder = () => {
     }))
   }
 
-  // 选择器
-  const onChangeRegion = (res) => {
-    dDispatch(dActionCreator.setRegionSelectorChecked(
-      dState.regionSelector[res.detail.value]
-    ))
-  }
 
 
 
-
-  const getFormDate = (e) => {
-    // API.buynow()
-    // console.log('submit', e.detail.value);
+  const onSubmit = () => {
     console.log('formData', dState.formData);
 
 
-    console.log('goods', goods[0].goods_id);
+    console.log('goods', asserts.goods[0].goods_id);
 
     console.log('openid', userInfo);
 
     let formDate = {
       ...dState.formData,
-      goods_id: goods[0].goods_id,
-      ...dState.formData,
+      goods_id: asserts.goods[0].goods_id,
     }
     console.log('formDate', formDate);
 
-    API.buynow({ ...formDate }).then(res => {
+    API.buyNow({ ...formDate }).then(res => {
       if (res.code === 200) {
         console.log('支付数据', res);
         Taro.requestPayment({
@@ -167,8 +147,11 @@ const ConfirmOrder = () => {
           signType: res.data.signType,
           paySign: res.data.paySign,
           success: (res) => {
-            console.log('支付', res);
-          }
+            console.log('支付成功', res);
+          },
+          fail: (res) => {
+            console.log('支付失败', res);
+          },
         })
       }
     })
@@ -257,7 +240,8 @@ const ConfirmOrder = () => {
           <AtInput
             clear
             name='userName'
-            focus={dState.formData.name}
+            // focus={dState.formData.name}
+            autoFocus
             title='姓名'
             type='text'
             placeholder='请输入签约人姓名'
@@ -266,7 +250,7 @@ const ConfirmOrder = () => {
           />
           <AtInput
             key='idcard'
-            focus={dState.formData.idcard}
+            // focus={dState.formData.idcard}
             clear
             error={dState.isIdCard}
             title='身份证号'
@@ -288,20 +272,13 @@ const ConfirmOrder = () => {
             value={dState.formData.mobile}
             onChange={onChangePhone}
           />
-          {/* <Picker mode='selector' range={dState.regionSelector} onChange={onChangeRegion} >
-            <ListItem
-              title='国家地区'
-              extraText={dState.regionSelectorChecked}
-            />
-          </Picker> */}
         </AtForm>
         <View className={classnames('m-t-48', styles.submit)}>
-          {/* <AtButton className={styles.submit_button} formType='submit' type='primary'>去支付</AtButton> */}
           <Button
             formType='submit'
             type='primary'
             className={styles.submit_button}
-            onClick={getFormDate}
+            onClick={onSubmit}
           >提交</Button>
         </View>
       </View>

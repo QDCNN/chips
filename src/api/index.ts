@@ -17,7 +17,9 @@ enum Method {
 enum APIPath {
   登录 = '/passport/login',
   获取首页资源 = '/page/index',
-  立即下单 = '/order/buynow'
+  立即下单 = '/order/buynow',
+  订单列表 = '/order/list',
+  订单支付 = '/order/payment'
 }
 
 
@@ -28,9 +30,9 @@ const commomRequest = async ({ action, method, params }) => {
   const { global: { userInfo } }: RootState = store.getState();
 
   const openid = userInfo.openid
-  const finalParams = { openid };
-  const urlSearch = qs.stringify(openid ? { ...finalParams } : '');
-  console.log('userInfo', urlSearch);
+  // const finalParams = { openid };
+  // const urlSearch = qs.stringify(openid ? { ...finalParams } : '');
+  // console.log('userInfo', urlSearch);
 
 
   const requestParams: any = openid ?
@@ -52,15 +54,18 @@ const commomRequest = async ({ action, method, params }) => {
       }
     };
 
-  // const requestParams: any = 
-
-
   console.log('requestParams', requestParams);
 
 
   return Taro.request(requestParams).then(response => {
     const { data } = response
     if (data.code == -1) {
+      const error = new Error('服务器 0 报错');
+      error.message = data.msg;
+      error.code = data.code;
+      return Promise.reject(error);
+    }
+    if (data.code == 500) {
       const error = new Error('服务器 0 报错');
       error.message = data.msg;
       error.code = data.code;
@@ -84,6 +89,16 @@ export function getResources(params) {
 }
 
 // 立即下单
-export function buynow(params) {
+export function buyNow(params) {
   return commomRequest({ action: APIPath.立即下单, params, method: Method.POST })
+}
+
+// 订单列表
+export function orderList(params) {
+  return commomRequest({ action: APIPath.订单列表, params, method: Method.GET })
+}
+
+// 订单支付
+export function orderPayment(params) {
+  return commomRequest({ action: APIPath.订单支付, params, method: Method.POST })
 }

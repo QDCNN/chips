@@ -43,8 +43,8 @@ const PayResult = () => {
         <View className={styles.results_box}>
           <Icon size='60' type='waiting' />
           <View className={styles.text_box}>
-            <View ><Text className={styles.title}>正在检查支付结果</Text></View>
-            <View ><Text className={styles.subTitle}>请稍等</Text></View>
+            <View className='m-t-24'><Text className={styles.title}>正在检查支付结果</Text></View>
+            <View className='m-t-24'><Text className={styles.subTitle}>请稍等</Text></View>
           </View>
         </View>
         {/* {success ?

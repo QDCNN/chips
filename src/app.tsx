@@ -20,11 +20,11 @@ class App extends Component {
   // this.props.children 是将要会渲染的页面
   render() {
     return (
-      <Provider store= { store } >
-      {
-        this.props.children
-      }
-      < /Provider>
+      <Provider store={store} >
+        {
+          this.props.children
+        }
+      </Provider>
     )
   }
 }

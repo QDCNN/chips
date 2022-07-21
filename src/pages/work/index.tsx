@@ -22,8 +22,11 @@ const Mine = () => {
 
 
   const onMyOrder = () => {
-    console.log('userInfo', userInfo);
-    console.log('goods', goods[0]);
+    Taro.navigateTo({
+      url: Routes.MyOrder
+    })
+    // console.log('userInfo', userInfo);
+    // console.log('goods', goods[0]);
   }
   return (
     <View className={classnames('page', styles.page)}>

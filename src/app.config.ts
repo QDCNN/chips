@@ -11,7 +11,7 @@ export const tabBarList = [
   },
   {
     pagePath: Routes.Work.slice(1),
-    text: '办事',
+    text: '上传材料',
     iconPath: './assets/tabbar/work.png',
     selectedIconPath: './assets/tabbar/work-selected.png',
   },

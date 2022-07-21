@@ -1,3 +1,4 @@
+
 export enum Routes {
 
 
@@ -12,20 +13,26 @@ export enum Routes {
   Contact = '/pages/contact/index',
 
 
-  // // 商品详情
+  // 商品详情
   GoodsDetail = '/pages/goods-detail/index',
 
-  // // 确认订单
+  // 确认订单
   ConfirmOrder = '/pages/confirm-order/index',
 
-  // // 支付结果等待
+  // 支付结果等待
   PayResultAwait = '/pages/pay-result-await/index',
 
-  // // 支付结果成功
+  // 支付结果成功
   PayResultSuccess = '/pages/pay-result-success/index',
 
-  // // 我的订单
+  // 我的订单
   MyOrder = '/pages/my-order/index',
+
+  // 材料详情
+  MaterialDetails = '/pages/material-details/index',
+
+  // 表单填写页
+  FormPage = '/pages/form-page/index'
 
   /**end*/
 
