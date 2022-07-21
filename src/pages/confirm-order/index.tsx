@@ -1,4 +1,3 @@
-import { Routes } from '@/routes'
 import { View, Form, Button, Picker, Input } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import classnames from 'classnames'
@@ -12,8 +11,6 @@ import IdentityPhoneValid from '@/utils/validatePhone'
 import { AtButton, AtForm, AtInput, AtList, AtListItem } from 'taro-ui'
 import './index.sass'
 import { useDuraArray } from '@/hooks/use-dura'
-import FormItem from '@/components/FormItem'
-import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import * as API from '@/api/index'
@@ -193,41 +190,7 @@ const ConfirmOrder = () => {
             extraText='￥4,999.00'
           ></ListItem>
         </View>
-        {/* 
-        <Form onSubmit={getFormDate} >
-          <View className={classnames('m-t-48', 'fiche', styles.form_box)}>
-            <FormItem
-              clear
-              name='userName'
-              label='姓名'
-              type='text'
-              placeholder='请输入签约人姓名'
-            />
-            <FormItem
-              name='idcard'
-              clear
-              error={dState.isIdCard}
-              label='身份证号'
-              placeholder={!dState.isIdCard ? '请输入签约人的身份证号' : '请输入正确的身份证号'}
-              type='idcard'
-            />
-            <FormItem
-              clear
-              name='phone'
-              error={dState.isPhone}
-              label='手机号'
-              type='phone'
-              placeholder={dState.isPhone ? '请输入正确的手机号' : '请输入签约人手机号'}
-            />
-          </View>
-          <View className={classnames('m-t-48', styles.submit)}>
-            <Button
-              formType='submit'
-              type='primary'
-              className={styles.submit_button}
-            >提交</Button>
-          </View>
-        </Form> */}
+
 
 
 
