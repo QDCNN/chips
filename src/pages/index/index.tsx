@@ -11,14 +11,16 @@ import Contact from './components/contact'
 
 
 
-const Index = () => {
-  const { global: { customer_service } } = useSelector((store: RootState) => store);
 
+const Index = () => {
+  const { global: { goodsList, service } } = useSelector((store: RootState) => store);
 
   const onGoodsDetailClick = () => {
     Taro.navigateTo({
       url: Routes.GoodsDetail
     })
+
+
   }
   // 添加微信
   const onAddContact = () => {
@@ -32,14 +34,17 @@ const Index = () => {
     <View className={classnames('page', styles.page)}>
       <CustomNavigationBar notFixed title="首页" />
       <View className={classnames('container', styles.container)}>
-        <Card className="m-t-32" image='https://chips-tdmd.oss-cn-shanghai.aliyuncs.com/index_card.png' onClick={onGoodsDetailClick} />
+        <Card className="m-t-32" image={goodsList[0]?.goods_image} onClick={onGoodsDetailClick} />
       </View>
-      {customer_service[0] && (
+      {/* <View>{moment('2022-07-26 13:23:23').valueOf()}</View> */}
+      {/* <View>{moment('2022-07-26 13:23:23').add(30, 'minutes')}</View> */}
+      {/* <View>{showRemainTime({ createTime: '2022-07-26 13:23:23' })}</View> */}
+      {service[0] && (
         <View className={styles.contact}>
           <Contact
-            avatar={customer_service[0]?.avatar}
-            username={customer_service[0]?.name}
-            intr={customer_service[0]?.intr}
+            avatar={service[0]?.avatar}
+            username={service[0]?.name}
+            intr={service[0]?.intro}
             onClick={onAddContact}
           />
         </View>

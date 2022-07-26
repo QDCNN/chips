@@ -8,12 +8,13 @@ import addressIcon from '@/assets/icon/address.svg'
 import rightIcon from '@/assets/icon/right.svg'
 import IdentityCodeValid from '@/utils/validateId'
 import IdentityPhoneValid from '@/utils/validatePhone'
-import { AtButton, AtForm, AtInput, AtList, AtListItem } from 'taro-ui'
+import { AtForm, AtInput, } from 'taro-ui'
 import './index.sass'
 import { useDuraArray } from '@/hooks/use-dura'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import * as API from '@/api/index'
+import { Routes } from '@/routes'
 
 
 
@@ -23,20 +24,9 @@ const model = {
       name: '',
       idcard: '',
       mobile: '',
-      // address: '',
     },
     isIdCard: false,
     isPhone: false,
-    regionSelector: ['美国', '中国', '巴西', '日本'],
-    regionSelectorChecked: '中国',
-    form: [
-      {
-        id: 0,
-        title: 'input',
-        type: 'input',
-        placeholder: 'input',
-      }
-    ]
   }),
   reducers: () => ({
     setFormData(state, payload) {
@@ -69,14 +59,10 @@ const model = {
 
 
 const ConfirmOrder = () => {
-  const { global: { goods, asserts, userInfo } } = useSelector((store: RootState) => store);
 
   const [dState, dDispatch, dActionCreator] = useDuraArray(model);
+  // const { global: { goodsList, goodsDetail } } = useSelector((store: RootState) => store);
 
-  const onPay = () => {
-    console.log('提交表单', dState.formData);
-    // Taro.navigateTo({ url: Routes.PayResultAwait })
-  }
 
 
   // 获取收货地址
@@ -121,53 +107,65 @@ const ConfirmOrder = () => {
 
 
   const onSubmit = () => {
-    console.log('formData', dState.formData);
-
-
-    console.log('goods', asserts.goods[0].goods_id);
-
-    console.log('openid', userInfo);
-
     let formDate = {
       ...dState.formData,
-      goods_id: asserts.goods[0].goods_id,
+      goods_id: 10001,
+      goods_sku_id: 0,
+      goods_num: 1,
+      delivery: 20,
+      pay_type: 20,
+      shop_id: 10001,
+      coupon_id: 0,
+      is_use_points: 0,
     }
-    console.log('formDate', formDate);
 
     API.buyNow({ ...formDate }).then(res => {
-      if (res.code === 200) {
-        console.log('支付数据', res);
+      console.log('支付数据', res);
+      if (res.code === 1) {
+        // Taro.navigateTo({
+        //   url: Routes.PayResultAwait
+        // })
         Taro.requestPayment({
-          timeStamp: res.data.timeStamp,
-          nonceStr: res.data.nonceStr,
-          package: res.data.package,
-          signType: res.data.signType,
-          paySign: res.data.paySign,
+          timeStamp: res.data.payment.timeStamp,
+          nonceStr: res.data.payment.nonceStr,
+          package: `prepay_id=${res.data.payment.prepay_id}`,
+          signType: 'MD5',
+          paySign: res.data.payment.paySign,
           success: (res) => {
             console.log('支付成功', res);
+            Taro.reLaunch({
+              url: Routes.PayResultSuccess
+            })
           },
           fail: (res) => {
-            console.log('支付失败', res);
+            Taro.reLaunch({
+              url: Routes.MyOrder,
+              success: () => {
+                Taro.showToast({
+                  title: '支付失败',
+                  icon: 'error',
+                  duration: 3000
+                })
+              }
+            })
           },
         })
       }
     })
-
   }
-
 
   return (
     <View className={classnames('page', styles.page)}>
       <CustomNavigationBar back notFixed title="确认订单" />
       <View className={classnames('container', styles.container)}>
-        <View className='fiche'>
+        {/* <View className='fiche'>
           <ListItem
             iconLeft={addressIcon}
             title={dState.formData.address ? dState.formData.address : '请选择收货地址'}
             iconRight={dState.formData.address ? '' : rightIcon}
             onClick={getAddress}
           ></ListItem>
-        </View>
+        </View> */}
         <View className={classnames('m-t-48', 'fiche', styles.list_box)}>
           <ListItem
             border
@@ -190,11 +188,9 @@ const ConfirmOrder = () => {
             extraText='￥4,999.00'
           ></ListItem>
         </View>
-
-
-
-
-        <AtForm className={classnames('m-t-48', 'fiche', styles.form_box)} onSubmit={(e) => { submit(e) }}>
+        <AtForm className={classnames('m-t-48', 'fiche', styles.form_box)}
+        // onSubmit={(e) => { submit(e) }}
+        >
           <ListItem
             border
             title='签约方式'
@@ -203,7 +199,7 @@ const ConfirmOrder = () => {
           <AtInput
             clear
             name='userName'
-            // focus={dState.formData.name}
+            focus={dState.formData.name}
             autoFocus
             title='姓名'
             type='text'
@@ -213,7 +209,7 @@ const ConfirmOrder = () => {
           />
           <AtInput
             key='idcard'
-            // focus={dState.formData.idcard}
+            focus={dState.formData.idcard}
             clear
             error={dState.isIdCard}
             title='身份证号'

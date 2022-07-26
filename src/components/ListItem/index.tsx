@@ -34,18 +34,27 @@ const badgeTypeText = {
 }
 
 
-const ListItem = ({ iconLeft, title, border, badge, extraText, iconRight, className, onClick }) => {
+const ListItem = ({ iconLeft, title, border, badge, extraText, time, iconRight, className, onClick }) => {
   const [badgeType, setBadgeType] = useState(BadgeType[`BadgeType${badge}`])
 
   return (
-    <View className={classnames(className, styles.info_item, border ? 'info_item_border' : '')} >
+    <View className={classnames(className, styles.info_item, border ? 'info_item_border' : '')} onClick={onClick} >
       <View className={styles.item_left}>
         {iconLeft &&
           <View className={styles.icon_left}>
             <Image className={styles.icon} src={iconLeft} ></Image>
           </View>
         }
-        <Text className={styles.left_text}>{title}</Text>
+        <View className={styles.item_title}>
+          <Text className={styles.left_text}>{title}</Text>
+          {time && (
+            <View className={styles.time_pay}>
+              <Text>请在{time}内完成付款</Text>
+            </View>
+          )}
+
+        </View>
+
         {badge &&
           <View>
             <Text className={styles.left_text}>{badgeTypeText[badgeType]}</Text>
@@ -53,6 +62,7 @@ const ListItem = ({ iconLeft, title, border, badge, extraText, iconRight, classN
           </View>
         }
       </View>
+
       {extraText &&
         <View className={styles.item_right}>
           <Text className={styles.right_text}>{extraText}</Text>
@@ -60,7 +70,7 @@ const ListItem = ({ iconLeft, title, border, badge, extraText, iconRight, classN
       }
       {
         iconRight &&
-        <View className={styles.icon_right} onClick={onClick}>
+        <View className={styles.icon_right}>
           <Image className={styles.icon} src={iconRight} ></Image>
         </View>
       }

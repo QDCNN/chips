@@ -7,14 +7,14 @@ import { RootState } from '@/store'
 
 
 const GoodsDetail = () => {
-  const { global: { customer_service } } = useSelector((store: RootState) => store);
+  const { global: { service } } = useSelector((store: RootState) => store);
 
   return (
     <View className={classnames('page', styles.page)}>
       <CustomNavigationBar notFixed back title="添加咨询老师" />
       <View className={classnames('container', styles.container)}>
         <View className={styles.contact_img}>
-          <Image src={customer_service[0]?.qrcode} mode="widthFix" show-menu-by-longpress='true'></Image>
+          <Image src={service[0]?.work_card} mode="widthFix" show-menu-by-longpress='true'></Image>
         </View>
       </View>
     </View>

@@ -6,16 +6,19 @@ import styles from './index.module.less'
 import Card from '@/components/Card'
 import { Routes } from '@/routes'
 import Taro from '@tarojs/taro'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 
 
 const GoodsDetail = () => {
-  const onPayClick = () => {
-    console.log('onPayClick');
-  }
+  const { global: { goodsDetail } } = useSelector((store: RootState) => store);
+
 
 
 
   const onOrderClick = () => {
+    // console.log('goodsDetailPage', goodsDetail.content);
+
     // console.log('onOrderClick');
     Taro.navigateTo({ url: Routes.ConfirmOrder })
   }
@@ -23,7 +26,7 @@ const GoodsDetail = () => {
   return (
     <View className={classnames('page', styles.page)}>
       <CustomNavigationBar back title="服务详情" />
-
+      <View dangerouslySetInnerHTML={{ __html: goodsDetail.content }} className={styles.backgroundImage}></View>
       <View className={classnames('container', styles.container)}>
         {/* <Card className="m-t-32" image={CommonImage.KVImage2} /> */}
 

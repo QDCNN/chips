@@ -2,7 +2,6 @@ import CustomNavigationBar from '@/custom-navigation-bar'
 import { View, Image, Text, Button } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.less'
-import ZtInput from '@/components/Form/ZtInput'
 import ListItem from './components/list-item'
 
 
@@ -48,56 +47,6 @@ const MyOrder = () => {
           value='查看'
         />
 
-        {/* 
-        <ZtInput
-          title={'label'}
-          type='title'
-          value='订单信息'
-          placeholder={'placeholder'}
-        /> */}
-        {/* <ZtInput
-          title={'label'}
-          type='input'
-          value={'value'}
-          placeholder={'placeholder'}
-        /> */}
-
-        {/* <ZtInput
-          title={'label'}
-          type='title'
-          value='订单信息'
-          placeholder={'placeholder'}
-        />
-        <ZtInput
-          title={'label'}
-          type='input'
-          value={'value'}
-          placeholder={'placeholder'}
-        />
-        <ZtInput
-          title={'label'}
-          type='textarea'
-          value={'value'}
-          placeholder={'placeholder'}
-        />
-        <ZtInput
-          title={'label'}
-          type='switch'
-          value={'value'}
-          placeholder={'placeholder'}
-        />
-        <ZtInput
-          title={'label'}
-          type='time'
-          value={'value'}
-          placeholder={'placeholder'}
-        />
-        <ZtInput
-          title={'label'}
-          type='date'
-          value={'value'}
-          placeholder={'placeholder'}
-        /> */}
 
       </View>
     </View>

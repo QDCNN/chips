@@ -1,11 +1,21 @@
-/** 请求封装 */
+import { loginQueue } from '@/queue';
+import { actionCreator, RootState, store } from '@/store';
+import Taro from '@tarojs/taro';
+import qs from 'qs'
+import { promiseLogin } from '@/models/global';
 
-import { RootState, store } from "@/store";
-import Taro from "@tarojs/taro";
-import qs from 'qs';
+//  請求前綴
+const API_ROOT = 'https://store.oscac-sh.com/index.php';
 
-// 域名前缀
-const API_ROOT = 'https://api.oscac-sh.com/weixin';
+// 请求列表
+enum APIPath {
+  用户登录 = '/api/user/login',
+  获取商品列表 = '/api/goods/lists',
+  获取商品详情 = '/api/goods/detail',
+  立即购买 = '/api/order/buyNow',
+  订单列表 = '/api/user.order/lists',
+  订单付款 = '/api/user.order/pay',
+}
 
 // 请求方式
 enum Method {
@@ -13,92 +23,78 @@ enum Method {
   GET = 'GET',
 }
 
-// 请求菜单
-enum APIPath {
-  登录 = '/passport/login',
-  获取首页资源 = '/page/index',
-  立即下单 = '/order/buynow',
-  订单列表 = '/order/list',
-  订单支付 = '/order/payment'
-}
+// 跳过标记的请求链接
+const skipTokenUrls = [
+  APIPath.用户登录,
+  APIPath.获取商品列表,
+  APIPath.获取商品详情
+]
 
 
-// 请求方法封装
 
+
+// 请求封装
 const commomRequest = async ({ action, method, params }) => {
-  console.log('method', method);
-  const { global: { userInfo } }: RootState = store.getState();
 
-  const openid = userInfo.openid
-  // const finalParams = { openid };
-  // const urlSearch = qs.stringify(openid ? { ...finalParams } : '');
-  // console.log('userInfo', urlSearch);
+  if (!skipTokenUrls.includes(action)) {
+    const { global: { userBaseInfo } }: RootState = store.getState();
+    console.log('userBaseInfo', userBaseInfo);
+    if (!userBaseInfo.token) {
+      const result = await promiseLogin();
+      console.log('loginWrapper', result);
+    }
+    params.token = userBaseInfo.token
+  }
 
 
-  const requestParams: any = openid ?
-    {
-      url: `${API_ROOT}${action}`,
-      data: params,
-      method: method,
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'openid': openid
-      }
-    } :
-    {
-      url: `${API_ROOT}${action}`,
-      data: params,
-      method: method,
-      header: {
-        'content-type': 'multipart/form-data'
-      }
-    };
-
+  const finalParams = { s: action }
+  // 请求后缀
+  const urlSearch = qs.stringify(method === Method.GET ? { ...finalParams, ...params } : finalParams);
+  // 请求体
+  const requestParams: any = {
+    url: `${API_ROOT}?${urlSearch}`, // url
+    header: { // 请求头
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    method, // 请求方式
+  }
+  if (method === Method.POST) requestParams.data = params
   console.log('requestParams', requestParams);
 
 
   return Taro.request(requestParams).then(response => {
-    const { data } = response
-    if (data.code == -1) {
-      const error = new Error('服务器 0 报错');
-      error.message = data.msg;
-      error.code = data.code;
-      return Promise.reject(error);
-    }
-    if (data.code == 500) {
-      const error = new Error('服务器 0 报错');
-      error.message = data.msg;
-      error.code = data.code;
-      return Promise.reject(error);
-    }
-
-    return data;
+    const { data } = response;
+    return data
   })
 }
 
 
+// 请求方法列表
 
-// 登录
-export function Login(params) {
-  return commomRequest({ action: APIPath.登录, method: Method.GET, params })
+// 用户登录
+export const login = params => {
+  return commomRequest({ action: APIPath.用户登录, params, method: Method.POST })
 }
 
-// 获取首页资源
-export function getResources(params) {
-  return commomRequest({ action: APIPath.获取首页资源, params, method: Method.GET });
+// 获取商品列表
+export const getGoodsList = params => {
+  return commomRequest({ action: APIPath.获取商品列表, params, method: Method.GET })
 }
 
-// 立即下单
-export function buyNow(params) {
-  return commomRequest({ action: APIPath.立即下单, params, method: Method.POST })
+// 获取商品详情
+export const getGoodsDetail = params => {
+  return commomRequest({ action: APIPath.获取商品详情, params, method: Method.POST })
 }
 
+// 立即购买 
+export const buyNow = params => {
+  return commomRequest({ action: APIPath.立即购买, params, method: Method.POST })
+}
 // 订单列表
-export function orderList(params) {
+export const getOrderList = params => {
   return commomRequest({ action: APIPath.订单列表, params, method: Method.GET })
 }
-
 // 订单支付
-export function orderPayment(params) {
-  return commomRequest({ action: APIPath.订单支付, params, method: Method.POST })
+export const orderPay = params => {
+  return commomRequest({ action: APIPath.订单付款, params, method: Method.POST })
 }

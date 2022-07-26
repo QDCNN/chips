@@ -3,26 +3,10 @@ import styles from './index.module.less'
 import classnames from 'classnames'
 import Taro from '@tarojs/taro'
 import { Routes } from '@/routes'
-import { useEffect, useState } from 'react'
 import CustomNavigationBar from '@/custom-navigation-bar'
 
 const PayResult = () => {
-  // const [success, setSuccess] = useState(true)
-  // let timer;
-  // useEffect(() => {
-  //   init()
-  // }, [])
 
-  // const init = () => {
-  //   Taro.showLoading({
-  //     title: '加载中'
-  //   })
-  //   timer = setTimeout(function () {
-  //     Taro.hideLoading()
-  //     setSuccess(false)
-  //     clearTimeout(timer)
-  //   }, 2000)
-  // }
 
   const onToWork = () => Taro.switchTab({ url: Routes.Work });
 
