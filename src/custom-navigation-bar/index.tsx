@@ -1,7 +1,7 @@
 import _isFunction from 'lodash/isFunction';
 import Taro from '@tarojs/taro';
 import React, { Component } from 'react';
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import './index.less';
 // import { trackValueCombine } from '@/utils/track';
 import { TrackElement, TrackType } from '@/enum/track';
@@ -19,7 +19,7 @@ function getSystemInfo() {
       model: '',
       system: ''
     };
-    let ios = !!(systemInfo.system.toLowerCase().search('ios') + 1);
+    let ios = !!(systemInfo?.system?.toLowerCase().search('ios') + 1);
     let rect;
     try {
       rect = Taro.getMenuButtonBoundingClientRect ? Taro.getMenuButtonBoundingClientRect() : null;
@@ -218,7 +218,7 @@ class CustomNavigationBar extends Component {
     } = this.props;
     let nav_bar__center = null;
     if (title) {
-      nav_bar__center = <text>{title}</text>;
+      nav_bar__center = <Text>{title}</Text>;
     } else if (searchBar) {
       nav_bar__center = (
         <View

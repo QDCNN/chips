@@ -1,13 +1,13 @@
 /*
 * Tencent is pleased to support the open source community by making WeUI available.
-* 
+*
 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
+*
 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
 * with the License. You may obtain a copy of the License at
-* 
+*
 *       http://opensource.org/licenses/MIT
-* 
+*
 * Unless required by applicable law or agreed to in writing, software distributed under the License is
 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 * either express or implied. See the License for the specific language governing permissions and
@@ -20,12 +20,12 @@
     position: fixed;
     z-index: 5000;
     top: 50%;
-    left: 16px;
-    right: 16px;
+    left: 32px;
+    right: 32px;
     transform: translate(0, -50%);
     background-color: @weuiDialogBackgroundColor;
     text-align: center;
-    border-radius: 12px;
+    border-radius: 24px;
     overflow: hidden;
     display: -webkit-box;
     display: -webkit-flex;
@@ -35,26 +35,26 @@
     max-height: 90%;
 }
 .weui-dialog__hd {
-    padding: 32px @weuiDialogGapWidth 16px;
+    padding: 64px @weuiDialogGapWidth 32px;
 }
 .weui-dialog__title {
     font-weight: 700;
-    font-size: 17px;
+    font-size: 34px;
     line-height: 1.4;
 }
 .weui-dialog__bd {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 0 @weuiDialogGapWidth;
-    margin-bottom: 32px;
-    font-size: 17px;
+    margin-bottom: 64px;
+    font-size: 34px;
     line-height: 1.4;
     .hyphens;
 
     color: @weuiTextColorDesc;
     &:first-child {
-        min-height: 40px;
-        padding: 32px @weuiDialogGapWidth 0;
+        min-height: 80px;
+        padding: 64px @weuiDialogGapWidth 0;
         font-weight: 700;
         color: @weuiTextColorTitle;
         display: -webkit-box;
@@ -79,8 +79,8 @@
     flex: 1;
     display: block;
     line-height: (56-32)/17;
-    padding: 16px 0;
-    font-size: 17px;
+    padding: 32px 0;
+    font-size: 34px;
     color: @weuiDialogLinkColor;
     font-weight: 700;
     text-decoration: none;
@@ -109,10 +109,10 @@
 .weui-skin_android {
     .weui-dialog {
         text-align: left;
-        box-shadow: 0 6px 30px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 12px 60px 0 rgba(0, 0, 0, 0.1);
     }
     .weui-dialog__title {
-        font-size: 22px;
+        font-size: 44px;
         line-height: 1.4;
     }
     .weui-dialog__hd {
@@ -128,9 +128,9 @@
     .weui-dialog__ft {
         display: block;
         text-align: right;
-        line-height: 40px;
-        min-height: 40px;
-        padding: 0 @weuiDialogGapWidth 16px;
+        line-height: 80px;
+        min-height: 80px;
+        padding: 0 @weuiDialogGapWidth 32px;
         &:after {
             display: none;
         }
@@ -151,9 +151,9 @@
     }
 }
 
-@media screen and (min-width: 352px) {
+@media screen and (min-width: 704px) {
     .weui-dialog {
-        width: 320px;
+        width: 640px;
         margin: 0 auto;
     }
 }

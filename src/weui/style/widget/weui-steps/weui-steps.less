@@ -1,13 +1,13 @@
 /*
 * Tencent is pleased to support the open source community by making WeUI available.
-* 
+*
 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
+*
 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
 * with the License. You may obtain a copy of the License at
-* 
+*
 *       http://opensource.org/licenses/MIT
-* 
+*
 * Unless required by applicable law or agreed to in writing, software distributed under the License is
 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 * either express or implied. See the License for the specific language governing permissions and
@@ -19,7 +19,7 @@
 
 /**
 竖版的线上下端和文字区域对齐
-横版的线左右端间距固定4px
+横版的线左右端间距固定8px
 **/
 
 body,page{
@@ -32,12 +32,12 @@ body,page{
   --weui-STEPS-ICON-SIZE:40;
 
   --weui-STEPS-VERTICAL-DOT-GAP:~"calc((1em - var(--weui-STEPS-DOT-SIZE)) / 2)";
-  --weui-STEPS-HORIZONAL-DOT-GAP:4px;
+  --weui-STEPS-HORIZONAL-DOT-GAP:8px;
 }
 
 .weui-steps{
   line-height:var(--weui-STEPS-LINEHEIGHT);
-  font-size:~"calc(1px * var(--weui-STEPS-FONT-SIZE))";
+  font-size:~"calc(2px * var(--weui-STEPS-FONT-SIZE))";
 }
 .weui-steps__item__title,
 .weui-steps__item__desc{
@@ -47,16 +47,16 @@ body,page{
   font-weight:500;
 }
 .weui-steps__item__desc{
-  font-size:14px;
+  font-size:28px;
   color:var(--weui-FG-2);
-  margin-top:4px;
+  margin-top:8px;
 }
 
 .weui-steps_vertical{
   position:relative;
   .weui-steps__item{
     position:relative;
-    padding-bottom:32px;
+    padding-bottom:64px;
     &:before{
       content:"";
       .setLeftLine(var(--weui-STEPS-DEFAULT-COLOR));
@@ -81,7 +81,7 @@ body,page{
   .weui-steps__item__inner{
     position:relative;
     z-index:1; // 盖在线的上层
-    padding-left:36px;
+    padding-left:72px;
 
     // before用来画圆点
     &:before{
@@ -99,7 +99,7 @@ body,page{
     }
   }
   .weui-steps__icon{
-    font-size:~"calc(1px * var(--weui-STEPS-FONT-SIZE))";
+    font-size:~"calc(2px * var(--weui-STEPS-FONT-SIZE))";
     width:~"calc(var(--weui-STEPS-ICON-SIZE) / var(--weui-STEPS-FONT-SIZE) * 1em)";
     height:~"calc(var(--weui-STEPS-ICON-SIZE) / var(--weui-STEPS-FONT-SIZE) * 1em)";
     position:absolute;
@@ -162,7 +162,7 @@ body,page{
     }
     &:after{
       content:"";
-      height:0.5px;
+      height:1px;
       flex:1;
       margin:0 var(--weui-STEPS-HORIZONAL-DOT-GAP);
       background:var(--weui-STEPS-DEFAULT-COLOR);
@@ -182,7 +182,7 @@ body,page{
     }
   }
   .weui-steps__item__inner{
-    margin-left:8px;
+    margin-left:16px;
   }
   .weui-steps__item_success{
     &:before,
@@ -217,7 +217,7 @@ body,page{
   }
   .weui-steps__item__inner{
     position:relative;
-    padding-top:36px;
+    padding-top:72px;
     &:before{
       content:"";
       position:absolute;
@@ -290,7 +290,7 @@ body,page{
   .weui-steps__item__inner{
     position:relative;
     z-index:1;
-    padding-top:36px;
+    padding-top:72px;
     &:before{
       content:"";
       position:absolute;

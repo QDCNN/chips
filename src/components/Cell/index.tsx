@@ -12,37 +12,19 @@ export interface IFormItemProps {
   style?: React.CSSProperties
   prefixCls?: string
   label?: React.ReactNode
-  colon?: boolean
-  tooltip?: React.ReactNode
-  tooltipIcon?: React.ReactNode
-  layout?: 'vertical' | 'horizontal' | 'inline'
-  tooltipLayout?: 'icon' | 'text'
   labelStyle?: React.CSSProperties
   labelAlign?: 'left' | 'right'
   labelWrap?: boolean
   labelWidth?: number | string
   wrapperWidth?: number | string
-  labelCol?: number
-  wrapperCol?: number
   wrapperAlign?: 'left' | 'right'
   wrapperWrap?: boolean
   wrapperStyle?: React.CSSProperties
-  fullness?: boolean
-  addonBefore?: React.ReactNode
-  addonAfter?: React.ReactNode
-  size?: 'small' | 'default' | 'large'
-  inset?: boolean
   extra?: React.ReactNode
-  feedbackText?: React.ReactNode
-  feedbackLayout?: 'loose' | 'terse' | 'popover' | 'none' | (string & {})
-  feedbackStatus?: 'error' | 'warning' | 'success' | 'pending' | (string & {})
-  feedbackIcon?: React.ReactNode
-  getPopupContainer?: (node: HTMLElement) => HTMLElement
-  asterisk?: boolean
-  gridSpan?: number
   bordered?: boolean
   value?: string
   link?: boolean
+  dot?: boolean
 }
 
 type ComposeFormItem = React.FC<React.PropsWithChildren<IFormItemProps>> & {
@@ -51,31 +33,14 @@ type ComposeFormItem = React.FC<React.PropsWithChildren<IFormItemProps>> & {
 
 const useFormItemLayout = (props: IFormItemProps) => {
   const layout = useFormLayout()
-  const layoutType = props.layout ?? layout.layout ?? 'horizontal'
   return {
     ...props,
-    layout: layoutType,
-    colon: props.colon ?? layout.colon,
-    labelAlign:
-      layoutType === 'vertical'
-        ? props.labelAlign ?? 'left'
-        : props.labelAlign ?? layout.labelAlign ?? 'right',
     labelWrap: props.labelWrap ?? layout.labelWrap,
     labelWidth: props.labelWidth ?? layout.labelWidth,
     wrapperWidth: props.wrapperWidth ?? layout.wrapperWidth,
-    labelCol: props.labelCol ?? layout.labelCol,
-    wrapperCol: props.wrapperCol ?? layout.wrapperCol,
     wrapperAlign: props.wrapperAlign ?? layout.wrapperAlign,
     wrapperWrap: props.wrapperWrap ?? layout.wrapperWrap,
-    fullness: props.fullness ?? layout.fullness,
-    size: props.size ?? layout.size,
-    inset: props.inset ?? layout.inset,
-    asterisk: props.asterisk,
     bordered: props.bordered ?? layout.bordered,
-    feedbackIcon: props.feedbackIcon,
-    feedbackLayout: props.feedbackLayout ?? layout.feedbackLayout ?? 'loose',
-    tooltipLayout: props.tooltipLayout ?? layout.tooltipLayout ?? 'icon',
-    tooltipIcon: props.tooltipIcon ?? layout.tooltipIcon,
   }
 }
 
@@ -87,7 +52,6 @@ function useOverflow<
   const containerRef = useRef<Container>()
   const contentRef = useRef<Content>()
   const layout = useFormLayout()
-  const labelCol = JSON.stringify(layout.labelCol)
 
   // useEffect(() => {
   //   requestAnimationFrame(() => {
@@ -111,8 +75,6 @@ function useOverflow<
   }
 }
 
-console.log('Icon: ', Icon);
-
 // const ICON_MAP = {
 //   error: <Icon type="cancel" />,
 //   success: <Icon type="success" />,
@@ -123,7 +85,7 @@ export const BaseItem: React.FC<React.PropsWithChildren<IFormItemProps>> = ({
   children,
   ...props
 }) => {
-  const [active, setActive] = useState(false)
+  // const [active, setActive] = useState(false)
   const formLayout = useFormItemLayout(props)
   const { containerRef, contentRef, overflow } = useOverflow<
     HTMLDivElement,
@@ -132,35 +94,13 @@ export const BaseItem: React.FC<React.PropsWithChildren<IFormItemProps>> = ({
   const {
     label,
     style,
-    layout,
-    colon = true,
-    addonBefore,
-    addonAfter,
-    asterisk,
-    feedbackStatus,
     extra,
-    feedbackText,
-    fullness,
-    feedbackLayout,
-    feedbackIcon,
-    getPopupContainer,
-    inset,
-    bordered = true,
     labelWidth,
     wrapperWidth,
-    labelCol,
-    wrapperCol,
-    labelAlign,
-    wrapperAlign = 'left',
-    size,
-    labelWrap,
-    wrapperWrap,
-    tooltipLayout,
-    tooltip,
-    tooltipIcon,
     value,
     link,
-  } = formLayout
+    dot,
+  } = props
   const labelStyle = { ...formLayout.labelStyle }
   const wrapperStyle = { ...formLayout.wrapperStyle }
   // 固定宽度
@@ -175,11 +115,6 @@ export const BaseItem: React.FC<React.PropsWithChildren<IFormItemProps>> = ({
       wrapperStyle.maxWidth = wrapperWidth === 'auto' ? undefined : wrapperWidth
     }
     // 栅格模式
-  }
-  if (labelCol || wrapperCol) {
-    if (!labelStyle.width && !wrapperStyle.width && layout !== 'vertical') {
-      enableCol = true
-    }
   }
 
   const prefixCls = usePrefixCls('cell', props)
@@ -209,25 +144,17 @@ export const BaseItem: React.FC<React.PropsWithChildren<IFormItemProps>> = ({
 
   const gridStyles: React.CSSProperties = {}
 
-  const getOverflowTooltip = () => {
-    if (overflow) {
-      return (
-        <View>
-          <View>{label}</View>
-          <View>{tooltip}</View>
-        </View>
-      )
-    }
-    return tooltip
-  }
-
   const renderLabelText = () => {
     const labelChildren = (
-      <View className={`${prefixCls}-label-content`} ref={containerRef}>
+      <View className={`${prefixCls}__label-content`} ref={containerRef}>
         <View ref={contentRef}>
-          {asterisk && <Text className={`${prefixCls}-asterisk`}>{'*'}</Text>}
           <Label>{label}</Label>
         </View>
+        {dot && (
+          <View className={`${prefixCls}__dot-box`}>
+            <View className={`${prefixCls}__dot`}></View>
+          </View>
+        )}
       </View>
     )
 
@@ -268,7 +195,7 @@ export const BaseItem: React.FC<React.PropsWithChildren<IFormItemProps>> = ({
   }
 
   const onClick = () => {
-    console.log('props: ', props);
+    console.log('props: ', props, children, value);
   }
 
   return (
@@ -325,46 +252,17 @@ export const BaseItem: React.FC<React.PropsWithChildren<IFormItemProps>> = ({
         })}
       >
         <View className={cls(`${prefixCls}-control-content`)}>
-          {addonBefore && (
-            <View className={cls(`${prefixCls}-addon-before`)}>
-              {addonBefore}
-            </View>
-          )}
           <View
             style={wrapperStyle}
             className={cls({
               [`${prefixCls}-control-content-component`]: true,
-              [`${prefixCls}-control-content-component-has-feedback-icon`]:
-                !!feedbackIcon,
             })}
           >
             <FormLayoutShallowContext.Provider value={undefined}>
               {formatChildren}
             </FormLayoutShallowContext.Provider>
-            {feedbackIcon && (
-              <View className={cls(`${prefixCls}-feedback-icon`)}>
-                {feedbackIcon}
-              </View>
-            )}
           </View>
-          {addonAfter && (
-            <View className={cls(`${prefixCls}-addon-after`)}>{addonAfter}</View>
-          )}
         </View>
-        {!!feedbackText &&
-          feedbackLayout !== 'popover' &&
-          feedbackLayout !== 'none' && (
-            <View
-              className={cls({
-                [`${prefixCls}-${feedbackStatus}-help`]: !!feedbackStatus,
-                [`${prefixCls}-help`]: true,
-                [`${prefixCls}-help-enter`]: true,
-                [`${prefixCls}-help-enter-active`]: true,
-              })}
-            >
-              {feedbackText}
-            </View>
-          )}
         {extra && <View className={cls(`${prefixCls}-extra`)}>{extra}</View>}
       </View>
     </View>
@@ -378,7 +276,6 @@ export const Cell: ComposeFormItem = connect(
     if (isVoidField(field))
       return {
         label: field.title || props.label,
-        asterisk: props.asterisk,
         extra: props.extra || field.description,
       }
     if (!field) return props
@@ -396,7 +293,6 @@ export const Cell: ComposeFormItem = connect(
         }, [])
       }
       if (field.validating) return
-      if (props.feedbackText) return props.feedbackText
       if (field.selfErrors.length) return split(field.selfErrors)
       if (field.selfWarnings.length) return split(field.selfWarnings)
       if (field.selfSuccesses.length) return split(field.selfSuccesses)
@@ -404,9 +300,6 @@ export const Cell: ComposeFormItem = connect(
     const takeAsterisk = () => {
       if (field.required && field.pattern !== 'readPretty') {
         return true
-      }
-      if ('asterisk' in props) {
-        return props.asterisk
       }
       return false
     }

@@ -22,6 +22,8 @@ enum APIPath {
   // 订单支付 = '/order/payment',
   客服资料 = '/page/service',
   任务列表 = '/task/list',
+  获取页面结构 = '/page/tmp',
+  阿里OSSInfo = '/aliyun/ststoken',
 }
 
 
@@ -83,6 +85,18 @@ export function getService(params) {
 export function getTaskList(params) {
   return commomRequest({ action: APIPath.任务列表, params, method: Method.GET })
 }
+
+// 获取页面结构
+export const getPageStructure = params => {
+  return commomRequest({ action: APIPath.获取页面结构, params, method: Method.GET })
+}
+
+
+// 获取阿里云OSS信息
+export const getAliOSSInfo = params => {
+  return commomRequest({ action: APIPath.阿里OSSInfo, params, method: Method.GET })
+}
+
 
 
 

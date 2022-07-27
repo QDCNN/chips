@@ -1,16 +1,16 @@
-import React, { useEffect, useMemo } from 'react'
-import { View, Form } from '@tarojs/components'
+import React, { useEffect, useMemo, useState } from 'react'
+import { View, Form, Button } from '@tarojs/components'
 import { createForm } from '@formily/core'
 import { FormProvider, Field, createSchemaField } from '@formily/react'
 import Cell from '@/components/Cell'
+import CellOrigin from '@/components/Cell/origin'
 import { Switch, Input, Picker, Text } from '@/formily-components'
 import '@/weui/style/weui.less'
 import './index.scss'
 import data from './data.json'
 import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro from '@tarojs/taro'
-import * as api from '@/api'
-// import Taro from '@tarojs/taro'
+import * as api from '@/api/service'
 
 const form = createForm();
 
@@ -39,6 +39,7 @@ const weappBoundingClientRect = (id) => {
 
 
 const HomePage = () => {
+  const [pageStructure, setPageStructure] = useState({ schema: {}, form: {} });
   // const pageEditorComponentRefs = useRef<any>([]);
   const anchorTextList = useMemo(() => {
     const list: any[] = [];
@@ -59,8 +60,27 @@ const HomePage = () => {
   };
 
   async function fetchPageStructure() {
-    const response = await api.getPageStructure({});
-    console.log('response: ', response);
+    const response = await api.getPageStructure({ name: 'file-document' });
+    if (response.data.content) setPageStructure(JSON.parse(response.data.content));
+
+    form.setInitialValues({ name: '123' });
+  }
+
+  const onTestUpload = async () => {
+    const aliossResponse = await api.getAliOSSInfo({});
+    const response = await Taro.chooseImage({})
+    Taro.uploadFile({
+      url: aliossResponse.data.host,
+      filePath: response.tempFilePaths[0],
+      name: 'file',
+      formData: {
+        // key: 'demo.png',
+        signature: aliossResponse.data.signature,
+        policy: aliossResponse.data.policy,
+        OSSAccessKeyId: aliossResponse.data.accessKeyId,
+        'x-oss-security-token': aliossResponse.data.securityToken
+      }
+    })
   }
 
   useEffect(() => {
@@ -69,12 +89,15 @@ const HomePage = () => {
   }, []);
 
   return (
-    <View style={{ backgroundColor: 'rgba(246,246,246,1)' }}>
+    <View style={pageStructure.form.style}>
       <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
+
+      <CellOrigin dot link title="label">123</CellOrigin>
+      {/* <Button onClick={onTestUpload}>测试上传</Button> */}
       <Form>
         <FormProvider form={form}>
           <View>
-            <SchemaField schema={data.schema}></SchemaField>
+            <SchemaField schema={pageStructure.schema}></SchemaField>
           </View>
         </FormProvider>
       </Form>

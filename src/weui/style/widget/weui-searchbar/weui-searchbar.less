@@ -1,25 +1,25 @@
 /*
 * Tencent is pleased to support the open source community by making WeUI available.
-* 
+*
 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
+*
 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
 * with the License. You may obtain a copy of the License at
-* 
+*
 *       http://opensource.org/licenses/MIT
-* 
+*
 * Unless required by applicable law or agreed to in writing, software distributed under the License is
 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 * either express or implied. See the License for the specific language governing permissions and
 * limitations under the License.
 */
 
-@weuiSearchInputHeight:32px;
+@weuiSearchInputHeight:64px;
 
 @import "../../base/fn";
 .weui-search-bar {
     position: relative;
-    padding: 8px;
+    padding: 16px;
     display: flex;
     box-sizing: border-box;
     background-color: @weuiBgColorDefault;
@@ -34,11 +34,11 @@
     }
 
     .weui-icon-search {
-        font-size: 10px;
+        font-size: 20px;
         width: 1.6em;
         height: 1.6em;
-        margin-left: 8px;
-        margin-right: 4px;
+        margin-left: 16px;
+        margin-right: 8px;
         flex-shrink: 0;
     }
 }
@@ -47,7 +47,7 @@
     flex: 1;
     min-width: 0;
     background-color: var(--weui-BG-2);
-    border-radius: 4px;
+    border-radius: 8px;
 }
 .weui-search-bar__box {
     position: relative;
@@ -56,12 +56,12 @@
     align-items: center;
 
     .weui-search-bar__input {
-        padding: 8px 0;
+        padding: 16px 0;
         width: 100%;
-        height: unit(@weuiSearchInputHeight - 16px)/14em;
+        height: unit(@weuiSearchInputHeight - 32px)/14em;
         border: 0;
-        font-size: 14px;
-        line-height: unit(@weuiSearchInputHeight - 16px)/14em;
+        font-size: 28px;
+        line-height: unit(@weuiSearchInputHeight - 32px)/14em;
         box-sizing: content-box;
         background: transparent;
         caret-color: @weuiColorPrimary;
@@ -72,19 +72,19 @@
     }
     .weui-icon-clear {
         flex-shrink: 0;
-        font-size: 10px;
+        font-size: 20px;
         width: 2em;
         height: 2em;
-        margin-left: 8px;
+        margin-left: 16px;
         mask-size: 2em;
-        mask-position: ~"calc(100% - 8px)" 0;
-        min-width: 44px;
+        mask-position: ~"calc(100% - 16px)" 0;
+        min-width: 88px;
         &:after {
             content: "";
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 44px;
+            width: 88px;
         }
     }
 }
@@ -96,7 +96,7 @@
     left: 0;
     z-index: 2;
     font-size: 0;
-    border-radius: 4px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -104,15 +104,15 @@
     background: var(--weui-BG-2);
     span {
         display: inline-block;
-        font-size: 14px;
+        font-size: 28px;
         vertical-align: middle;
     }
 }
 .weui-search-bar__cancel-btn {
     flex-shrink: 0;
     display: none;
-    margin-left: 8px;
-    line-height: 28px;
+    margin-left: 16px;
+    line-height: 56px;
     color: @weuiLinkColorDefault;
 }
 .weui-search-bar__input:not(:valid) + .weui-icon-clear {

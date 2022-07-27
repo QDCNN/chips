@@ -6,6 +6,7 @@ import { actionCreator, RootState, store } from '@/store';
 // 处理登录
 
 async function loginWrapper() {
+  if (Taro.getEnv() === Taro.ENV_TYPE.WEB) return {};
   // 获取用户信息
   Taro.showLoading({ title: '加载中' });
   // 获取code
@@ -55,7 +56,7 @@ const initialState = {
 const globalModel = {
   state: () => initialState,
   reducers: () => ({
-    setUserToken(state, data) { // 
+    setUserToken(state, data) { //
       state.userBaseInfo.token = data.token;
       state.userBaseInfo.open_id = data.open_id
     },
@@ -93,7 +94,7 @@ const globalModel = {
       dispatch(actionCreator.global.setGoodsList(request.data.list.data))
     },
 
-    // 获取商品详情 
+    // 获取商品详情
     async getGoodsDetail() {
       const goods_id = 10001
       const request = await API.getGoodsDetail({ goods_id })

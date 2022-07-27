@@ -1,13 +1,13 @@
 /*
 * Tencent is pleased to support the open source community by making WeUI available.
-* 
+*
 * Copyright (C) 2017 THL A29 Limited, a Tencent company. All rights reserved.
-* 
+*
 * Licensed under the MIT License (the "License"); you may not use this file except in compliance
 * with the License. You may obtain a copy of the License at
-* 
+*
 *       http://opensource.org/licenses/MIT
-* 
+*
 * Unless required by applicable law or agreed to in writing, software distributed under the License is
 * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 * either express or implied. See the License for the specific language governing permissions and
@@ -18,8 +18,8 @@
 
 .weui-agree {
     display: block;
-    padding: 8px 15px 0;
-    font-size: 14px;
+    padding: 16px 30px 0;
+    font-size: 28px;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
     a,
@@ -32,7 +32,7 @@
 }
 .weui-agree__text {
     color: @weuiTextColorDesc;
-    margin-left: 2px;
+    margin-left: 4px;
 }
 .weui-agree__checkbox {
     appearance: none;
@@ -48,14 +48,14 @@
     color: @weuiLineColorDark;
     width: 1em;
     height: 1em;
-    font-size: 17px;
+    font-size: 34px;
     margin-top: -0.2em;
 }
 .weui-agree__checkbox-check { // 兼容小程序
     opacity: 0;
     position: absolute;
-    width: 1px;
-    height: 1px;
+    width: 2px;
+    height: 2px;
     overflow: hidden;
 }
 .weui-agree__checkbox:checked,
@@ -73,11 +73,11 @@
     }
 
     16% {
-        transform: translateX(-8px);
+        transform: translateX(-16px);
     }
 
     28% {
-        transform: translateX(-16px);
+        transform: translateX(-32px);
     }
 
     44% {
@@ -85,7 +85,7 @@
     }
 
     59% {
-        transform: translateX(-16px);
+        transform: translateX(-32px);
     }
 
     73% {
@@ -93,11 +93,11 @@
     }
 
     82% {
-        transform: translateX(16px);
+        transform: translateX(32px);
     }
 
     94% {
-        transform: translateX(8px);
+        transform: translateX(16px);
     }
 
     100% {
