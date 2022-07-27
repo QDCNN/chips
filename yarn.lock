@@ -2038,7 +2038,7 @@
     "@formily/reactive" "2.1.11"
     hoist-non-react-statics "^3.3.2"
 
-"@formily/reactive@2.1.11":
+"@formily/reactive@2.1.11", "@formily/reactive@^2.1.11":
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/@formily/reactive/-/reactive-2.1.11.tgz#51f3c2f749f11c327ce19d968ce230d2b7e79a48"
   integrity sha512-01PWypF0HVJwyP15ANaavzUzMhP4bjT1SkBu8Nof2PIQeB9aoSnL/8bv7Oqv040ZnEg9zoABnYhnS190HXGcLA==

@@ -42,9 +42,21 @@
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "default": "崔正",
         "x-designable-id": "k0mwkew4p08",
-        "x-index": 1
+        "x-index": 1,
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "value": "{{$business.name}}"
+            }
+          }
+        }
       },
       "vf9hjpwmtcr": {
         "type": "string",
@@ -62,9 +74,21 @@
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "default": "230",
         "x-designable-id": "vf9hjpwmtcr",
-        "x-index": 2
+        "x-index": 2,
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "value": "{{$business.idCard}}"
+            }
+          }
+        }
       },
       "1yyjqum0cza": {
         "type": "string",
@@ -78,9 +102,21 @@
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "default": "1660",
         "x-designable-id": "1yyjqum0cza",
-        "x-index": 3
+        "x-index": 3,
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "value": "{{$business.phone}}"
+            }
+          }
+        }
       },
       "qi0rp8wgcux": {
         "type": "string",
@@ -447,6 +483,6 @@
         "x-index": 24
       }
     },
-    "x-designable-id": "cdrwhlkmkie"
+    "x-designable-id": "u577dasef4q"
   }
 }

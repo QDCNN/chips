@@ -42,6 +42,7 @@
     "@dura/immer": "3.4.0",
     "@formily/core": "^2.1.11",
     "@formily/react": "^2.1.11",
+    "@formily/reactive": "^2.1.11",
     "@tarojs/cli": "3.4.11",
     "@tarojs/components": "3.4.11",
     "@tarojs/plugin-framework-react": "3.4.11",

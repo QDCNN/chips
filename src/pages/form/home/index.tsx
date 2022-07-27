@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form, Button } from '@tarojs/components'
 import { createForm } from '@formily/core'
-import { FormProvider, Field, createSchemaField } from '@formily/react'
-import Cell from '@/components/Cell'
-import CellOrigin from '@/components/Cell/origin'
-import { Switch, Input, Picker, Text } from '@/formily-components'
+import { FormProvider, Field, createSchemaField, ExpressionScope } from '@formily/react'
+import { observable, autorun } from '@formily/reactive'
+import CellOrigin from '@/components/Cell'
+import { Switch, Input, Picker, Text, Cell } from '@/formily-components'
 import '@/weui/style/weui.less'
 import './index.scss'
 import data from './data.json'
@@ -13,6 +13,7 @@ import Taro from '@tarojs/taro'
 import * as api from '@/api/service'
 
 const form = createForm();
+console.log('form: ', form.getState());
 
 const SchemaField = createSchemaField({
   components: {
@@ -24,6 +25,10 @@ const SchemaField = createSchemaField({
     BaseView: View
   }
 })
+
+const scope = observable({ $business: { user: { name: '', phone: '' } } })
+
+// dispose();
 
 const weappBoundingClientRect = (id) => {
   return new Promise((resolve, reject) => {
@@ -40,6 +45,8 @@ const weappBoundingClientRect = (id) => {
 
 const HomePage = () => {
   const [pageStructure, setPageStructure] = useState({ schema: {}, form: {} });
+  // const [pageStructure, setPageStructure] = useState(data);
+  // const [scope, setScope] = useState({ $business: { name: '', phone: '' } });
   // const pageEditorComponentRefs = useRef<any>([]);
   const anchorTextList = useMemo(() => {
     const list: any[] = [];
@@ -64,6 +71,7 @@ const HomePage = () => {
     if (response.data.content) setPageStructure(JSON.parse(response.data.content));
 
     form.setInitialValues({ name: '123' });
+    scope.$business = { user: { name: '崔正', phone: '15824281322' } }
   }
 
   const onTestUpload = async () => {
@@ -88,16 +96,19 @@ const HomePage = () => {
     // Taro.showNavigationBarLoading();
   }, []);
 
+  // console.log('pageStructure.schema: ', pageStructure.schema);
+  console.log('scope: ', scope);
+
   return (
-    <View style={pageStructure.form.style}>
+    <View style={pageStructure.form.style} data-weui-theme="light">
       <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
 
-      <CellOrigin dot link title="label">123</CellOrigin>
+      {/* <CellOrigin dot link title="label">123</CellOrigin> */}
       {/* <Button onClick={onTestUpload}>测试上传</Button> */}
       <Form>
         <FormProvider form={form}>
           <View>
-            <SchemaField schema={pageStructure.schema}></SchemaField>
+            <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
           </View>
         </FormProvider>
       </Form>
