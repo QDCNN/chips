@@ -1,8 +1,6 @@
 /** 请求封装 */
-
 import { RootState, store } from "@/store";
 import Taro from "@tarojs/taro";
-import qs from 'qs';
 
 // 域名前缀
 const API_ROOT = 'https://api.oscac-sh.com/weixin';
@@ -15,11 +13,6 @@ enum Method {
 
 // 请求菜单
 enum APIPath {
-  // 登录 = '/passport/login',
-  // 获取首页资源 = '/page/index',
-  // 立即下单 = '/order/buynow',
-  // 订单列表 = '/order/list',
-  // 订单支付 = '/order/payment',
   客服资料 = '/page/service',
   任务列表 = '/task/list',
 }
@@ -29,7 +22,7 @@ enum APIPath {
 
 const commomRequest = async ({ action, method, params }) => {
   const { global: { userBaseInfo } }: RootState = store.getState();
-
+  // promiseLogin()
   const openid = userBaseInfo.open_id
 
   const requestParams: any = openid ?
@@ -68,7 +61,6 @@ const commomRequest = async ({ action, method, params }) => {
       error.code = data.code;
       return Promise.reject(error);
     }
-
     return data;
   })
 }
@@ -83,25 +75,3 @@ export function getService(params) {
 export function getTaskList(params) {
   return commomRequest({ action: APIPath.任务列表, params, method: Method.GET })
 }
-
-
-
-// // 获取首页资源
-// export function getResources(params) {
-//   return commomRequest({ action: APIPath.获取首页资源, params, method: Method.GET });
-// }
-
-// // 立即下单
-// export function buyNow(params) {
-//   return commomRequest({ action: APIPath.立即下单, params, method: Method.POST })
-// }
-
-// // 订单列表
-// export function orderList(params) {
-//   return commomRequest({ action: APIPath.订单列表, params, method: Method.GET })
-// }
-
-// // 订单支付
-// export function orderPayment(params) {
-//   return commomRequest({ action: APIPath.订单支付, params, method: Method.POST })
-// }

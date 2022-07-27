@@ -4,6 +4,7 @@ import classNames from "classnames";
 import styles from './index.module.less'
 import iconRight from '@/assets/icon/right.svg'
 import { useCountdown } from "@/utils/timeCountdown";
+import { formatMoney } from "@/utils/formatMoney";
 
 
 const Order = ({ item, onPay }) => {
@@ -47,7 +48,7 @@ const Order = ({ item, onPay }) => {
       ></ListItem>
       <ListItem
         title='应付款'
-        extraText={`￥${item.goods[0].line_price}`}
+        extraText={`￥${formatMoney(item.goods[0].line_price, 2)}`}
         border
       ></ListItem>
       {

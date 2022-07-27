@@ -2,7 +2,7 @@ import CustomNavigationBar from '@/custom-navigation-bar'
 import { View, Text, } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.less'
-import './index.sass'
+// import './index.sass'
 import { useDuraArray } from '@/hooks/use-dura'
 import * as API from '@/api/index'
 import { useEffect } from 'react'
@@ -23,8 +23,6 @@ const model = {
 
     async getOrderList() {
       const res = await API.getOrderList({ dataType: 'all' })
-      console.log('订单列表', res.data.list.data);
-
       dispatch(actionCreator.setOrderList(res.data.list.data))
     }
   }),
@@ -40,7 +38,6 @@ const MyOrder = () => {
 
 
   const onPay = (item) => {
-    console.log('支付', item.order_id);
     API.orderPay({ order_id: item.order_id }).then(res => {
       console.log('订单支付', res);
       if (res.code === 1) {

@@ -20,10 +20,8 @@ async function loginWrapper() {
     iv: wxUserInfoRequest.iv,
     signature: wxUserInfoRequest.signature,
   }
-  console.log('userData', userData);
 
   const request = await API.login({ ...userData })
-  console.log('request', request.data);
   store.dispatch(actionCreator.global.setUserToken(request.data))
   store.dispatch(actionCreator.global.getService())
   Taro.hideLoading()
@@ -75,7 +73,6 @@ const globalModel = {
   }),
   effects: (dispatch, getState, delay) => ({
     async init() {
-      console.log('初始化');
       dispatch(actionCreator.global.getUserInfo())
       dispatch(actionCreator.global.getGoodsList())
       dispatch(actionCreator.global.getGoodsDetail())
@@ -89,7 +86,6 @@ const globalModel = {
     // 获取商品列表
     async getGoodsList() {
       const request = await API.getGoodsList({})
-      console.log('getGoodsList', request.data.list.data);
       dispatch(actionCreator.global.setGoodsList(request.data.list.data))
     },
 
@@ -97,7 +93,6 @@ const globalModel = {
     async getGoodsDetail() {
       const goods_id = 10001
       const request = await API.getGoodsDetail({ goods_id })
-      console.log('商品详情request', request);
       dispatch(actionCreator.global.setGoodsDetail(request.data.detail))
     },
 
@@ -105,14 +100,12 @@ const globalModel = {
     // 获取客服资料
     async getService() {
       const { data: { service } } = await serviceAPI.getService({})
-      console.log('客服资料', service);
       dispatch(actionCreator.global.setService(service))
     },
 
     // 获取任务列表
     async getTaskList() {
       const { data } = await serviceAPI.getTaskList({ page: '', limit: '' })
-      console.log('任务列表', data);
       dispatch(actionCreator.global.setTaskList(data))
     }
 

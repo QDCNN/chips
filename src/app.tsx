@@ -4,7 +4,7 @@ import './app.less'
 import 'taro-skeleton/dist/index.css'
 import { actionCreator, store } from './store';
 import { Provider } from 'react-redux';
-
+// import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
 class App extends Component {
 
   componentDidMount() {
