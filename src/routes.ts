@@ -32,7 +32,7 @@ export enum Routes {
   MaterialDetails = '/pages/material-details/index',
 
   // 表单填写页
-  FormPage = '/pages/form-page/index'
+  FormPage = '/pages/form/home/index'
 
   /**end*/
 

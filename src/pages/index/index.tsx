@@ -1,5 +1,5 @@
 import { Routes } from '@/routes'
-import { View } from '@tarojs/components'
+import { Button, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import classnames from 'classnames'
 import styles from './index.module.less'
@@ -35,6 +35,7 @@ const Index = () => {
       <CustomNavigationBar notFixed title="首页" />
       <View className={classnames('container', styles.container)}>
         <Card className="m-t-32" image={goodsList[0]?.goods_image} onClick={onGoodsDetailClick} />
+        <Button type="primary" onClick={() => Taro.navigateTo({ url: Routes.FormPage })}>进入表单页</Button>
       </View>
       {/* <View>{moment('2022-07-26 13:23:23').valueOf()}</View> */}
       {/* <View>{moment('2022-07-26 13:23:23').add(30, 'minutes')}</View> */}
@@ -49,6 +50,7 @@ const Index = () => {
           />
         </View>
       )}
+
     </View>
   )
 }

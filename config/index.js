@@ -11,7 +11,9 @@ const config = {
   },
   sourceRoot: "src",
   outputRoot: "dist",
-  plugins: [],
+  plugins: [
+    '@tarojs/plugin-less',
+  ],
   defineConstants: {},
   copy: {
     patterns: [],

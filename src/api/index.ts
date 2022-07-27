@@ -15,6 +15,7 @@ enum APIPath {
   立即购买 = '/api/order/buyNow',
   订单列表 = '/api/user.order/lists',
   订单付款 = '/api/user.order/pay',
+  获取页面结构 = '/weixin/page/tmp',
 }
 
 // 请求方式
@@ -86,7 +87,7 @@ export const getGoodsDetail = params => {
   return commomRequest({ action: APIPath.获取商品详情, params, method: Method.POST })
 }
 
-// 立即购买 
+// 立即购买
 export const buyNow = params => {
   return commomRequest({ action: APIPath.立即购买, params, method: Method.POST })
 }
@@ -97,4 +98,9 @@ export const getOrderList = params => {
 // 订单支付
 export const orderPay = params => {
   return commomRequest({ action: APIPath.订单付款, params, method: Method.POST })
+}
+
+// 获取页面结构
+export const getPageStructure = params => {
+  return commomRequest({ action: APIPath.获取页面结构, params, method: Method.GET })
 }

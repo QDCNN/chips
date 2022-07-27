@@ -1,0 +1,452 @@
+{
+  "form": {
+    "labelCol": 6,
+    "wrapperCol": 12,
+    "style": {
+      "backgroundColor": "rgba(246,246,246,1)"
+    }
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "orderInfo": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "订单信息",
+          "isAnchor": true,
+          "id": "orderInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "iqrtlb90dzb",
+        "x-index": 0,
+        "name": "orderInfo"
+      },
+      "k0mwkew4p08": {
+        "type": "string",
+        "title": "落户人姓名",
+        "x-decorator": "Cell",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {
+          "link": false,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
+        },
+        "default": "崔正",
+        "x-designable-id": "k0mwkew4p08",
+        "x-index": 1
+      },
+      "vf9hjpwmtcr": {
+        "type": "string",
+        "title": "落户人身份证号",
+        "x-decorator": "Cell",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": ""
+          }
+        },
+        "x-decorator-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
+        },
+        "default": "230",
+        "x-designable-id": "vf9hjpwmtcr",
+        "x-index": 2
+      },
+      "1yyjqum0cza": {
+        "type": "string",
+        "title": "落户人手机号",
+        "x-decorator": "Cell",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
+        },
+        "default": "1660",
+        "x-designable-id": "1yyjqum0cza",
+        "x-index": 3
+      },
+      "qi0rp8wgcux": {
+        "type": "string",
+        "title": "电子合同链接",
+        "x-decorator": "Cell",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "link": true
+        },
+        "default": "查看",
+        "x-designable-id": "qi0rp8wgcux",
+        "x-index": 4
+      },
+      "m6zejouf1fy": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "电子合同链接将由咨询老师上传，如无合同链接请联系咨询老师。",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "m6zejouf1fy",
+        "x-index": 5
+      },
+      "wu03mv4i6ks": {
+        "title": "联系咨询老师",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
+        },
+        "description": "崔正",
+        "default": "",
+        "x-designable-id": "wu03mv4i6ks",
+        "x-index": 6
+      },
+      "fy6el5l3bw2": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "咨询老师将协助你完成签约。",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "fy6el5l3bw2",
+        "x-index": 7
+      },
+      "1nllx1qo5zl": {
+        "title": "联系审核老师",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
+        },
+        "description": "徐佳栋",
+        "default": "",
+        "x-designable-id": "1nllx1qo5zl",
+        "x-index": 8
+      },
+      "bzxqprwrb9w": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "咨询老师将协助你完成签约。",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "bzxqprwrb9w",
+        "x-index": 9
+      },
+      "rgmdu6ipe0w": {
+        "title": "落户方式",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
+        },
+        "description": "",
+        "default": "",
+        "x-designable-id": "rgmdu6ipe0w",
+        "x-index": 10
+      },
+      "438dz01mrj5": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "申请人基本信息",
+          "isAnchor": true,
+          "id": "applicantOrderInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "438dz01mrj5",
+        "x-index": 11
+      },
+      "z2qmdydj868": {
+        "title": "落户类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
+        },
+        "description": "",
+        "default": "",
+        "x-designable-id": "z2qmdydj868",
+        "x-index": 12,
+        "required": false
+      },
+      "dvwnlsd66zg": {
+        "type": "string",
+        "title": "姓名",
+        "x-decorator": "Cell",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {
+          "link": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          }
+        },
+        "default": "",
+        "x-designable-id": "dvwnlsd66zg",
+        "x-index": 13
+      },
+      "s96b0smtv7z": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "咨询老师将协助你完成签约。",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "s96b0smtv7z",
+        "x-index": 14
+      },
+      "903fgv8cbop": {
+        "type": "string",
+        "title": "曾用名",
+        "x-decorator": "Cell",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {
+          "link": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          }
+        },
+        "default": "",
+        "x-designable-id": "903fgv8cbop",
+        "x-index": 15
+      },
+      "ehdl4atvuga": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "选填",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "ehdl4atvuga",
+        "x-index": 16
+      },
+      "tnf0h52pizn": {
+        "type": "string",
+        "title": "手机号",
+        "x-decorator": "Cell",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {
+          "link": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          }
+        },
+        "default": "",
+        "x-designable-id": "tnf0h52pizn",
+        "x-index": 17
+      },
+      "l7s2w8mflx6": {
+        "type": "string",
+        "title": "性别",
+        "x-decorator": "Cell",
+        "x-component": "Input",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {
+          "link": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          }
+        },
+        "default": "",
+        "x-designable-id": "l7s2w8mflx6",
+        "x-index": 18
+      },
+      "28n9ixpvkzp": {
+        "title": "出生年月日",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          }
+        },
+        "description": "",
+        "default": "",
+        "x-designable-id": "28n9ixpvkzp",
+        "x-index": 19,
+        "required": false
+      },
+      "7ce4tanponk": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "就业及社保信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "7ce4tanponk",
+        "x-index": 20
+      },
+      "ux7mbkiooo7": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "劳动（聘用）合同有效期起止日期\n",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 0px 8px",
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
+        },
+        "x-designable-id": "ux7mbkiooo7",
+        "x-index": 21
+      },
+      "kalm3lff0w7": {
+        "title": "开始时间",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "0px 0px 0px 0px"
+          }
+        },
+        "description": "",
+        "default": "",
+        "x-designable-id": "kalm3lff0w7",
+        "x-index": 22,
+        "required": false
+      },
+      "ftwwtxozb4j": {
+        "title": "截止日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "0px 0px 0px 0px"
+          }
+        },
+        "description": "",
+        "default": "",
+        "x-designable-id": "ftwwtxozb4j",
+        "x-index": 23,
+        "required": false
+      },
+      "wlnqetm1voc": {
+        "type": "boolean",
+        "title": "是否为创业人员",
+        "x-decorator": "Cell",
+        "x-component": "Switch",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          }
+        },
+        "x-designable-id": "wlnqetm1voc",
+        "x-index": 24
+      }
+    },
+    "x-designable-id": "cdrwhlkmkie"
+  }
+}
