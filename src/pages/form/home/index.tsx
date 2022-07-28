@@ -1,19 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { View, Form, Button } from '@tarojs/components'
+import { View, Form } from '@tarojs/components'
 import { createForm } from '@formily/core'
-import { FormProvider, Field, createSchemaField, ExpressionScope } from '@formily/react'
+import { FormProvider, createSchemaField } from '@formily/react'
 import { observable, autorun } from '@formily/reactive'
-import CellOrigin from '@/components/Cell'
-import { Switch, Input, Picker, Text, Cell } from '@/formily-components'
+// import CellOrigin from '@/components/Cell'
+import { Switch, Input, Picker, Text, Cell, LinkCell } from '@/formily-components'
 import '@/weui/style/weui.less'
-import './index.scss'
 import data from './data.json'
 import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro from '@tarojs/taro'
 import * as api from '@/api/service'
 
 const form = createForm();
-console.log('form: ', form.getState());
 
 const SchemaField = createSchemaField({
   components: {
@@ -22,13 +20,12 @@ const SchemaField = createSchemaField({
     Input,
     Picker,
     Text,
-    BaseView: View
+    BaseView: View,
+    LinkCell,
   }
 })
 
 const scope = observable({ $business: { user: { name: '', phone: '' } } })
-
-// dispose();
 
 const weappBoundingClientRect = (id) => {
   return new Promise((resolve, reject) => {

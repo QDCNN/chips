@@ -6,7 +6,6 @@ export const Cell = connect(
   mapProps(
     (props, field) => {
       return {
-        dot: typeof props.dot === 'boolean' ? props.dot : !Boolean(field?.value),
         ...props,
         title: field?.title || props.title,
       }

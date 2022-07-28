@@ -57,6 +57,9 @@ const config = {
           generateScopedName: "[name]__[local]___[hash:base64:5]"
         }
       }
+    },
+    router: {
+      mode: 'browser'
     }
   },
   alias: {

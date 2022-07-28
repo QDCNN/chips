@@ -5,21 +5,23 @@ import React from 'react';
 
 export const Cell = (props) => {
   const {
-    link, className, inForm, inline, hover, extHoverClass,
+    isLink, className, inForm, inline, hover, extHoverClass,
     iconClass, icon, title, value, children,
     footerClass, showError, error, style, dot,
+    ...resetProps
   } = props;
   const prefixCls = usePrefixCls('cell', props);
 
   return (
     <View
       className={cls(prefixCls, {
-        [prefixCls + '_access']: link,
+        [prefixCls + '_access']: isLink,
         [prefixCls + '-inform']: inForm,
         [prefixCls + '_label-block']: inline,
       }, className)}
       hoverClass={cls({ [prefixCls + '_active']: hover }, extHoverClass)}
       style={style}
+      {...resetProps}
     >
       <View className={cls([prefixCls + '__hd'], iconClass)}>
         {icon && (
