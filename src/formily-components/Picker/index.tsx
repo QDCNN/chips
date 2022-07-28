@@ -17,9 +17,9 @@ const CustomPicker = (props) => {
   )
 }
 
-const PreviewPicker = (props) => {
-  return <Cell {...props} />
-}
+// const PreviewPicker = (props) => {
+//   return <Cell {...props} />
+// }
 
 export const Picker: React.FC<any> = connect(
   CustomPicker,
@@ -31,16 +31,18 @@ export const Picker: React.FC<any> = connect(
     (props, field) => {
       return {
         ...props,
-        suffixIcon:
-          field?.['loading'] || field?.['validating'] ? (
-            'loading'
-          ) : (
-            props.suffixIcon
-          ),
+        title: field.title || props.label,
+        dot: typeof props.dot === 'boolean' ? props.dot : !Boolean(field?.value),
+        // suffixIcon:
+        //   field?.['loading'] || field?.['validating'] ? (
+        //     'loading'
+        //   ) : (
+        //     props.suffixIcon
+        //   ),
       }
     }
   ),
-  mapReadPretty(PreviewPicker)
+  // mapReadPretty(PreviewPicker)
 )
 
 export default Picker
