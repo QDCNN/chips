@@ -81,6 +81,7 @@ const globalModel = {
       dispatch(actionCreator.global.getGoodsList())
       dispatch(actionCreator.global.getGoodsDetail())
       // dispatch(actionCreator.global.getService())
+      dispatch(actionCreator.dictionary.init())
     },
     // 获取用户信息
     async getUserInfo() {

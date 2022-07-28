@@ -29,20 +29,18 @@
         "x-index": 0,
         "name": "orderInfo"
       },
-      "k0mwkew4p08": {
+      "v15q44k6zre": {
         "type": "string",
         "title": "落户人姓名",
-        "x-decorator": "Cell",
-        "x-component": "Input",
+        "x-component": "Cell",
         "x-validator": [],
-        "x-component-props": {},
-        "x-decorator-props": {
-          "link": false,
+        "x-component-props": {
+          "isLink": false,
           "style": {
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "x-designable-id": "k0mwkew4p08",
+        "x-designable-id": "v15q44k6zre",
         "x-index": 1,
         "x-reactions": {
           "dependencies": [
@@ -53,28 +51,23 @@
           ],
           "fulfill": {
             "state": {
-              "value": "{{$business.name}}"
+              "value": "{{$business.user.name}}"
             }
           }
         }
       },
-      "vf9hjpwmtcr": {
+      "1u5wcvi6jyt": {
         "type": "string",
         "title": "落户人身份证号",
-        "x-decorator": "Cell",
-        "x-component": "Input",
+        "x-component": "Cell",
         "x-validator": [],
         "x-component-props": {
-          "style": {
-            "backgroundColor": ""
-          }
-        },
-        "x-decorator-props": {
+          "isLink": false,
           "style": {
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "x-designable-id": "vf9hjpwmtcr",
+        "x-designable-id": "1u5wcvi6jyt",
         "x-index": 2,
         "x-reactions": {
           "dependencies": [
@@ -85,24 +78,23 @@
           ],
           "fulfill": {
             "state": {
-              "value": "{{$business.idCard}}"
+              "value": "{{$business.user.idCard}}"
             }
           }
         }
       },
-      "1yyjqum0cza": {
+      "06pscgoacxq": {
         "type": "string",
         "title": "落户人手机号",
-        "x-decorator": "Cell",
-        "x-component": "Input",
+        "x-component": "Cell",
         "x-validator": [],
-        "x-component-props": {},
-        "x-decorator-props": {
+        "x-component-props": {
+          "isLink": false,
           "style": {
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "x-designable-id": "1yyjqum0cza",
+        "x-designable-id": "06pscgoacxq",
         "x-index": 3,
         "x-reactions": {
           "dependencies": [
@@ -113,27 +105,27 @@
           ],
           "fulfill": {
             "state": {
-              "value": "{{$business.phone}}"
+              "value": "{{$business.user.phone}}"
             }
           }
         }
       },
-      "qi0rp8wgcux": {
+      "z4xrf5czf78": {
         "type": "string",
         "title": "电子合同链接",
-        "x-decorator": "Cell",
-        "x-component": "Input",
-        "x-validator": [],
-        "x-component-props": {},
-        "x-decorator-props": {
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
           "style": {
-            "backgroundColor": "rgba(255,255,255,1)",
-            "margin": "16px 0px 0px 0px"
+            "margin": "16px 0px 0px 0px",
+            "backgroundColor": "rgba(255,255,255,1)"
           },
-          "link": true
+          "type": "custom"
         },
-        "default": "查看",
-        "x-designable-id": "qi0rp8wgcux",
+        "x-validator": [],
+        "description": "查看",
+        "required": false,
+        "x-designable-id": "z4xrf5czf78",
         "x-index": 4
       },
       "m6zejouf1fy": {
@@ -155,18 +147,21 @@
         "x-designable-id": "m6zejouf1fy",
         "x-index": 5
       },
-      "wu03mv4i6ks": {
+      "vsnj09zapyf": {
+        "type": "string",
         "title": "联系咨询老师",
-        "x-component": "Picker",
-        "x-validator": [],
+        "x-component": "LinkCell",
         "x-component-props": {
+          "isLink": true,
           "style": {
+            "margin": "16px 0px 0px 0px",
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "description": "崔正",
-        "default": "",
-        "x-designable-id": "wu03mv4i6ks",
+        "x-validator": [],
+        "description": "",
+        "required": false,
+        "x-designable-id": "vsnj09zapyf",
         "x-index": 6
       },
       "fy6el5l3bw2": {
@@ -188,18 +183,21 @@
         "x-designable-id": "fy6el5l3bw2",
         "x-index": 7
       },
-      "1nllx1qo5zl": {
+      "8cnnsf72nvy": {
+        "type": "string",
         "title": "联系审核老师",
-        "x-component": "Picker",
-        "x-validator": [],
+        "x-component": "LinkCell",
         "x-component-props": {
+          "isLink": true,
           "style": {
+            "margin": "16px 0px 0px 0px",
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "description": "徐佳栋",
-        "default": "",
-        "x-designable-id": "1nllx1qo5zl",
+        "x-validator": [],
+        "description": "",
+        "required": false,
+        "x-designable-id": "8cnnsf72nvy",
         "x-index": 8
       },
       "bzxqprwrb9w": {
@@ -221,18 +219,22 @@
         "x-designable-id": "bzxqprwrb9w",
         "x-index": 9
       },
-      "rgmdu6ipe0w": {
+      "8hlrlltsykc": {
+        "type": "string",
         "title": "落户方式",
-        "x-component": "Picker",
-        "x-validator": [],
+        "x-component": "LinkCell",
         "x-component-props": {
+          "isLink": true,
           "style": {
+            "margin": "16px 0px 0px 0px",
             "backgroundColor": "rgba(255,255,255,1)"
-          }
+          },
+          "type": "radio"
         },
+        "x-validator": [],
         "description": "",
-        "default": "",
-        "x-designable-id": "rgmdu6ipe0w",
+        "required": true,
+        "x-designable-id": "8hlrlltsykc",
         "x-index": 10
       },
       "438dz01mrj5": {
@@ -254,8 +256,8 @@
         "x-designable-id": "438dz01mrj5",
         "x-index": 11
       },
-      "z2qmdydj868": {
-        "title": "落户类型",
+      "zjsvm4p9jkr": {
+        "title": "落户方式",
         "x-component": "Picker",
         "x-validator": [],
         "x-component-props": {
@@ -263,11 +265,21 @@
             "backgroundColor": "rgba(255,255,255,1)"
           }
         },
-        "description": "",
-        "default": "",
-        "x-designable-id": "z2qmdydj868",
-        "x-index": 12,
-        "required": false
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.base.settlement_type}}"
+            }
+          }
+        },
+        "x-designable-id": "zjsvm4p9jkr",
+        "x-index": 12
       },
       "dvwnlsd66zg": {
         "type": "string",
@@ -483,6 +495,6 @@
         "x-index": 24
       }
     },
-    "x-designable-id": "u577dasef4q"
+    "x-designable-id": "y50i8neybkz"
   }
 }

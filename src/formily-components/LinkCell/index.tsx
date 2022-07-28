@@ -12,9 +12,9 @@ export const LinkCell = connect(
 
       return {
         ...props,
-        dot: field.required && !Boolean(field?.value),
-        children: field?.description,
+        dot: field?.props?.required && !Boolean(field?.value),
         title: field?.title || props.title,
+        children: field?.description,
         onClick: () => {
           Taro.navigateTo({ url: combineQuery(Routes.FormDetailPage, { title, name: field.props.name, type: props.type }) })
         }

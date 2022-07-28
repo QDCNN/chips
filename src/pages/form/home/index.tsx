@@ -1,15 +1,25 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
 import { createForm } from '@formily/core'
-import { FormProvider, createSchemaField } from '@formily/react'
+import { FormProvider, createSchemaField, Schema } from '@formily/react'
 import { observable, autorun } from '@formily/reactive'
 // import CellOrigin from '@/components/Cell'
 import { Switch, Input, Picker, Text, Cell, LinkCell } from '@/formily-components'
-import '@/weui/style/weui.less'
-import data from './data.json'
 import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro from '@tarojs/taro'
 import * as api from '@/api/service'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { initialState } from '@/models/dictionary'
+import objectPath from 'object-path'
+import data from './data.json'
+import '@/weui/style/weui.less'
+
+
+Schema.registerCompiler((expression: any, scope?: any) => {
+  const result = objectPath.get(scope, expression);
+  return result;
+});
 
 const form = createForm();
 
@@ -25,7 +35,7 @@ const SchemaField = createSchemaField({
   }
 })
 
-const scope = observable({ $business: { user: { name: '', phone: '' } } })
+const scope = observable({ $business: { user: { name: '', phone: '' } }, $dictionary: {...initialState} })
 
 const weappBoundingClientRect = (id) => {
   return new Promise((resolve, reject) => {
@@ -42,6 +52,7 @@ const weappBoundingClientRect = (id) => {
 
 const HomePage = () => {
   const [pageStructure, setPageStructure] = useState({ schema: {}, form: {} });
+  const { dictionary } = useSelector((store: RootState) => store);
   // const [pageStructure, setPageStructure] = useState(data);
   // const [scope, setScope] = useState({ $business: { name: '', phone: '' } });
   // const pageEditorComponentRefs = useRef<any>([]);
@@ -57,6 +68,10 @@ const HomePage = () => {
     }
     return list;
   }, []);
+
+  useEffect(() => {
+    scope.$dictionary = dictionary;
+  }, [dictionary]);
 
   const onAnchorClick = async (item) => {
     const rectDom = await weappBoundingClientRect(item.id);
@@ -90,11 +105,7 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchPageStructure()
-    // Taro.showNavigationBarLoading();
   }, []);
-
-  // console.log('pageStructure.schema: ', pageStructure.schema);
-  console.log('scope: ', scope);
 
   return (
     <View style={pageStructure.form.style} data-weui-theme="light">

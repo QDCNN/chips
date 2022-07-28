@@ -5,7 +5,7 @@ import Taro from "@tarojs/taro";
 import qs from 'qs';
 
 // 域名前缀
-const API_ROOT = 'https://api.oscac-sh.com/weixin';
+const API_ROOT = 'https://api.oscac-sh.com';
 
 // 请求方式
 enum Method {
@@ -15,15 +15,24 @@ enum Method {
 
 // 请求菜单
 enum APIPath {
-  // 登录 = '/passport/login',
-  // 获取首页资源 = '/page/index',
-  // 立即下单 = '/order/buynow',
-  // 订单列表 = '/order/list',
-  // 订单支付 = '/order/payment',
-  客服资料 = '/page/service',
-  任务列表 = '/task/list',
-  获取页面结构 = '/page/tmp',
-  阿里OSSInfo = '/aliyun/ststoken',
+  // 登录 = '/weixin/passport/login',
+  // 获取首页资源 = '/weixin/page/index',
+  // 立即下单 = '/weixin/order/buynow',
+  // 订单列表 = '/weixin/order/list',
+  // 订单支付 = '/weixin/order/payment',
+  客服资料 = '/weixin/page/service',
+  任务列表 = '/weixin/task/list',
+  获取页面结构 = '/weixin/page/tmp',
+  阿里OSSInfo = '/weixin/aliyun/ststoken',
+
+
+  字典落户方式 = '/es/settlement_method/get',
+  字典申请人基本方式 = '/es/basic/get',
+  字典家庭成员及主要社会关系 = '/es/family/get',
+  字典户口迁入信息 = '/es/hukou_movein/get',
+  字典档案信息 = '/es/archive/get',
+  字典教育经历 = '/es/education/get',
+  字典子女信息 = '/es/children/get',
 }
 
 
@@ -52,8 +61,6 @@ const commomRequest = async ({ action, method, params }) => {
         'content-type': 'multipart/form-data'
       }
     };
-
-  console.log('requestParams', requestParams);
 
 
   return Taro.request(requestParams).then(response => {
@@ -97,6 +104,34 @@ export const getAliOSSInfo = params => {
   return commomRequest({ action: APIPath.阿里OSSInfo, params, method: Method.GET })
 }
 
+
+export const getESSettlementMethod = (params?) => {
+  return commomRequest({ action: APIPath.字典落户方式, params, method: Method.GET })
+}
+
+export const getESBasic = (params?) => {
+  return commomRequest({ action: APIPath.字典申请人基本方式, params, method: Method.GET })
+}
+
+export const getESFamily = (params?) => {
+  return commomRequest({ action: APIPath.字典家庭成员及主要社会关系, params, method: Method.GET })
+}
+
+export const getESHukouMovein = (params?) => {
+  return commomRequest({ action: APIPath.字典户口迁入信息, params, method: Method.GET })
+}
+
+export const getESArchive = (params?) => {
+  return commomRequest({ action: APIPath.字典档案信息, params, method: Method.GET })
+}
+
+export const getESEducation = (params?) => {
+  return commomRequest({ action: APIPath.字典教育经历, params, method: Method.GET })
+}
+
+export const getESChildren = (params?) => {
+  return commomRequest({ action: APIPath.字典子女信息, params, method: Method.GET })
+}
 
 
 

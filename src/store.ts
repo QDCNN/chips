@@ -1,4 +1,5 @@
 import global from '@/models/global';
+import dictionary from '@/models/dictionary';
 
 import { createImmerPlugin } from '@dura/immer';
 import { create } from '@dura/plus';
@@ -7,7 +8,8 @@ import { ExtractState } from '@dura/types'
 import Taro from '@tarojs/taro';
 
 const initialModel = {
-  global
+  global,
+  dictionary,
 };
 
 export type RootModel = typeof initialModel;
