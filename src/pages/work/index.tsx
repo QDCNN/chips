@@ -9,7 +9,7 @@ import orderIcon from '@/assets/icon/order.svg'
 import rightIcon from '@/assets/icon/right.svg'
 import { useEffect } from 'react'
 import Badge from './components/badge'
-import * as weixinAPI from '@/api/weixin'
+import * as weixinAPI from '@/api'
 import { useDuraArray } from '@/hooks/use-dura'
 
 

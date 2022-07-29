@@ -1,5 +1,5 @@
 import * as yinghuoAPI from '@/api/yinghuo'
-import * as weixinAPI from '@/api/weixin'
+import * as weixinAPI from '@/api'
 import Taro from "@tarojs/taro";
 import { actionCreator, RootState, store } from '@/store';
 
