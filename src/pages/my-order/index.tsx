@@ -35,12 +35,10 @@ const MyOrder = () => {
     dDispatch(dActionCreator.getOrderList())
   }, [])
 
-  console.log('dState.orderList', dState.orderList);
 
 
   const onPay = (item) => {
     yinghuoAPI.orderPay({ order_id: item.order_id }).then(res => {
-      console.log('订单支付', res);
       if (res.code === 1) {
         Taro.requestPayment({
           timeStamp: res.data.payment.timeStamp,

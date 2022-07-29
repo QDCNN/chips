@@ -70,10 +70,8 @@ const ConfirmOrder = () => {
 
   // 获取收货地址
   const getAddress = () => {
-    console.log('获取收货地址');
     Taro.chooseAddress({
       success: (res => {
-        console.log('收货地址', res);
         if (res.errMsg !== 'chooseAddress:ok') return;
         dDispatch(dActionCreator.setFormDataPart({
           address: `${res.userName} ${res.telNumber} ${res.cityName} ${res.countyName} ${res.detailInfo}`,

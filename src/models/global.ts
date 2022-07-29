@@ -85,8 +85,6 @@ const globalModel = {
     async getGoodsDetail() {
       const goods_id = 10001
       const request = await yinghuoAPI.getGoodsDetail({ goods_id })
-      console.log('getGoodsDetail', request);
-
       dispatch(actionCreator.global.setGoodsDetail(request.data.detail))
     },
 

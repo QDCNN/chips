@@ -38,10 +38,8 @@ const commomRequest = async ({ action, method, params }) => {
 
   if (!skipTokenUrls.includes(action)) {
     const { global: { userBaseInfo } }: RootState = store.getState();
-    console.log('userBaseInfo', userBaseInfo);
     if (!userBaseInfo.token) {
       const result = await promiseLogin();
-      console.log('loginWrapper', result);
     }
     params.token = userBaseInfo.token
   }

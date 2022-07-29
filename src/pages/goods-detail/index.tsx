@@ -14,7 +14,6 @@ import { actionCreator, RootState, store } from '@/store';
 
 const GoodsDetail = () => {
   const { global: { goodsDetail } } = useSelector((store: RootState) => store);
-  console.log('goodsDetail', goodsDetail);
 
   const onOrderClick = () => {
     Taro.navigateTo({ url: Routes.ConfirmOrder })
@@ -35,7 +34,7 @@ const GoodsDetail = () => {
                 <Text>{goodsDetail.goods_name}</Text>
               </View>
               <View>
-                <Text className={styles.fontBold}>￥{formatMoney(goodsDetail?.goods_sku.goods_price, 2)}</Text>
+                <Text className={styles.fontBold}>￥{formatMoney(goodsDetail.goods_sku.goods_price, 2)}</Text>
               </View>
             </View>
             <View className={styles.footerRight}>
