@@ -125,6 +125,10 @@ const FormDetailPage = () => {
             ...fileDocument.pageStructure.schema.properties[params.name],
             'x-component': type,
             'x-index': 0,
+            "x-component-props": {
+              ...fileDocument.pageStructure.schema.properties[params.name]['x-component-props'],
+              // "style": {}
+            }
           },
           ...typeDataMap[params.type].schema.properties,
         }

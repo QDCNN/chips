@@ -8,6 +8,7 @@ import Card from '@/components/Card'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import Contact from './components/contact'
+import { Input } from '@/components'
 
 
 const Index = () => {

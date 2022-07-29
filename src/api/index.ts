@@ -45,7 +45,7 @@ enum APIPath {
 const commomRequest = async ({ action, method, params }) => {
   const { global: { userBaseInfo } }: RootState = store.getState();
   // promiseLogin()
-  const openid = userBaseInfo.open_id || 'taskList'
+  const openid = userBaseInfo.open_id
 
   const requestParams: any = openid ?
     {

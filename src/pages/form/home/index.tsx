@@ -114,7 +114,7 @@ const FormHomePage = () => {
           </View>
         </FormProvider>
 
-        <Button formType="submit" type="default">提交</Button>
+        {fileDocument.pageStructure.schema.properties  && <Button formType="submit" type="default">提交</Button>}
       </Form>
     </View>
   )
