@@ -2,7 +2,6 @@ import CustomNavigationBar from '@/custom-navigation-bar'
 import { View, Text, } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.less'
-// import './index.sass'
 import { useDuraArray } from '@/hooks/use-dura'
 import * as yinghuoAPI from '@/api/yinghuo'
 import { useEffect } from 'react'
@@ -37,9 +36,9 @@ const MyOrder = () => {
   }, [])
 
 
+
   const onPay = (item) => {
     yinghuoAPI.orderPay({ order_id: item.order_id }).then(res => {
-      console.log('订单支付', res);
       if (res.code === 1) {
         Taro.requestPayment({
           timeStamp: res.data.payment.timeStamp,

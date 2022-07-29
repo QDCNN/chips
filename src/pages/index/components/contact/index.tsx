@@ -4,12 +4,12 @@ import rightIcon from '@/assets/icon/right.svg'
 
 const Contact = ({ avatar, username, intr, onClick }) => {
   return (
-    <View className={styles.contact}>
-      <View className={styles.contact_left}>
-        <View className={styles.avatar_box}>
+    <View className={styles.contact} onClick={onClick}>
+      <View className={styles.left}>
+        <View className={styles.avatarBox}>
           <Image src={avatar} className={styles.avatar} mode='widthFix'></Image>
         </View>
-        <View className={styles.nickname_box}>
+        <View className={styles.nicknameBox}>
           <View className={styles.nickname}>
             <Text>{username}</Text>
           </View>
@@ -18,9 +18,9 @@ const Contact = ({ avatar, username, intr, onClick }) => {
           </View>
         </View>
       </View>
-      <View className={styles.contact_right} onClick={onClick}>
-        <Text className={styles.right_text}>去添加</Text>
-        <Image src={rightIcon} className={styles.right_icon}></Image>
+      <View className={styles.right} >
+        <Text className={styles.rightText}>去添加</Text>
+        <Image src={rightIcon} className={styles.rightIcon}></Image>
       </View>
     </View>
   );
