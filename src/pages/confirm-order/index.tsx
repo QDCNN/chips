@@ -1,22 +1,17 @@
-import { View, Button, } from '@tarojs/components'
+import { View, Button, Form, } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import classnames from 'classnames'
 import styles from './index.module.less'
 import CustomNavigationBar from '@/custom-navigation-bar'
 import ListItem from '@/components/ListItem'
-// import IdentityCodeValid from '@/utils/validateId'
-import { AtForm } from 'taro-ui'
-
-// import './index.sass'
 import { useDuraArray } from '@/hooks/use-dura'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
-import * as API from '@/api/index'
+import * as yinghuoAPI from '@/api/yinghuo'
 import { Routes } from '@/routes'
 import { formatMoney } from '@/utils/formatMoney'
 import AtInput from '@/components/AtInput'
 import { validateIdCard, validateMobile } from '@/utils/validateId'
-// import './index.less'
 
 
 
@@ -51,7 +46,7 @@ const model = {
   }),
   effects: ({ dispatch, actionCreator }) => ({
     async receiveCard(formData) {
-      // await API.receiveCard(formData);
+      // await yinghuoAPI.receiveCard(formData);
     }
   }),
 };
@@ -120,7 +115,7 @@ const ConfirmOrder = () => {
       is_use_points: 0,
     }
 
-    API.buyNow({ ...formDate }).then(res => {
+    yinghuoAPI.buyNow({ ...formDate }).then(res => {
       console.log('支付数据', res);
       if (res.code === 1) {
         Taro.requestPayment({
@@ -186,7 +181,7 @@ const ConfirmOrder = () => {
             extraText={`￥${formatMoney(goodsList[0]?.goods_sku.line_price, 2)}`}
           ></ListItem>
         </View>
-        <AtForm className={classnames('m-t-48', 'fiche', styles.form_box)}
+        <Form className={classnames('m-t-48', 'fiche', styles.form_box)}
         // onSubmit={(e) => { submit(e) }}
         >
           <ListItem
@@ -225,7 +220,7 @@ const ConfirmOrder = () => {
             value={dState.formData.mobile}
             onChange={onChangePhone}
           />
-        </AtForm>
+        </Form>
         <View className={classnames('m-t-48', styles.submit)}>
           <Button
             formType='submit'

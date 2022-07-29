@@ -1,5 +1,5 @@
-import * as API from '@/api/index'
-import * as serviceAPI from '@/api/service'
+import * as yinghuoAPI from '@/api/yinghuo'
+import * as weixinAPI from '@/api/weixin'
 import Taro from "@tarojs/taro";
 import { actionCreator, RootState, store } from '@/store';
 
@@ -21,7 +21,7 @@ async function loginWrapper() {
     signature: wxUserInfoRequest.signature,
   }
 
-  const request = await API.login({ ...userData })
+  const request = await yinghuoAPI.login({ ...userData })
   store.dispatch(actionCreator.global.setUserToken(request.data))
   store.dispatch(actionCreator.global.getService())
   Taro.hideLoading()
@@ -85,33 +85,33 @@ const globalModel = {
 
     // 获取商品列表
     async getGoodsList() {
-      const request = await API.getGoodsList({})
+      const request = await yinghuoAPI.getGoodsList({})
       dispatch(actionCreator.global.setGoodsList(request.data.list.data))
     },
 
     // 获取商品详情 
     async getGoodsDetail() {
       const goods_id = 10001
-      const request = await API.getGoodsDetail({ goods_id })
+      const request = await yinghuoAPI.getGoodsDetail({ goods_id })
       dispatch(actionCreator.global.setGoodsDetail(request.data.detail))
     },
 
 
     // 获取客服资料
     async getService() {
-      const { data: { service } } = await serviceAPI.getService({})
+      const { data: { service } } = await weixinAPI.getService({})
       dispatch(actionCreator.global.setService(service))
     },
 
     // 获取任务列表
     async getTaskList() {
-      const { data } = await serviceAPI.getTaskList({ page: '', limit: '' })
+      const { data } = await weixinAPI.getTaskList({ page: '', limit: '' })
       dispatch(actionCreator.global.setTaskList(data))
     }
 
     // // 获取订单列表
     // async getOrderList() {
-    //   // API.orderList({}).then(res => {
+    //   // yinghuoAPI.orderList({}).then(res => {
     //   //   console.log('orderList', res.data);
     //   // })
     // },
