@@ -1,4 +1,4 @@
-import * as serviceAPI from '@/api/service'
+import * as api from '@/api'
 import { actionCreator, RootState, store } from '@/store';
 
 export enum DictionaryProperty {
@@ -39,31 +39,31 @@ const dictionaryModel = {
       dispatch(actionCreator.dictionary.fetchChildren());
     },
     async fetchSettlementMethod() {
-      const response = await serviceAPI.getESSettlementMethod();
+      const response = await api.getESSettlementMethod();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.落户方式, value: response.data }));
     },
     async fetchBasic() {
-      const response = await serviceAPI.getESBasic();
+      const response = await api.getESBasic();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.申请人基本信息, value: response.data }));
     },
     async fetchFamily() {
-      const response = await serviceAPI.getESFamily();
+      const response = await api.getESFamily();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.家庭成员及主要社会关系, value: response.data }));
     },
     async fetchHukouMovein() {
-      const response = await serviceAPI.getESHukouMovein();
+      const response = await api.getESHukouMovein();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.户口迁入信息, value: response.data }));
     },
     async fetchArchive() {
-      const response = await serviceAPI.getESArchive();
+      const response = await api.getESArchive();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.档案信息, value: response.data }));
     },
     async fetchEducation() {
-      const response = await serviceAPI.getESEducation();
+      const response = await api.getESEducation();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.教育经历, value: response.data }));
     },
     async fetchChildren() {
-      const response = await serviceAPI.getESChildren();
+      const response = await api.getESChildren();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.子女信息, value: response.data }));
     },
   })
