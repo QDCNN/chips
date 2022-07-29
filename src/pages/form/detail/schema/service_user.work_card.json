@@ -30,7 +30,7 @@
           ],
           "fulfill": {
             "state": {
-              "componentProps": "{{{\n  src: $task.service_user.work_card\n, mode: \"widthFix\" }}}"
+              "componentProps": "{{{\n  src: $task.service_user.work_card\n, mode: \"widthFix\", showMenuByLongpress: true }}}"
             }
           }
         },

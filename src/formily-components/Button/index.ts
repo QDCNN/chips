@@ -8,6 +8,7 @@ export const Button = connect(
       return {
         ...props,
         children: props?.children || field?.title || props.title,
+        formType: 'submit',
       }
     }
   )

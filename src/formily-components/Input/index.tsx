@@ -39,15 +39,19 @@ export const Input = connect(
   mapProps((props: any, field) => {
     return {
       ...props,
-      suffix: (
-        <View>
-          {field?.['loading'] || field?.['validating'] ? (
-            'loading'
-          ) : (
-            props.suffix
-          )}
-        </View>
-      ),
+      onInput: (e) => {
+        props.onChange(e.detail.value);
+      },
+      name: field?.props?.name
+      // suffix: (
+      //   <View>
+      //     {field?.['loading'] || field?.['validating'] ? (
+      //       'loading'
+      //     ) : (
+      //       props.suffix
+      //     )}
+      //   </View>
+      // ),
     }
   }),
   mapReadPretty(WeInput)

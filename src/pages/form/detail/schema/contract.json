@@ -43,7 +43,11 @@
         "title": "复制",
         "x-component": "Button",
         "x-validator": [],
-        "x-component-props": {},
+        "x-component-props": {
+          "style": {
+            "margin-top": "16px"
+          }
+        },
         "x-designable-id": "o5jbw47w5nf",
         "x-index": 1
       }

@@ -21,8 +21,8 @@ const model = {
   }),
   reducers: () => ({
     setTaskList(state, data) {
-      state.taskList = data.list;
-      state.task_status = data.task_status;
+      state.taskList = data.list || [];
+      state.task_status = data.task_status || [];
     },
   }),
   effects: ({ dispatch, actionCreator }) => ({

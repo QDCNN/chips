@@ -92,11 +92,11 @@ const FormHomePage = () => {
     dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchPageStructure());
-  }, []);
+  });
 
   const handleSubmit = async () => {
     const formValues = await fileDocument.form.submit();
-    console.log('formValues: ', formValues);
+    dispatch(actionCreator.fileDocument.submitFormValues({ task_id: params.id, content: JSON.stringify(formValues) }));
   }
 
   return (
@@ -104,6 +104,7 @@ const FormHomePage = () => {
     <View style={data.form.style} data-weui-theme="light">
       <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
       {/* <Uploader value={[]} /> */}
+      {/* <Input /> */}
 
       <Form onSubmit={handleSubmit}>
         <FormProvider form={fileDocument.form}>
