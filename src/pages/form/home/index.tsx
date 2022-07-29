@@ -88,17 +88,15 @@ const FormHomePage = () => {
   // }
 
   useDidShow(() => {
-    // fileDocument.form.setValues({});
+    fileDocument.form.clearFormGraph('*');
     dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchPageStructure());
   }, []);
 
   const handleSubmit = async () => {
-    // const formValues = await fileDocument.form.submit();
-    // console.log('formValues: ', formValues);
-
-    console.log('fileDocument.pageStructure: ', fileDocument.pageStructure);
+    const formValues = await fileDocument.form.submit();
+    console.log('formValues: ', formValues);
   }
 
   return (
