@@ -3,7 +3,7 @@ import { RootState, store } from "@/store";
 import Taro from "@tarojs/taro";
 
 // 域名前缀
-const weixinAPI_ROOT = 'https://api.oscac-sh.com/weixin';
+const API_ROOT = 'https://api.oscac-sh.com/weixin';
 
 // 请求方式
 enum Method {
@@ -27,7 +27,7 @@ const commomRequest = async ({ action, method, params }) => {
 
   const requestParams: any = openid ?
     {
-      url: `${weixinAPI_ROOT}${action}`,
+      url: `${API_ROOT}${action}`,
       data: params,
       method: method,
       header: {
@@ -36,7 +36,7 @@ const commomRequest = async ({ action, method, params }) => {
       }
     } :
     {
-      url: `${weixinAPI_ROOT}${action}`,
+      url: `${API_ROOT}${action}`,
       data: params,
       method: method,
       header: {

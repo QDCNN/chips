@@ -23,21 +23,18 @@ const GoodsDetail = () => {
       <CustomNavigationBar back title="服务详情" />
       <View dangerouslySetInnerHTML={{ __html: goodsDetail.content }} className={styles.backgroundImage}></View>
       <View className={classnames('container', styles.container)}>
-        {/* <Card className="m-t-32" image={CommonImage.KVImage2} /> */}
-        {/* <Skeleton title row={4} /> */}
 
         <View className={classnames(styles.footer, 'm-t-48')}>
-          {/* <Image src={require('./assets/button.png')} mode="widthFix" onClick={onPayClick} /> */}
-          <View className={styles.footer_box}>
-            <View className={styles.footer_left}>
+          <View className={styles.footerBox}>
+            <View className={styles.footerLeft}>
               <View>
                 <Text>{goodsDetail.goods_name}</Text>
               </View>
               <View>
-                <Text className={styles.font_bold}>￥{formatMoney(4999, 2)}</Text>
+                <Text className={styles.fontBold}>￥{formatMoney(4999, 2)}</Text>
               </View>
             </View>
-            <View className={styles.footer_right}>
+            <View className={styles.footerRight}>
               <Button className={styles.button} type='primary' onClick={onOrderClick}>下单</Button>
             </View>
           </View>

@@ -9,22 +9,19 @@ import orderIcon from '@/assets/icon/order.svg'
 import rightIcon from '@/assets/icon/right.svg'
 import { useEffect } from 'react'
 import Badge from './components/badge'
-import * as weixinAPI from '@/api/weixin'
+import * as weixinAPI from '@/api'
 import { useDuraArray } from '@/hooks/use-dura'
 
 
 const model = {
   state: () => ({
-    taskList: {
-      list: [],
-      task_status: [],
-    }
-
+    taskList: [],
+    task_status: [],
   }),
   reducers: () => ({
     setTaskList(state, data) {
-      state.taskList.list = data.list;
-      state.taskList.task_status = data.task_status
+      state.taskList = data.list;
+      state.task_status = data.task_status;
     },
   }),
   effects: ({ dispatch, actionCreator }) => ({
@@ -51,9 +48,6 @@ const Work = () => {
       url: Routes.MyOrder
     })
   }
-  useEffect(() => {
-    // store.dispatch(actionCreator.global.getTaskList())
-  }, [])
 
   const onHandelClick = (item) => {
     switch (item.task_status) {
@@ -81,7 +75,7 @@ const Work = () => {
             onClick={onMyOrder}
           ></ListItem>
         </View>
-        {dState.taskList.list.map(item => (
+        {dState.taskList.map(item => (
           <View className={classnames('fiche', 'm-t-32', styles.block)}>
             <View className={styles.top}>
               <View className={styles.title}>

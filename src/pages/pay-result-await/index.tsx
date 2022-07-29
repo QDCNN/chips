@@ -9,9 +9,9 @@ const PayResult = () => {
     <View className={classnames('page', styles.page)}>
       <CustomNavigationBar back notFixed title="确认订单" />
       <View className={classnames('container', styles.container)}>
-        <View className={styles.results_box}>
+        <View className={styles.resultsBox}>
           <Icon size='60' type='waiting' />
-          <View className={styles.text_box}>
+          <View className={styles.textBox}>
             <View className='m-t-24'><Text className={styles.title}>正在检查支付结果</Text></View>
             <View className='m-t-24'><Text className={styles.subTitle}>请稍等</Text></View>
           </View>

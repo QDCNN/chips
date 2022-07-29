@@ -159,7 +159,7 @@ const ConfirmOrder = () => {
             onClick={getAddress}
           ></ListItem>
         </View> */}
-        <View className={classnames('m-t-48', 'fiche', styles.list_box)}>
+        <View className={classnames('m-t-48', 'fiche')}>
           <ListItem
             border
             title='服务信息'
@@ -182,7 +182,6 @@ const ConfirmOrder = () => {
           ></ListItem>
         </View>
         <Form className={classnames('m-t-48', 'fiche', styles.form_box)}
-        // onSubmit={(e) => { submit(e) }}
         >
           <ListItem
             border
@@ -225,7 +224,7 @@ const ConfirmOrder = () => {
           <Button
             formType='submit'
             type='primary'
-            className={styles.submit_button}
+            className={styles.submitButton}
             onClick={onSubmit}
           >提交</Button>
         </View>

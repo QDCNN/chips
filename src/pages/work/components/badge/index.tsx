@@ -25,13 +25,13 @@ const Badge = ({ status, onClick }) => {
 
   return (
     <View className={styles.badge} onClick={onClick}>
-      <View className={styles.badge_left}>
-        <View className={styles.badge_content}>
-          <Text className={styles.badge_title}>{badgeTypeText[badgeType]}</Text>
+      <View className={styles.left}>
+        <View className={styles.content}>
+          <Text className={styles.title}>{badgeTypeText[badgeType]}</Text>
         </View>
-        <View className={styles.badge_status} style={badgeTypeColor[badgeType]}></View>
+        <View className={styles.status} style={badgeTypeColor[badgeType]}></View>
       </View>
-      <View className={styles.icon_right}>
+      <View className={styles.iconRight}>
         <Image src={RightIcon} className={styles.icon}></Image>
       </View>
     </View>

@@ -1,7 +1,5 @@
 
 export enum Routes {
-
-
   /**start*/
   // 首页
   Home = '/pages/index/index',
@@ -11,7 +9,6 @@ export enum Routes {
 
   // 联系我
   Contact = '/pages/contact/index',
-
 
   // 商品详情
   GoodsDetail = '/pages/goods-detail/index',
@@ -27,12 +24,6 @@ export enum Routes {
 
   // 我的订单
   MyOrder = '/pages/my-order/index',
-
-  // 材料详情
-  MaterialDetails = '/pages/material-details/index',
-
-  // 表单填写页
-  FormPage = '/pages/form-page/index'
 
   /**end*/
 

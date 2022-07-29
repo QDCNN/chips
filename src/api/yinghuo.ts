@@ -5,7 +5,7 @@ import qs from 'qs'
 import { promiseLogin } from '@/models/global';
 
 //  請求前綴
-const yinghuoAPI_ROOT = 'https://store.oscac-sh.com/index.php';
+const API_ROOT = 'https://store.oscac-sh.com/index.php';
 
 // 请求列表
 enum APIPath {
@@ -52,7 +52,7 @@ const commomRequest = async ({ action, method, params }) => {
   const urlSearch = qs.stringify(method === Method.GET ? { ...finalParams, ...params } : finalParams);
   // 请求体
   const requestParams: any = {
-    url: `${yinghuoAPI_ROOT}?${urlSearch}`, // url
+    url: `${API_ROOT}?${urlSearch}`, // url
     header: { // 请求头
       'content-type': 'application/x-www-form-urlencoded'
     },
@@ -64,6 +64,12 @@ const commomRequest = async ({ action, method, params }) => {
 
   return Taro.request(requestParams).then(response => {
     const { data } = response;
+    if (data.code == 0) {
+      const error = new Error('服务器 0 报错');
+      error.message = data.msg;
+      error.code = data.code;
+      return Promise.reject(error);
+    }
     return data
   })
 }

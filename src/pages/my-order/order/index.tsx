@@ -10,9 +10,9 @@ import { formatMoney } from "@/utils/formatMoney";
 const Order = ({ item, onPay }) => {
 
   return (
-    <View className={classNames('fiche', styles.order_card)}>
-      <View className={styles.order_number}>
-        <View className={styles.order_number_text}>
+    <View className={classNames('fiche', styles.orderCard)}>
+      <View className={styles.orderNumber}>
+        <View className={styles.orderNumberText}>
           <Text>订单编号：{item.order_no}</Text>
         </View>
       </View>
