@@ -59,12 +59,9 @@ const MyOrder = () => {
             })
           },
         })
-
       }
     })
-
   }
-  console.log('dState.orderList', dState.orderList);
 
   const onBack = () => {
     Taro.reLaunch({

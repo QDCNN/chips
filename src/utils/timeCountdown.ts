@@ -48,12 +48,25 @@ export const useCountdown = (expiryTime) => {
         let hours = hour < 10 ? `0${hour}` : day
         timeList.push(hours)
       }
+      if (hour === 0) {
+        let hours = '00'
+        timeList.push(hours)
+      }
       if (minute > 0) {
         let minutes = minute < 10 ? `0${minute}` : minute;
         timeList.push(minutes)
       }
+      if (minute === 0) {
+        let minutes = '00';
+        timeList.push(minutes)
+      }
+
       if (second > 0) {
         let seconds = second < 10 ? `0${second}` : second;
+        timeList.push(seconds)
+      }
+      if (second === 0) {
+        let seconds = '00'
         timeList.push(seconds)
       }
 

@@ -43,10 +43,10 @@ const initialState = {
   goodsList: [], // 商品列表
   goodsDetail: {}, // 商品详情
   service: [], // 客服信息
-  taskList: {
-    list: [],
-    task_status: [],
-  }
+  // taskList: {
+  //   list: [],
+  //   task_status: [],
+  // }
 
 }
 
@@ -66,10 +66,10 @@ const globalModel = {
     setService(state, data) {
       state.service = data
     },
-    setTaskList(state, data) {
-      state.taskList.list = data.list;
-      state.taskList.task_status = data.task_status
-    }
+    // setTaskList(state, data) {
+    //   state.taskList.list = data.list;
+    //   state.taskList.task_status = data.task_status
+    // }
   }),
   effects: (dispatch, getState, delay) => ({
     async init() {
@@ -104,10 +104,10 @@ const globalModel = {
     },
 
     // 获取任务列表
-    async getTaskList() {
-      const { data } = await weixinAPI.getTaskList({ page: '', limit: '' })
-      dispatch(actionCreator.global.setTaskList(data))
-    }
+    // async getTaskList() {
+    //   const { data } = await weixinAPI.getTaskList({ page: '', limit: '' })
+    //   dispatch(actionCreator.global.setTaskList(data))
+    // }
 
     // // 获取订单列表
     // async getOrderList() {
