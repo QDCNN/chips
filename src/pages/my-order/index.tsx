@@ -64,12 +64,14 @@ const MyOrder = () => {
     })
 
   }
+  console.log('dState.orderList', dState.orderList);
 
   const onBack = () => {
     Taro.reLaunch({
       url: Routes.Work
     })
   }
+
 
   return (
     <View className={classnames('page', styles.page)}>

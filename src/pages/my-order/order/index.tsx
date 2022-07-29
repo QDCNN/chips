@@ -28,7 +28,7 @@ const Order = ({ item, onPay }) => {
       ></ListItem>
       <ListItem
         title='服务编号'
-        extraText={'123456789'}
+        extraText={item.task_no}
         border
       ></ListItem>
       <ListItem
