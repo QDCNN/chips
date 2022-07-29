@@ -230,7 +230,7 @@ const ConfirmOrder = () => {
             type='primary'
             className={styles.submitButton}
             onClick={onSubmit}
-          >提交</Button>
+          >去支付</Button>
         </View>
       </View>
     </View >
