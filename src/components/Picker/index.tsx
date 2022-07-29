@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Picker as TaroPicker, View } from '@tarojs/components'
 import { Cell } from '@/components'
 
-export const Picker = (props) => {
+export const Picker = (props, ref) => {
   const { options = [], onChange, value, mode, ...other } = props;
   const range = useMemo(() => options.map(item => item.label), []);
   const handleChange = (e) => {
@@ -16,13 +16,12 @@ export const Picker = (props) => {
   }
 
   const showText = useMemo(() => {
-    console.log('showText: ', mode, value, options);
     if (mode === 'selector') {
       const match = options.find(item => item.value === value);
       return match && match.label;
     }
     return value;
-  }, [mode, value, options])
+  }, [mode, value, options]);
 
   return (
     <TaroPicker mode={mode} range={range} onChange={handleChange} {...other}>

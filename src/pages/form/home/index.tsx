@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { View, Form } from '@tarojs/components'
+import { View, Form, Button } from '@tarojs/components'
 import { createForm } from '@formily/core'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
 import { observable, autorun } from '@formily/reactive'
@@ -107,18 +107,25 @@ const HomePage = () => {
     fetchPageStructure()
   }, []);
 
+  const handleSubmit = async () => {
+    const formValues = await form.submit();
+    console.log('formValues: ', formValues);
+  }
+
   return (
     <View style={pageStructure.form.style} data-weui-theme="light">
       <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
 
       {/* <CellOrigin dot link title="label">123</CellOrigin> */}
       {/* <Button onClick={onTestUpload}>测试上传</Button> */}
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <FormProvider form={form}>
           <View>
             <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
           </View>
         </FormProvider>
+
+        <Button formType="submit">测试提交</Button>
       </Form>
     </View>
   )
