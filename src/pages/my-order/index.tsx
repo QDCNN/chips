@@ -2,9 +2,9 @@ import CustomNavigationBar from '@/custom-navigation-bar'
 import { View, Text, } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.less'
-import './index.sass'
+// import './index.sass'
 import { useDuraArray } from '@/hooks/use-dura'
-import * as API from '@/api/index'
+import * as yinghuoAPI from '@/api/yinghuo'
 import { useEffect } from 'react'
 import Order from './order'
 import Taro from '@tarojs/taro'
@@ -22,9 +22,7 @@ const model = {
   effects: ({ dispatch, actionCreator }) => ({
 
     async getOrderList() {
-      const res = await API.getOrderList({ dataType: 'all' })
-      console.log('订单列表', res.data.list.data);
-
+      const res = await yinghuoAPI.getOrderList({ dataType: 'all' })
       dispatch(actionCreator.setOrderList(res.data.list.data))
     }
   }),
@@ -40,8 +38,7 @@ const MyOrder = () => {
 
 
   const onPay = (item) => {
-    console.log('支付', item.order_id);
-    API.orderPay({ order_id: item.order_id }).then(res => {
+    yinghuoAPI.orderPay({ order_id: item.order_id }).then(res => {
       console.log('订单支付', res);
       if (res.code === 1) {
         Taro.requestPayment({
@@ -62,10 +59,8 @@ const MyOrder = () => {
             })
           },
         })
-
       }
     })
-
   }
 
   const onBack = () => {
@@ -73,6 +68,7 @@ const MyOrder = () => {
       url: Routes.Work
     })
   }
+
 
   return (
     <View className={classnames('page', styles.page)}>

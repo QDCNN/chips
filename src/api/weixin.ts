@@ -1,8 +1,6 @@
 /** 请求封装 */
-
 import { RootState, store } from "@/store";
 import Taro from "@tarojs/taro";
-import qs from 'qs';
 
 // 域名前缀
 const API_ROOT = 'https://api.oscac-sh.com';
@@ -40,7 +38,7 @@ enum APIPath {
 
 const commomRequest = async ({ action, method, params }) => {
   const { global: { userBaseInfo } }: RootState = store.getState();
-
+  // promiseLogin()
   const openid = userBaseInfo.open_id
 
   const requestParams: any = openid ?
@@ -77,7 +75,6 @@ const commomRequest = async ({ action, method, params }) => {
       error.code = data.code;
       return Promise.reject(error);
     }
-
     return data;
   })
 }

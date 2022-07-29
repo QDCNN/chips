@@ -8,18 +8,13 @@ import { Routes } from '@/routes'
 import Taro from '@tarojs/taro'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
+import { formatMoney } from '@/utils/formatMoney'
 
 
 const GoodsDetail = () => {
   const { global: { goodsDetail } } = useSelector((store: RootState) => store);
 
-
-
-
   const onOrderClick = () => {
-    // console.log('goodsDetailPage', goodsDetail.content);
-
-    // console.log('onOrderClick');
     Taro.navigateTo({ url: Routes.ConfirmOrder })
   }
 
@@ -29,7 +24,6 @@ const GoodsDetail = () => {
       <View dangerouslySetInnerHTML={{ __html: goodsDetail.content }} className={styles.backgroundImage}></View>
       <View className={classnames('container', styles.container)}>
         {/* <Card className="m-t-32" image={CommonImage.KVImage2} /> */}
-
         {/* <Skeleton title row={4} /> */}
 
         <View className={classnames(styles.footer, 'm-t-48')}>
@@ -37,10 +31,10 @@ const GoodsDetail = () => {
           <View className={styles.footer_box}>
             <View className={styles.footer_left}>
               <View>
-                <Text>留学生一站式落户服务</Text>
+                <Text>{goodsDetail.goods_name}</Text>
               </View>
               <View>
-                <Text className={styles.font_bold}>￥4,999</Text>
+                <Text className={styles.font_bold}>￥{formatMoney(4999, 2)}</Text>
               </View>
             </View>
             <View className={styles.footer_right}>

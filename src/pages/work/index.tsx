@@ -7,24 +7,43 @@ import CustomNavigationBar from '@/custom-navigation-bar'
 import ListItem from '@/components/ListItem'
 import orderIcon from '@/assets/icon/order.svg'
 import rightIcon from '@/assets/icon/right.svg'
-import { useDuraArray } from '@/hooks/use-dura'
-import * as serviceAPI from '@/api/service'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-// import { RootState } from '@/store'
-import { actionCreator, RootState, store } from '@/store';
 import Badge from './components/badge'
+import * as weixinAPI from '@/api/weixin'
+import { useDuraArray } from '@/hooks/use-dura'
 
 
 const model = {
-  state: () => ({}),
-  reducers: () => ({}),
-  effects: ({ dispatch, actionCreator }) => ({}),
+  state: () => ({
+    taskList: {
+      list: [],
+      task_status: [],
+    }
+
+  }),
+  reducers: () => ({
+    setTaskList(state, data) {
+      state.taskList.list = data.list;
+      state.taskList.task_status = data.task_status
+    },
+  }),
+  effects: ({ dispatch, actionCreator }) => ({
+
+    async getTaskList() {
+      const { data } = await weixinAPI.getTaskList({ page: '', limit: '' })
+      dispatch(actionCreator.setTaskList(data))
+    }
+  }),
 };
-const Mine = () => {
+
+const Work = () => {
   const [dState, dDispatch, dActionCreator] = useDuraArray(model);
 
-  const { global: { taskList } } = useSelector((store: RootState) => store);
+  useEffect(() => {
+    dDispatch(dActionCreator.getTaskList())
+  }, [])
+
+
 
   const onMyOrder = () => {
 
@@ -33,10 +52,22 @@ const Mine = () => {
     })
   }
   useEffect(() => {
-    store.dispatch(actionCreator.global.getTaskList())
+    // store.dispatch(actionCreator.global.getTaskList())
   }, [])
 
-
+  const onHandelClick = (item) => {
+    switch (item.task_status) {
+      case 10:
+        console.log('10');
+        break;
+      case 20:
+        console.log('20');
+        break;
+      default:
+        console.log('无状态');
+        break;
+    }
+  }
   return (
     <View className={classnames('page', styles.page)}>
       <CustomNavigationBar notFixed title="办事" />
@@ -50,7 +81,7 @@ const Mine = () => {
             onClick={onMyOrder}
           ></ListItem>
         </View>
-        {taskList.list.map(item => (
+        {dState.taskList.list.map(item => (
           <View className={classnames('fiche', 'm-t-32', styles.block)}>
             <View className={styles.top}>
               <View className={styles.title}>
@@ -63,12 +94,7 @@ const Mine = () => {
                 <View className={styles.item}><Text>创建时间：{item?.create_time}</Text></View>
               </View>
             </View>
-            {/* <ListItem
-              badge={1}
-              iconRight={rightIcon}
-            /> */}
-            {/* <Badge status={item?.task_status} /> */}
-            <Badge status={item.task_status} />
+            <Badge status={item.task_status} onClick={() => { onHandelClick(item) }} />
           </View>
         ))}
       </View>
@@ -76,4 +102,4 @@ const Mine = () => {
   )
 }
 
-export default Mine;
+export default Work;

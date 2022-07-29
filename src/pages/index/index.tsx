@@ -10,8 +10,6 @@ import { RootState } from '@/store'
 import Contact from './components/contact'
 
 
-
-
 const Index = () => {
   const { global: { goodsList, service } } = useSelector((store: RootState) => store);
 
@@ -37,9 +35,7 @@ const Index = () => {
         <Card className="m-t-32" image={goodsList[0]?.goods_image} onClick={onGoodsDetailClick} />
         <Button type="primary" onClick={() => Taro.navigateTo({ url: Routes.FormPage })}>进入表单页</Button>
       </View>
-      {/* <View>{moment('2022-07-26 13:23:23').valueOf()}</View> */}
-      {/* <View>{moment('2022-07-26 13:23:23').add(30, 'minutes')}</View> */}
-      {/* <View>{showRemainTime({ createTime: '2022-07-26 13:23:23' })}</View> */}
+
       {service[0] && (
         <View className={styles.contact}>
           <Contact

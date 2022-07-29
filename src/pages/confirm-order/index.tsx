@@ -1,20 +1,17 @@
-import { View, Form, Button, Picker, Input } from '@tarojs/components'
+import { View, Button, Form, } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import classnames from 'classnames'
 import styles from './index.module.less'
 import CustomNavigationBar from '@/custom-navigation-bar'
 import ListItem from '@/components/ListItem'
-import addressIcon from '@/assets/icon/address.svg'
-import rightIcon from '@/assets/icon/right.svg'
-import IdentityCodeValid from '@/utils/validateId'
-import IdentityPhoneValid from '@/utils/validatePhone'
-import { AtForm, AtInput, } from 'taro-ui'
-import './index.sass'
 import { useDuraArray } from '@/hooks/use-dura'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
-import * as API from '@/api/index'
+import * as yinghuoAPI from '@/api/yinghuo'
 import { Routes } from '@/routes'
+import { formatMoney } from '@/utils/formatMoney'
+import AtInput from '@/components/AtInput'
+import { validateIdCard, validateMobile } from '@/utils/validateId'
 
 
 
@@ -49,7 +46,7 @@ const model = {
   }),
   effects: ({ dispatch, actionCreator }) => ({
     async receiveCard(formData) {
-      // await API.receiveCard(formData);
+      // await yinghuoAPI.receiveCard(formData);
     }
   }),
 };
@@ -61,7 +58,7 @@ const model = {
 const ConfirmOrder = () => {
 
   const [dState, dDispatch, dActionCreator] = useDuraArray(model);
-  // const { global: { goodsList, goodsDetail } } = useSelector((store: RootState) => store);
+  const { global: { goodsList, service } } = useSelector((store: RootState) => store);
 
 
 
@@ -85,10 +82,9 @@ const ConfirmOrder = () => {
       name: res
     }))
   }
-
   // 身份证号
   const onChangeIdCard = (res) => {
-    let idCardError = IdentityCodeValid(res)
+    let idCardError = validateIdCard(res)
     dDispatch(dActionCreator.setIsIdCard(idCardError))
     dDispatch(dActionCreator.setFormDataPart({
       idcard: res
@@ -96,7 +92,7 @@ const ConfirmOrder = () => {
   }
   // 手机号
   const onChangePhone = (res) => {
-    let phoneError = IdentityPhoneValid(res)
+    let phoneError = validateMobile(res)
     dDispatch(dActionCreator.setIsPhone(phoneError))
     dDispatch(dActionCreator.setFormDataPart({
       mobile: res
@@ -119,12 +115,9 @@ const ConfirmOrder = () => {
       is_use_points: 0,
     }
 
-    API.buyNow({ ...formDate }).then(res => {
+    yinghuoAPI.buyNow({ ...formDate }).then(res => {
       console.log('支付数据', res);
       if (res.code === 1) {
-        // Taro.navigateTo({
-        //   url: Routes.PayResultAwait
-        // })
         Taro.requestPayment({
           timeStamp: res.data.payment.timeStamp,
           nonceStr: res.data.payment.nonceStr,
@@ -170,12 +163,12 @@ const ConfirmOrder = () => {
           <ListItem
             border
             title='服务信息'
-            extraText='留学生一站式落户服务'
+            extraText={goodsList[0]?.goods_name}
           ></ListItem>
           <ListItem
             border
             title='咨询老师'
-            extraText='Chon'
+            extraText={service[0]?.name}
           ></ListItem>
           <ListItem
             border
@@ -185,10 +178,10 @@ const ConfirmOrder = () => {
           <ListItem
             className={styles.b_r}
             title='订单总价'
-            extraText='￥4,999.00'
+            extraText={`￥${formatMoney(goodsList[0]?.goods_sku.line_price, 2)}`}
           ></ListItem>
         </View>
-        <AtForm className={classnames('m-t-48', 'fiche', styles.form_box)}
+        <Form className={classnames('m-t-48', 'fiche', styles.form_box)}
         // onSubmit={(e) => { submit(e) }}
         >
           <ListItem
@@ -199,8 +192,6 @@ const ConfirmOrder = () => {
           <AtInput
             clear
             name='userName'
-            focus={dState.formData.name}
-            autoFocus
             title='姓名'
             type='text'
             placeholder='请输入签约人姓名'
@@ -209,7 +200,6 @@ const ConfirmOrder = () => {
           />
           <AtInput
             key='idcard'
-            focus={dState.formData.idcard}
             clear
             error={dState.isIdCard}
             title='身份证号'
@@ -222,7 +212,6 @@ const ConfirmOrder = () => {
           <AtInput
             clear
             key='phone'
-            focus={dState.formData.mobile}
             error={dState.isPhone}
             title='手机号'
             type='phone'
@@ -231,7 +220,7 @@ const ConfirmOrder = () => {
             value={dState.formData.mobile}
             onChange={onChangePhone}
           />
-        </AtForm>
+        </Form>
         <View className={classnames('m-t-48', styles.submit)}>
           <Button
             formType='submit'
