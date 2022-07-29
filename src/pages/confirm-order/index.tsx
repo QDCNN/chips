@@ -5,14 +5,16 @@ import styles from './index.module.less'
 import CustomNavigationBar from '@/custom-navigation-bar'
 import ListItem from '@/components/ListItem'
 import { useDuraArray } from '@/hooks/use-dura'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store'
+import { useSelector, } from 'react-redux'
 import * as yinghuoAPI from '@/api/yinghuo'
 import { Routes } from '@/routes'
 import { formatMoney } from '@/utils/formatMoney'
 import AtInput from '@/components/AtInput'
 import { validateIdCard, validateMobile } from '@/utils/validateId'
-
+import addressIcon from '@/assets/icon/address.svg'
+import rightIcon from '@/assets/icon/right.svg'
+import { actionCreator, RootState, store } from '@/store';
+import { useEffect } from 'react'
 
 
 const model = {
@@ -58,7 +60,11 @@ const model = {
 const ConfirmOrder = () => {
 
   const [dState, dDispatch, dActionCreator] = useDuraArray(model);
-  const { global: { goodsList, service } } = useSelector((store: RootState) => store);
+  const { global: { goodsList, goodsDetail, service } } = useSelector((store: RootState) => store);
+
+  useEffect(() => {
+    store.dispatch(actionCreator.global.getGoodsDetail())
+  }, [])
 
 
 
@@ -151,14 +157,14 @@ const ConfirmOrder = () => {
     <View className={classnames('page', styles.page)}>
       <CustomNavigationBar back notFixed title="确认订单" />
       <View className={classnames('container', styles.container)}>
-        {/* <View className='fiche'>
+        <View className='fiche'>
           <ListItem
             iconLeft={addressIcon}
             title={dState.formData.address ? dState.formData.address : '请选择收货地址'}
             iconRight={dState.formData.address ? '' : rightIcon}
             onClick={getAddress}
           ></ListItem>
-        </View> */}
+        </View>
         <View className={classnames('m-t-48', 'fiche')}>
           <ListItem
             border
@@ -178,7 +184,7 @@ const ConfirmOrder = () => {
           <ListItem
             className={styles.b_r}
             title='订单总价'
-            extraText={`￥${formatMoney(goodsList[0]?.goods_sku.line_price, 2)}`}
+            extraText={`￥${formatMoney(goodsDetail?.goods_sku.goods_price, 2)}`}
           ></ListItem>
         </View>
         <Form className={classnames('m-t-48', 'fiche', styles.form_box)}

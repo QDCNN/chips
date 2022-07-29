@@ -43,10 +43,7 @@ const initialState = {
   goodsList: [], // 商品列表
   goodsDetail: {}, // 商品详情
   service: [], // 客服信息
-  // taskList: {
-  //   list: [],
-  //   task_status: [],
-  // }
+
 
 }
 
@@ -66,17 +63,12 @@ const globalModel = {
     setService(state, data) {
       state.service = data
     },
-    // setTaskList(state, data) {
-    //   state.taskList.list = data.list;
-    //   state.taskList.task_status = data.task_status
-    // }
   }),
   effects: (dispatch, getState, delay) => ({
     async init() {
       dispatch(actionCreator.global.getUserInfo())
       dispatch(actionCreator.global.getGoodsList())
       dispatch(actionCreator.global.getGoodsDetail())
-      // dispatch(actionCreator.global.getService())
     },
     // 获取用户信息
     async getUserInfo() {
@@ -93,28 +85,16 @@ const globalModel = {
     async getGoodsDetail() {
       const goods_id = 10001
       const request = await yinghuoAPI.getGoodsDetail({ goods_id })
+      console.log('getGoodsDetail', request);
+
       dispatch(actionCreator.global.setGoodsDetail(request.data.detail))
     },
-
 
     // 获取客服资料
     async getService() {
       const { data: { service } } = await weixinAPI.getService({})
       dispatch(actionCreator.global.setService(service))
     },
-
-    // 获取任务列表
-    // async getTaskList() {
-    //   const { data } = await weixinAPI.getTaskList({ page: '', limit: '' })
-    //   dispatch(actionCreator.global.setTaskList(data))
-    // }
-
-    // // 获取订单列表
-    // async getOrderList() {
-    //   // yinghuoAPI.orderList({}).then(res => {
-    //   //   console.log('orderList', res.data);
-    //   // })
-    // },
 
   })
 }

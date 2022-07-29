@@ -20,7 +20,7 @@ const PayResult = () => {
           <Icon size='60' type='success' />
           <View >
             <View className='m-t-24'><Text >支付成功</Text></View>
-            <View className='m-t-24'><Text className={styles.subTitle}>以为您分配审核老师，可前往「材料详情」联系审核老师，请尽快提交您的申请资料</Text></View>
+            <View className='m-t-24'><Text className={styles.subTitle}>已为您分配审核老师，可前往「材料详情」联系审核老师，请尽快提交您的申请资料。</Text></View>
           </View>
           <Button className={classnames('m-t-48', styles.successButton)} type='primary' onClick={onToWork}>去上传材料</Button>
         </View>

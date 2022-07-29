@@ -17,7 +17,7 @@ const Order = ({ item, onPay }) => {
         </View>
       </View>
       <ListItem
-        title='我的订单'
+        title='服务信息'
         extraText={item.goods[0]?.goods_name}
         border
       ></ListItem>
@@ -48,7 +48,7 @@ const Order = ({ item, onPay }) => {
       ></ListItem>
       <ListItem
         title='应付款'
-        extraText={`￥${formatMoney(item.goods[0].line_price, 2)}`}
+        extraText={`￥${formatMoney(item.order_price, 2)}`}
         border
       ></ListItem>
       {

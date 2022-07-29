@@ -35,6 +35,8 @@ const MyOrder = () => {
     dDispatch(dActionCreator.getOrderList())
   }, [])
 
+  console.log('dState.orderList', dState.orderList);
+
 
   const onPay = (item) => {
     yinghuoAPI.orderPay({ order_id: item.order_id }).then(res => {

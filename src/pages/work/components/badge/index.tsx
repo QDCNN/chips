@@ -14,7 +14,7 @@ const badgeTypeColor = {
 }
 
 const badgeTypeText = {
-  [BadgeType.BadgeType10]: '请提交资料',
+  [BadgeType.BadgeType10]: '进行中',
   [BadgeType.BadgeType20]: '线上办结',
 }
 
