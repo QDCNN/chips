@@ -1,5 +1,6 @@
 import global from '@/models/global';
 import dictionary from '@/models/dictionary';
+import fileDocument from '@/models/file-document';
 
 import { createImmerPlugin } from '@dura/immer';
 import { create } from '@dura/plus';
@@ -10,6 +11,7 @@ import Taro from '@tarojs/taro';
 const initialModel = {
   global,
   dictionary,
+  fileDocument,
 };
 
 export type RootModel = typeof initialModel;

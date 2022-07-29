@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 import Badge from './components/badge'
 import * as weixinAPI from '@/api'
 import { useDuraArray } from '@/hooks/use-dura'
+import { combineQuery } from '@/utils/route'
 
 
 const model = {
@@ -23,8 +24,8 @@ const model = {
   }),
   reducers: () => ({
     setTaskList(state, data) {
-      state.taskList.list = data.list;
-      state.taskList.task_status = data.task_status
+      state.taskList.list = data.list || [];
+      state.taskList.task_status = data.task_status || [];
     },
   }),
   effects: ({ dispatch, actionCreator }) => ({
@@ -56,17 +57,19 @@ const Work = () => {
   }, [])
 
   const onHandelClick = (item) => {
-    switch (item.task_status) {
-      case 10:
-        console.log('10');
-        break;
-      case 20:
-        console.log('20');
-        break;
-      default:
-        console.log('无状态');
-        break;
-    }
+    // switch (item.task_status) {
+    //   case 10:
+    //     console.log('10');
+    //     break;
+    //   case 20:
+    //     console.log('20');
+    //     break;
+    //   default:
+    //     console.log('无状态');
+    //     break;
+    // }
+    // if (item.task_status === '10')
+    Taro.navigateTo({ url: combineQuery(Routes.FormPage, { id: item.task_id }) })
   }
   return (
     <View className={classnames('page', styles.page)}>
@@ -94,7 +97,7 @@ const Work = () => {
                 <View className={styles.item}><Text>创建时间：{item?.create_time}</Text></View>
               </View>
             </View>
-            <Badge status={item.task_status} onClick={() => { onHandelClick(item) }} />
+            <Badge status={item.task_status} onClick={() => onHandelClick(item)} />
           </View>
         ))}
       </View>

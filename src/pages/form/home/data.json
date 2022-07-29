@@ -51,7 +51,7 @@
           ],
           "fulfill": {
             "state": {
-              "value": "{{$business.user.name}}"
+              "description": "{{$business.user.idCard}}"
             }
           }
         }
@@ -78,7 +78,7 @@
           ],
           "fulfill": {
             "state": {
-              "value": "{{$business.user.idCard}}"
+              "description": "{{$business.user.idCard}}"
             }
           }
         }
@@ -105,7 +105,7 @@
           ],
           "fulfill": {
             "state": {
-              "value": "{{$business.user.phone}}"
+              "description": "{{$business.user.phone}}"
             }
           }
         }
@@ -256,14 +256,15 @@
         "x-designable-id": "438dz01mrj5",
         "x-index": 11
       },
-      "zjsvm4p9jkr": {
-        "title": "落户方式",
+      "basic.settlement_type": {
+        "title": "落户类型",
         "x-component": "Picker",
         "x-validator": [],
         "x-component-props": {
           "style": {
             "backgroundColor": "rgba(255,255,255,1)"
-          }
+          },
+          "mode": "selector"
         },
         "x-reactions": {
           "dependencies": [
@@ -274,36 +275,37 @@
           ],
           "fulfill": {
             "state": {
-              "dataSource": "{{$dictionary.base.settlement_type}}"
+              "dataSource": "{{$dictionary.basic.settlement_type}}"
             }
           }
         },
         "x-designable-id": "zjsvm4p9jkr",
-        "x-index": 12
+        "x-index": 12,
+        "required": true,
+        "name": "basic.settlement_type"
       },
-      "dvwnlsd66zg": {
+      "vsduskctv6z": {
         "type": "string",
         "title": "姓名",
-        "x-decorator": "Cell",
-        "x-component": "Input",
-        "x-validator": [],
-        "x-component-props": {},
-        "x-decorator-props": {
-          "link": true,
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
           "style": {
             "backgroundColor": "rgba(255,255,255,1)",
             "margin": "16px 0px 0px 0px"
-          }
+          },
+          "type": "input"
         },
-        "default": "",
-        "x-designable-id": "dvwnlsd66zg",
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "vsduskctv6z",
         "x-index": 13
       },
       "s96b0smtv7z": {
         "type": "string",
         "x-component": "Text",
         "x-component-props": {
-          "content": "咨询老师将协助你完成签约。",
+          "content": "提醒文字：如姓名中含有无法输入的生僻字，请在生僻字后填写拼音，例如：崔jie",
           "style": {
             "color": "#707070",
             "fontSize": "12px"
@@ -318,25 +320,24 @@
         "x-designable-id": "s96b0smtv7z",
         "x-index": 14
       },
-      "903fgv8cbop": {
+      "vpi02oau85l": {
         "type": "string",
         "title": "曾用名",
-        "x-decorator": "Cell",
-        "x-component": "Input",
-        "x-validator": [],
-        "x-component-props": {},
-        "x-decorator-props": {
-          "link": true,
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
           "style": {
             "backgroundColor": "rgba(255,255,255,1)",
             "margin": "16px 0px 0px 0px"
-          }
+          },
+          "type": "input"
         },
-        "default": "",
-        "x-designable-id": "903fgv8cbop",
+        "x-validator": [],
+        "required": false,
+        "x-designable-id": "vpi02oau85l",
         "x-index": 15
       },
-      "ehdl4atvuga": {
+      "vkhrqo99gn2": {
         "type": "string",
         "x-component": "Text",
         "x-component-props": {
@@ -352,46 +353,56 @@
             "padding": "8px 8px 8px 8px"
           }
         },
-        "x-designable-id": "ehdl4atvuga",
+        "x-designable-id": "vkhrqo99gn2",
         "x-index": 16
       },
-      "tnf0h52pizn": {
+      "a18aei64l2h": {
         "type": "string",
         "title": "手机号",
-        "x-decorator": "Cell",
-        "x-component": "Input",
-        "x-validator": [],
-        "x-component-props": {},
-        "x-decorator-props": {
-          "link": true,
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
           "style": {
             "backgroundColor": "rgba(255,255,255,1)",
             "margin": "16px 0px 0px 0px"
-          }
+          },
+          "type": "input"
         },
-        "default": "",
-        "x-designable-id": "tnf0h52pizn",
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "a18aei64l2h",
         "x-index": 17
       },
-      "l7s2w8mflx6": {
-        "type": "string",
+      "basic.gender": {
         "title": "性别",
-        "x-decorator": "Cell",
-        "x-component": "Input",
+        "x-component": "Picker",
         "x-validator": [],
-        "x-component-props": {},
-        "x-decorator-props": {
-          "link": true,
+        "x-component-props": {
           "style": {
             "backgroundColor": "rgba(255,255,255,1)",
             "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.gender}}"
+            }
           }
         },
-        "default": "",
-        "x-designable-id": "l7s2w8mflx6",
-        "x-index": 18
+        "x-designable-id": "3yb33nr50vs",
+        "x-index": 18,
+        "required": true,
+        "name": "basic.gender"
       },
-      "28n9ixpvkzp": {
+      "9nf7g6uqc96": {
         "title": "出生年月日",
         "x-component": "Picker",
         "x-validator": [],
@@ -399,15 +410,634 @@
           "style": {
             "backgroundColor": "rgba(255,255,255,1)",
             "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
           }
         },
-        "description": "",
-        "default": "",
-        "x-designable-id": "28n9ixpvkzp",
+        "x-designable-id": "9nf7g6uqc96",
         "x-index": 19,
-        "required": false
+        "required": true
+      },
+      "basic.ethnicity": {
+        "type": "string",
+        "title": "民族",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "1fik2f4mzro",
+        "x-index": 20,
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.ethnicity}}"
+            }
+          }
+        },
+        "name": "basic.ethnicity"
+      },
+      "basic.political_status": {
+        "title": "政治面貌",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.political_status}}"
+            }
+          }
+        },
+        "x-designable-id": "63gtket4xlk",
+        "x-index": 21,
+        "required": true,
+        "name": "basic.political_status"
+      },
+      "basic.marital_status": {
+        "title": "婚姻状况",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.marital_status}}"
+            }
+          }
+        },
+        "x-designable-id": "h799rcgnz90",
+        "x-index": 22,
+        "required": true,
+        "name": "basic.marital_status"
+      },
+      "ccocrh1t1h0": {
+        "type": "string",
+        "title": "职务",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          }
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "ccocrh1t1h0",
+        "x-index": 23
+      },
+      "basic.graduate_institutions": {
+        "type": "string",
+        "title": "国（境）外毕业院校",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "4fwl1d4193v",
+        "x-index": 24,
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.graduate_institutions}}"
+            }
+          }
+        },
+        "name": "basic.graduate_institutions"
+      },
+      "basic.degree": {
+        "title": "国（境）外所获最高学位",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "69ljrj54yke",
+        "x-index": 25,
+        "required": true,
+        "name": "basic.degree"
+      },
+      "33n3nrvju1b": {
+        "type": "string",
+        "title": "所选专业",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          }
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "33n3nrvju1b",
+        "x-index": 26
+      },
+      "basic.highest_degree": {
+        "title": "国内最高学历相应学位",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.highest_degree}}"
+            }
+          }
+        },
+        "x-designable-id": "oyn6pmm9akq",
+        "x-index": 27,
+        "required": true,
+        "name": "basic.highest_degree"
+      },
+      "basic.education_type": {
+        "title": "国内教育类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.education_type}}"
+            }
+          }
+        },
+        "x-designable-id": "rgk7o91m49b",
+        "x-index": 28,
+        "required": true,
+        "name": "basic.education_type"
+      },
+      "5k3w7g5mfkp": {
+        "title": "国（境）外毕业时间",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "5k3w7g5mfkp",
+        "x-index": 29,
+        "required": true
+      },
+      "basic.census_register_status": {
+        "title": "户籍情况",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "region"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {}
+          }
+        },
+        "x-designable-id": "ly8ow6pvejy",
+        "x-index": 30,
+        "required": true,
+        "name": "basic.census_register_status"
+      },
+      "basic.native_place_province": {
+        "title": "籍贯",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "region"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.native_place_province}}"
+            }
+          }
+        },
+        "x-designable-id": "ddgt8umfgf8",
+        "x-index": 31,
+        "required": true,
+        "name": "basic.native_place_province"
+      },
+      "basic.birth_place_province": {
+        "title": "出生地",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "region"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.birth_place_province}}"
+            }
+          }
+        },
+        "x-designable-id": "y81crc2u2u3",
+        "x-index": 32,
+        "required": true,
+        "name": "basic.birth_place_province"
+      },
+      "ibn6deyi49h": {
+        "title": "留学生回国日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "ibn6deyi49h",
+        "x-index": 33,
+        "required": true
+      },
+      "qo4zxqrhron": {
+        "title": "是否获得国境外永久居住权",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "qo4zxqrhron",
+        "x-index": 34,
+        "required": true,
+        "enum": [
+          {
+            "children": [],
+            "label": "否",
+            "value": "0"
+          },
+          {
+            "children": [],
+            "label": "是",
+            "value": "1"
+          }
+        ],
+        "default": "0"
+      },
+      "u3khyhb0bib": {
+        "type": "string",
+        "title": "主要科研成果（工作业绩）及专业特长",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "textarea"
+        },
+        "x-validator": [],
+        "required": false,
+        "x-designable-id": "u3khyhb0bib",
+        "x-index": 35
       },
       "7ce4tanponk": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "家庭成员及主要社会关系",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo",
+          "style": {
+            "margin": "0px 0px 0px 0px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px",
+            "margin": "0px 0px 0px 0px"
+          }
+        },
+        "x-designable-id": "7ce4tanponk",
+        "x-index": 36
+      },
+      "6lkty2pka4q": {
+        "title": "称谓",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "6lkty2pka4q",
+        "x-index": 37,
+        "required": true
+      },
+      "igaqlkarvsj": {
+        "type": "string",
+        "title": "姓名",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "igaqlkarvsj",
+        "x-index": 38
+      },
+      "tlywfqsjzhh": {
+        "title": "政治面貌",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.political_status}}"
+            }
+          }
+        },
+        "x-designable-id": "tlywfqsjzhh",
+        "x-index": 39,
+        "required": true
+      },
+      "dtpl5wzbvqn": {
+        "title": "出生年月日",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "dtpl5wzbvqn",
+        "x-index": 40,
+        "required": true
+      },
+      "qzibeip3hw2": {
+        "title": "文化程度",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "qzibeip3hw2",
+        "x-index": 41,
+        "required": true
+      },
+      "ghbuiqj0wri": {
+        "type": "string",
+        "title": "工作单位及职务",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "ghbuiqj0wri",
+        "x-index": 42
+      },
+      "doe6xsmov81": {
         "type": "string",
         "x-component": "Text",
         "x-component-props": {
@@ -423,14 +1053,14 @@
             "padding": "8px 8px 8px 8px"
           }
         },
-        "x-designable-id": "7ce4tanponk",
-        "x-index": 20
+        "x-designable-id": "doe6xsmov81",
+        "x-index": 43
       },
-      "ux7mbkiooo7": {
+      "ybc31fgha1h": {
         "type": "string",
         "x-component": "Text",
         "x-component-props": {
-          "content": "劳动（聘用）合同有效期起止日期\n",
+          "content": "劳动（聘用）合同有效期起止日期",
           "style": {
             "color": "#707070",
             "fontSize": "12px"
@@ -439,30 +1069,41 @@
         "x-decorator": "BaseView",
         "x-decorator-props": {
           "style": {
-            "padding": "8px 8px 0px 8px",
-            "backgroundColor": "rgba(255,255,255,1)"
+            "padding": "8px 8px 8px 8px"
           }
         },
-        "x-designable-id": "ux7mbkiooo7",
-        "x-index": 21
+        "x-designable-id": "ybc31fgha1h",
+        "x-index": 44
       },
-      "kalm3lff0w7": {
-        "title": "开始时间",
+      "q1ewpet2m9l": {
+        "title": "开始日期",
         "x-component": "Picker",
         "x-validator": [],
         "x-component-props": {
           "style": {
             "backgroundColor": "rgba(255,255,255,1)",
-            "margin": "0px 0px 0px 0px"
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
           }
         },
-        "description": "",
-        "default": "",
-        "x-designable-id": "kalm3lff0w7",
-        "x-index": 22,
-        "required": false
+        "x-designable-id": "q1ewpet2m9l",
+        "x-index": 45,
+        "required": true
       },
-      "ftwwtxozb4j": {
+      "pcqsclajm2v": {
         "title": "截止日期",
         "x-component": "Picker",
         "x-validator": [],
@@ -470,31 +1111,3493 @@
           "style": {
             "backgroundColor": "rgba(255,255,255,1)",
             "margin": "0px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
           }
         },
-        "description": "",
-        "default": "",
-        "x-designable-id": "ftwwtxozb4j",
-        "x-index": 23,
-        "required": false
+        "x-designable-id": "pcqsclajm2v",
+        "x-index": 46,
+        "required": true
       },
-      "wlnqetm1voc": {
+      "n996w1xrp4r": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请按劳动（聘用）合同填写",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "n996w1xrp4r",
+        "x-index": 47
+      },
+      "ie8km5c70c0": {
+        "type": "boolean",
+        "title": "是否有试用期",
+        "x-decorator": "Cell",
+        "x-component": "Switch",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          },
+          "autoFocus": false
+        },
+        "x-decorator-props": {
+          "isLink": false
+        },
+        "required": true,
+        "x-designable-id": "ie8km5c70c0",
+        "x-index": 48
+      },
+      "zx2y31cpocm": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "劳动（聘用）合同试用期起止日期",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "zx2y31cpocm",
+        "x-index": 49
+      },
+      "kqtxucvh93g": {
+        "title": "开始日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "kqtxucvh93g",
+        "x-index": 50,
+        "required": true
+      },
+      "rj5b6e3wr6o": {
+        "title": "截止日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "0px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "rj5b6e3wr6o",
+        "x-index": 51,
+        "required": true
+      },
+      "jlumrwziipu": {
+        "title": "是否为事业/籍贯单位编制内人员",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "0px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "jlumrwziipu",
+        "x-index": 52,
+        "required": true
+      },
+      "zdcmdwvpnlx": {
         "type": "boolean",
         "title": "是否为创业人员",
         "x-decorator": "Cell",
         "x-component": "Switch",
         "x-validator": [],
-        "x-component-props": {},
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          },
+          "autoFocus": false
+        },
         "x-decorator-props": {
+          "isLink": false
+        },
+        "required": true,
+        "x-designable-id": "zdcmdwvpnlx",
+        "x-index": 53
+      },
+      "7mhxstyhhqc": {
+        "title": "是否是法人",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
           "style": {
             "backgroundColor": "rgba(255,255,255,1)",
             "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
           }
         },
-        "x-designable-id": "wlnqetm1voc",
-        "x-index": 24
+        "x-designable-id": "7mhxstyhhqc",
+        "x-index": 54,
+        "required": true
+      },
+      "q48kcmy1109": {
+        "title": "是否第一大股东",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "q48kcmy1109",
+        "x-index": 55,
+        "required": true
+      },
+      "n0f0x3haxji": {
+        "type": "string",
+        "title": "个人持股比例",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "custom"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "n0f0x3haxji",
+        "x-index": 56
+      },
+      "nti6cm3k1ag": {
+        "type": "string",
+        "title": "实缴金额",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "custom"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "nti6cm3k1ag",
+        "x-index": 57
+      },
+      "7ehzbkj1egu": {
+        "type": "string",
+        "title": "公司缴纳社保人数",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "custom"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "7ehzbkj1egu",
+        "x-index": 58
+      },
+      "ry2pisg6sx5": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "户口迁出信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "ry2pisg6sx5",
+        "x-index": 59
+      },
+      "tdoks09dwbf": {
+        "title": "户籍类别",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "tdoks09dwbf",
+        "x-index": 60,
+        "required": true
+      },
+      "tjjsr46je2n": {
+        "title": "户口迁出地省市区",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "region"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "tjjsr46je2n",
+        "x-index": 61,
+        "required": true
+      },
+      "50ocm7429eb": {
+        "type": "string",
+        "title": "户口迁出地地址",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "50ocm7429eb",
+        "x-index": 62
+      },
+      "e9wi3nyyg2c": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请按户口簿上详细地址填写，例如：**省**市**区**路**号**室",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "e9wi3nyyg2c",
+        "x-index": 63
+      },
+      "ztnp83df5fe": {
+        "type": "string",
+        "title": "户口迁出地派出所",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "ztnp83df5fe",
+        "x-index": 64
+      },
+      "nldp5mn2v7n": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请按户口簿照章填写，例如：**公安局**派出所",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "nldp5mn2v7n",
+        "x-index": 65
+      },
+      "k7kzu6707zl": {
+        "title": "是否长三角跨省网签",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "k7kzu6707zl",
+        "x-index": 66,
+        "required": true
+      },
+      "zh1ed7hak4x": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "户口迁入信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "zh1ed7hak4x",
+        "x-index": 67
+      },
+      "tm2n99a9d3q": {
+        "type": "boolean",
+        "title": "是否为社区公共户",
+        "x-decorator": "Cell",
+        "x-component": "Switch",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          },
+          "autoFocus": false
+        },
+        "x-decorator-props": {
+          "isLink": false
+        },
+        "required": true,
+        "x-designable-id": "tm2n99a9d3q",
+        "x-index": 68
+      },
+      "wzlzq0vfvmu": {
+        "title": "落户选项",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "wzlzq0vfvmu",
+        "x-index": 69,
+        "required": true
+      },
+      "enfv1vzkw0q": {
+        "type": "string",
+        "title": "不动产序列号",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "enfv1vzkw0q",
+        "x-index": 70
+      },
+      "8nshy0ka5fy": {
+        "title": "户口迁入地所在区",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "8nshy0ka5fy",
+        "x-index": 71,
+        "required": true
+      },
+      "qydxhb2lj2v": {
+        "type": "string",
+        "title": "户口迁入地地址",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "qydxhb2lj2v",
+        "x-index": 72
+      },
+      "pwkml12kok4": {
+        "type": "string",
+        "title": "户口迁入地派出所",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "pwkml12kok4",
+        "x-index": 73
+      },
+      "0pj2n8fryug": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "档案信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "0pj2n8fryug",
+        "x-index": 74
+      },
+      "2u1dmm3pims": {
+        "title": "现档案保管地",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "2u1dmm3pims",
+        "x-index": 75,
+        "required": true
+      },
+      "ejbhgd4ccmg": {
+        "type": "string",
+        "title": "现档案保管单位",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "ejbhgd4ccmg",
+        "x-index": 76
+      },
+      "9nfi2vswvu5": {
+        "title": "现档案保管单位",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "9nfi2vswvu5",
+        "x-index": 77,
+        "required": true
+      },
+      "5hmv7hc4x59": {
+        "type": "string",
+        "title": "在沪档案接收单位",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "5hmv7hc4x59",
+        "x-index": 78,
+        "description": "上海市人才服务中心"
+      },
+      "2afpjhpu248": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "由审核老师填写，用户无需填写，默认为“上海市人才服务中心”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "2afpjhpu248",
+        "x-index": 79
+      },
+      "dnx6zpf1np0": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "教育经历",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "dnx6zpf1np0",
+        "x-index": 80
+      },
+      "xigmgjpqw90": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "从国内高中按顺序填写，国内最后学历低于高中的，从出国前最高学历填写，预科及语言学习也需填写。",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "xigmgjpqw90",
+        "x-index": 81
+      },
+      "ss7j2jh1dg5": {
+        "title": "开始日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "ss7j2jh1dg5",
+        "x-index": 82,
+        "required": true
+      },
+      "frv8k0glfsu": {
+        "title": "截止日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "frv8k0glfsu",
+        "x-index": 83,
+        "required": true
+      },
+      "ao2wfqh9v7m": {
+        "title": "教育类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "ao2wfqh9v7m",
+        "x-index": 84,
+        "required": true
+      },
+      "o8nr8fgk4tw": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "高中、预科和语言学习请选择“其他”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "o8nr8fgk4tw",
+        "x-index": 85
+      },
+      "qf7p9z4v5xd": {
+        "type": "string",
+        "title": "国家地区",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "qf7p9z4v5xd",
+        "x-index": 86
+      },
+      "iygsb8bm8sg": {
+        "title": "学历",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "iygsb8bm8sg",
+        "x-index": 87,
+        "required": true
+      },
+      "t7oe62jfblg": {
+        "type": "string",
+        "title": "学历证书编号",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "t7oe62jfblg",
+        "x-index": 88
+      },
+      "b8jirzla54h": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "没有请填“无”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "b8jirzla54h",
+        "x-index": 89
+      },
+      "r2ij49a8jz7": {
+        "title": "相应学位",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "r2ij49a8jz7",
+        "x-index": 90,
+        "required": true
+      },
+      "1yi4ogmyb9z": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "高中、预科和语言学习请选择“无学位”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "1yi4ogmyb9z",
+        "x-index": 91
+      },
+      "juhh85rsf7w": {
+        "type": "string",
+        "title": "相应学位证书编号",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "juhh85rsf7w",
+        "x-index": 92
+      },
+      "8ggcdm3kzn0": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "没有请填“无”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "8ggcdm3kzn0",
+        "x-index": 93
+      },
+      "txka6ydd72b": {
+        "type": "string",
+        "title": "学校",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "txka6ydd72b",
+        "x-index": 94
+      },
+      "2etpcc5p6mx": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请填写全称，以毕业证的学校名称为准",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "2etpcc5p6mx",
+        "x-index": 95
+      },
+      "kttcab0i3ve": {
+        "type": "string",
+        "title": "学制",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "custom"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "kttcab0i3ve",
+        "x-index": 96
+      },
+      "wfxqzzvexcx": {
+        "type": "string",
+        "title": "专业",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "wfxqzzvexcx",
+        "x-index": 97
+      },
+      "mzcbu4pxqzt": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "没有请填“无”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "mzcbu4pxqzt",
+        "x-index": 98
+      },
+      "7e8zx2o2y22": {
+        "title": "学习形式",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "7e8zx2o2y22",
+        "x-index": 99,
+        "required": true
+      },
+      "fgurdtmph1b": {
+        "title": "是否进修",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "fgurdtmph1b",
+        "x-index": 100,
+        "required": true
+      },
+      "633wraqdntp": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "工作经历",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "633wraqdntp",
+        "x-index": 101
+      },
+      "eokm0gvhgi8": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "从初次参加工作顺序填写，工作经历中的时间需连续，无工作时段需写待业。",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "eokm0gvhgi8",
+        "x-index": 102
+      },
+      "15sdb4aqdf2": {
+        "title": "起止年月",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "15sdb4aqdf2",
+        "x-index": 103,
+        "required": true
+      },
+      "y1oe4d0tyl4": {
+        "type": "string",
+        "title": "国家地区",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "y1oe4d0tyl4",
+        "x-index": 104
+      },
+      "akkdvnjro8l": {
+        "title": "国家省市",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "region"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "akkdvnjro8l",
+        "x-index": 105,
+        "required": true
+      },
+      "szhgpm63hjk": {
+        "type": "string",
+        "title": "工作单位",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "szhgpm63hjk",
+        "x-index": 106
+      },
+      "zbf0rx1kqff": {
+        "type": "string",
+        "title": "部门及职务",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "zbf0rx1kqff",
+        "x-index": 107
+      },
+      "7smlm07nqdm": {
+        "type": "string",
+        "title": "主要工作内容",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "7smlm07nqdm",
+        "x-index": 108
+      },
+      "duhu12g3eju": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "10 字以内，例如：软件开发，人事管理，行政管理，财务管理等等",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "duhu12g3eju",
+        "x-index": 109
+      },
+      "ruwiftjvmg2": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "ruwiftjvmg2",
+        "x-index": 110
+      },
+      "j50f2d7c9uc": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶基本信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "j50f2d7c9uc",
+        "x-index": 111
+      },
+      "nchuoawbbc7": {
+        "title": "配偶证件类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "nchuoawbbc7",
+        "x-index": 112,
+        "required": true
+      },
+      "p7ecm6mekj0": {
+        "type": "string",
+        "title": "配偶证件号码",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "p7ecm6mekj0",
+        "x-index": 113
+      },
+      "moyxon08d8a": {
+        "type": "string",
+        "title": "配偶姓名",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "moyxon08d8a",
+        "x-index": 114
+      },
+      "d623w2t4xz7": {
+        "type": "string",
+        "title": "配偶曾用名",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": false,
+        "x-designable-id": "d623w2t4xz7",
+        "x-index": 115
+      },
+      "x8174mt8j7w": {
+        "title": "配偶性别",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "x8174mt8j7w",
+        "x-index": 116,
+        "required": true
+      },
+      "ewxw6yfrmuf": {
+        "title": "配偶出生年月日",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "ewxw6yfrmuf",
+        "x-index": 117,
+        "required": true
+      },
+      "b0qi9b2thk3": {
+        "type": "string",
+        "title": "配偶民族",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "b0qi9b2thk3",
+        "x-index": 118
+      },
+      "vvjc5x8o4d4": {
+        "title": "配偶政治面貌",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "vvjc5x8o4d4",
+        "x-index": 119,
+        "required": true
+      },
+      "p6le1rexst4": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶如为外籍请选择“不明”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "p6le1rexst4",
+        "x-index": 120
+      },
+      "q0n5rdok4bs": {
+        "type": "string",
+        "title": "配偶国籍",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "q0n5rdok4bs",
+        "x-index": 121
+      },
+      "ytxwcf9kqbh": {
+        "type": "string",
+        "title": "配偶手机号",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "ytxwcf9kqbh",
+        "x-index": 122
+      },
+      "ckm1lfvy4gb": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶如为外籍且无国内手机号，请填写 11 个 1",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "ckm1lfvy4gb",
+        "x-index": 123
+      },
+      "ymlwrb4sq8u": {
+        "title": "配偶国内最高学历",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "ymlwrb4sq8u",
+        "x-index": 124,
+        "required": true
+      },
+      "rxbgusw1mh2": {
+        "title": "结婚日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "rxbgusw1mh2",
+        "x-index": 125,
+        "required": true
+      },
+      "q49qtkdtbdr": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请以证件日期为准",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "q49qtkdtbdr",
+        "x-index": 126
+      },
+      "w0cj2qo9ur0": {
+        "type": "string",
+        "title": "配偶工作单位",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "w0cj2qo9ur0",
+        "x-index": 127
+      },
+      "tqiytmhsmvn": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "没有请填“无”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "tqiytmhsmvn",
+        "x-index": 128
+      },
+      "uftq6ya7os7": {
+        "type": "string",
+        "title": "配偶职务职位",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "uftq6ya7os7",
+        "x-index": 129
+      },
+      "349yk4v7cod": {
+        "title": "配偶户籍情况",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "349yk4v7cod",
+        "x-index": 130,
+        "required": true
+      },
+      "j9xf9icc46c": {
+        "title": "配偶随迁类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "j9xf9icc46c",
+        "x-index": 131,
+        "required": true
+      },
+      "2v0vnvqaggw": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请确保配偶为中国（大陆）公民，且在国外毕业前结婚，可随迁",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "2v0vnvqaggw",
+        "x-index": 132
+      },
+      "mty6hfqiax6": {
+        "type": "string",
+        "title": "配偶户籍地址",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "mty6hfqiax6",
+        "x-index": 133
+      },
+      "nh5id6h17rw": {
+        "type": "string",
+        "title": "配偶户籍地派出所",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "nh5id6h17rw",
+        "x-index": 134
+      },
+      "jkym4nw5bf5": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请按户口簿照章填写，例如：**公安局**派出所",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "jkym4nw5bf5",
+        "x-index": 135
+      },
+      "8eep06uhky8": {
+        "type": "string",
+        "title": "配偶毕业院校",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "8eep06uhky8",
+        "x-index": 136
+      },
+      "k5q018w3x63": {
+        "title": "配偶毕业日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "k5q018w3x63",
+        "x-index": 137,
+        "required": true
+      },
+      "5stoy809sfp": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "精确到日",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "5stoy809sfp",
+        "x-index": 138
+      },
+      "24ukfmp1l50": {
+        "type": "string",
+        "title": "配偶所学专业",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "24ukfmp1l50",
+        "x-index": 139
+      },
+      "js94jneg0v3": {
+        "title": "配偶国内相应学位",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "js94jneg0v3",
+        "x-index": 140,
+        "required": true
+      },
+      "4m3idk0f45e": {
+        "title": "配偶教育类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "4m3idk0f45e",
+        "x-index": 141,
+        "required": true
+      },
+      "oeo6osba3fu": {
+        "title": "配偶工作单位是否具有人事档案管理资质",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "oeo6osba3fu",
+        "x-index": 142,
+        "required": true
+      },
+      "klimyl95m4g": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶迁出地信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "klimyl95m4g",
+        "x-index": 143
+      },
+      "kt0vc25fxuh": {
+        "title": "配偶迁出地址和主调人是否一致",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "kt0vc25fxuh",
+        "x-index": 144,
+        "required": true
+      },
+      "f1g9asijd87": {
+        "title": "配偶户籍类别",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "f1g9asijd87",
+        "x-index": 145,
+        "required": true
+      },
+      "1ohfdwrjpdw": {
+        "title": "配偶户口迁出地",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "region"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "1ohfdwrjpdw",
+        "x-index": 146,
+        "required": true
+      },
+      "b27cz464mmv": {
+        "type": "string",
+        "title": "配偶户口迁出详细地址",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "b27cz464mmv",
+        "x-index": 147
+      },
+      "nitbagj5u8j": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请按户口簿上详细地址填写，例如：**省**市**区**路**号**室",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "nitbagj5u8j",
+        "x-index": 148
+      },
+      "7hit3ew228a": {
+        "type": "string",
+        "title": "配偶户口迁出地派出所",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "7hit3ew228a",
+        "x-index": 149
+      },
+      "871964np2xl": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶户口迁出地派出所",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "871964np2xl",
+        "x-index": 150
+      },
+      "dhq6uvw7q4p": {
+        "title": "配偶户口迁出地派出所",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "dhq6uvw7q4p",
+        "x-index": 151,
+        "required": true
+      },
+      "a": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶户口迁出地派出所",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "rvxh04pu40s",
+        "x-index": 152,
+        "name": "a"
+      },
+      "nruhzsknkml": {
+        "title": "配偶迁入地址和主调人是否一致",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "nruhzsknkml",
+        "x-index": 153,
+        "required": true
+      },
+      "t7iwdahzvh0": {
+        "type": "boolean",
+        "title": "配偶是否为社区公共户",
+        "x-decorator": "Cell",
+        "x-component": "Switch",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {},
+        "x-designable-id": "t7iwdahzvh0",
+        "x-index": 154
+      },
+      "9zc6ibrhy37": {
+        "title": "配偶落户选项",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "9zc6ibrhy37",
+        "x-index": 155,
+        "required": true
+      },
+      "nak2bvlbyn6": {
+        "title": "配偶户口迁入地所在区",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "nak2bvlbyn6",
+        "x-index": 156,
+        "required": true
+      },
+      "2dcf5czxc40": {
+        "type": "string",
+        "title": "配偶户口迁入地地址",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "2dcf5czxc40",
+        "x-index": 157
+      },
+      "qvwmouo42oo": {
+        "type": "string",
+        "title": "配偶户口迁入地派出所",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "qvwmouo42oo",
+        "x-index": 158
+      },
+      "zzk50y3qp2t": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "如申请社区公共户，请填写正确的迁入地社区公共户所属派出所信息 ，如不清楚具体派出所名称请使用“上海公安人口管理”公众号查询，例如：**区**局**派出所",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "zzk50y3qp2t",
+        "x-index": 159
+      },
+      "4v3tr6hv3j8": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶档案信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "4v3tr6hv3j8",
+        "x-index": 160
+      },
+      "a80aoyc58qn": {
+        "title": "配偶现档案保管地",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "a80aoyc58qn",
+        "x-index": 161,
+        "required": true
+      },
+      "vvom1octlq3": {
+        "type": "string",
+        "title": "配偶现档案保管单位",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "vvom1octlq3",
+        "x-index": 162
+      },
+      "caj48hsxb5g": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶留学信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "caj48hsxb5g",
+        "x-index": 163
+      },
+      "zyvoli1zm53": {
+        "type": "boolean",
+        "title": "配偶是否为留学回国人员",
+        "x-decorator": "Cell",
+        "x-component": "Switch",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {},
+        "required": true,
+        "x-designable-id": "zyvoli1zm53",
+        "x-index": 164
+      },
+      "n08jemfuz2a": {
+        "type": "string",
+        "title": "配偶留学国别",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "n08jemfuz2a",
+        "x-index": 165
+      },
+      "rn644rtw1md": {
+        "type": "string",
+        "title": "配偶留学院校",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "rn644rtw1md",
+        "x-index": 166
+      },
+      "0yufgr9p4m5": {
+        "title": "配偶留学所获学位",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "0yufgr9p4m5",
+        "x-index": 167,
+        "required": true
+      },
+      "sllramfh7q0": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶教育经历",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "sllramfh7q0",
+        "x-index": 168
+      },
+      "vy6z6pl50l6": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "从国内高中按顺序填写，国内最后学历低于高中的，从出国前最高学历填写，预科及语言学习也需填写。",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "vy6z6pl50l6",
+        "x-index": 169
+      },
+      "ewaylvx89jk": {
+        "title": "起止日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "ewaylvx89jk",
+        "x-index": 170,
+        "required": true
+      },
+      "sql5kjvpd7s": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "精确到日",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "sql5kjvpd7s",
+        "x-index": 171
+      },
+      "y4264w3kj5p": {
+        "title": "教育类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "y4264w3kj5p",
+        "x-index": 172,
+        "required": true
+      },
+      "d3wi27xwuyz": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "高中、预科和语言学习请选择“其他”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "d3wi27xwuyz",
+        "x-index": 173
+      },
+      "s640cluvs7i": {
+        "type": "string",
+        "title": "国家地区",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "s640cluvs7i",
+        "x-index": 174
+      },
+      "mttv0pof25x": {
+        "title": "学历",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "mttv0pof25x",
+        "x-index": 175,
+        "required": true
+      },
+      "jsenw7zme5r": {
+        "type": "string",
+        "title": "学历证书编号",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "jsenw7zme5r",
+        "x-index": 176
+      },
+      "u8zx6zg5hfg": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "没有请填“无”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "u8zx6zg5hfg",
+        "x-index": 177
+      },
+      "6vkglpwwal0": {
+        "title": "相应学位",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "6vkglpwwal0",
+        "x-index": 178,
+        "required": true
+      },
+      "09ne6vt2k5b": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "高中、预科和语言学习请选择“无学位”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "09ne6vt2k5b",
+        "x-index": 179
+      },
+      "ugl0uaxg8zt": {
+        "type": "string",
+        "title": "相应学位证书编号",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "ugl0uaxg8zt",
+        "x-index": 180
+      },
+      "uxx0hsb2dif": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "没有请填“无”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "uxx0hsb2dif",
+        "x-index": 181
+      },
+      "rpccfs6bafg": {
+        "type": "string",
+        "title": "学校",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "rpccfs6bafg",
+        "x-index": 182
+      },
+      "vry3aq6t7q4": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "请填写全称，以毕业证的学校名称为准",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "vry3aq6t7q4",
+        "x-index": 183
+      },
+      "65mtkheno7w": {
+        "type": "string",
+        "title": "学制",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "custom"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "65mtkheno7w",
+        "x-index": 184
+      },
+      "p5fs4njh95s": {
+        "type": "string",
+        "title": "专业",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "p5fs4njh95s",
+        "x-index": 185
+      },
+      "h3k0ny0o7ak": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "没有请填“无”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "h3k0ny0o7ak",
+        "x-index": 186
+      },
+      "jkz05ucakaf": {
+        "title": "学习形式",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "jkz05ucakaf",
+        "x-index": 187,
+        "required": true
+      },
+      "6kio2zv476o": {
+        "title": "是否进修",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "6kio2zv476o",
+        "x-index": 188,
+        "required": true
+      },
+      "9juov51uw8s": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "配偶工作经历",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "9juov51uw8s",
+        "x-index": 189
+      },
+      "55yh3y18ank": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "从初次参加工作顺序填写，工作经历中的时间需连续，无工作时段需写待业",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "55yh3y18ank",
+        "x-index": 190
+      },
+      "v73xh9ldnoa": {
+        "title": "起止日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "v73xh9ldnoa",
+        "x-index": 191,
+        "required": true
+      },
+      "i2xwo25gb5w": {
+        "type": "string",
+        "title": "国家地区",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "i2xwo25gb5w",
+        "x-index": 192
+      },
+      "ryrcc04xj3s": {
+        "title": "国家省市",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "region"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "ryrcc04xj3s",
+        "x-index": 193,
+        "required": true
+      },
+      "nu10pqmrxzv": {
+        "type": "string",
+        "title": "工作单位",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "nu10pqmrxzv",
+        "x-index": 194
+      },
+      "1w0tz2qh4lv": {
+        "type": "string",
+        "title": "部门及职务",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "1w0tz2qh4lv",
+        "x-index": 195
+      },
+      "1sa72c22h56": {
+        "type": "string",
+        "title": "主要工作内容",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "1sa72c22h56",
+        "x-index": 196
+      },
+      "fzmoatnvned": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "10 字内",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "fzmoatnvned",
+        "x-index": 197
+      },
+      "nym7g438up9": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "子女信息",
+          "isAnchor": true,
+          "id": "employmentAndSocialInfo"
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "fontWeight": 900,
+            "fontSize": "20px",
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "nym7g438up9",
+        "x-index": 198
+      },
+      "r9728yadpc9": {
+        "type": "boolean",
+        "title": "是否有子女",
+        "x-decorator": "Cell",
+        "x-component": "Switch",
+        "x-validator": [],
+        "x-component-props": {},
+        "x-decorator-props": {},
+        "required": true,
+        "x-designable-id": "r9728yadpc9",
+        "x-index": 199
+      },
+      "876cmvtvs5i": {
+        "type": "string",
+        "title": "子女姓名",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "876cmvtvs5i",
+        "x-index": 200
+      },
+      "22w16ksf14w": {
+        "title": "子女证件类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "22w16ksf14w",
+        "x-index": 201,
+        "required": true
+      },
+      "y7bt3irrajs": {
+        "type": "string",
+        "title": "子女证件号码",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "input"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "y7bt3irrajs",
+        "x-index": 202
+      },
+      "4zsn8xavcs3": {
+        "type": "string",
+        "title": "子女性别",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "4zsn8xavcs3",
+        "x-index": 203
+      },
+      "h2xau8srmq3": {
+        "title": "子女出生日期",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "date"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "h2xau8srmq3",
+        "x-index": 204,
+        "required": true
+      },
+      "5immeuq4nj2": {
+        "type": "string",
+        "title": "子女国籍",
+        "x-component": "LinkCell",
+        "x-component-props": {
+          "isLink": true,
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "type": "radio"
+        },
+        "x-validator": [],
+        "required": true,
+        "x-designable-id": "5immeuq4nj2",
+        "x-index": 205
+      },
+      "m2b6t0m7b45": {
+        "title": "子女在读情况",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "m2b6t0m7b45",
+        "x-index": 206,
+        "required": true
+      },
+      "hgurxu49edx": {
+        "type": "string",
+        "x-component": "Text",
+        "x-component-props": {
+          "content": "托班、幼儿园请选择“学龄前”",
+          "style": {
+            "color": "#707070",
+            "fontSize": "12px"
+          }
+        },
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "8px 8px 8px 8px"
+          }
+        },
+        "x-designable-id": "hgurxu49edx",
+        "x-index": 207
+      },
+      "qc7r139yi1b": {
+        "title": "子女户籍情况",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "qc7r139yi1b",
+        "x-index": 208,
+        "required": true
+      },
+      "vwvn7g9ry9d": {
+        "title": "子女随迁类型",
+        "x-component": "Picker",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "margin": "16px 0px 0px 0px"
+          },
+          "mode": "selector"
+        },
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.basic.degree}}"
+            }
+          }
+        },
+        "x-designable-id": "vwvn7g9ry9d",
+        "x-index": 209,
+        "required": true
       }
     },
-    "x-designable-id": "y50i8neybkz"
+    "x-designable-id": "q65njks8yq0"
   }
 }

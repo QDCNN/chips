@@ -82,3 +82,22 @@ body, page {
     transform: none;
   }
 }
+
+.weui-btn:after {
+  border: none;
+}
+/*  #ifdef  h5  */
+html body {
+  taro-view-core {
+    line-height: 1;
+  }
+}
+.picker__group {
+  background-color: #fff;
+}
+/*  #endif  */
+.weui-uploader__description {
+  color: rgb(112, 112, 112);
+  font-size: 24px;
+  padding-bottom: 16px;
+}

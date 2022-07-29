@@ -33,7 +33,6 @@ const Index = () => {
       <CustomNavigationBar notFixed title="首页" />
       <View className={classnames('container', styles.container)}>
         <Card className="m-t-32" image={goodsList[0]?.goods_image} onClick={onGoodsDetailClick} />
-        <Button type="primary" onClick={() => Taro.navigateTo({ url: Routes.FormPage })}>进入表单页</Button>
       </View>
 
       {service[0] && (

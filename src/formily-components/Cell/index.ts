@@ -8,6 +8,7 @@ export const Cell = connect(
       return {
         ...props,
         title: field?.title || props.title,
+        children: props?.children || field?.description,
       }
     }
   )

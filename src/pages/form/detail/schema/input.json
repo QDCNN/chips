@@ -15,7 +15,10 @@
         "x-component": "Input",
         "x-validator": [],
         "x-component-props": {
-          "placeholder": ""
+          "placeholder": "",
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)"
+          }
         },
         "x-decorator-props": {},
         "x-reactions": {
@@ -27,7 +30,7 @@
           ],
           "fulfill": {
             "state": {
-              "componentProps": "{{{\n  placeholder: \"请输入\" + $self.title\n}}}"
+              "componentProps": "{{{\n  placeholder: \"请输入\" + $params.title\n}}}"
             }
           }
         },
@@ -36,7 +39,7 @@
       },
       "o5jbw47w5nf": {
         "type": "string",
-        "title": "Button",
+        "title": "确认",
         "x-component": "Button",
         "x-validator": [],
         "x-component-props": {},

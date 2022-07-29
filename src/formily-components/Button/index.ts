@@ -7,7 +7,7 @@ export const Button = connect(
     (props, field) => {
       return {
         ...props,
-        children: field?.title || props.title,
+        children: props?.children || field?.title || props.title,
       }
     }
   )

@@ -28,9 +28,6 @@ export enum Routes {
   // 我的订单
   MyOrder = '/pages/my-order/index',
 
-  // 材料详情
-  MaterialDetails = '/pages/material-details/index',
-
   // 表单填写页
   FormPage = '/pages/form/home/index',
 

@@ -7,7 +7,7 @@ export const Cell = (props) => {
   const {
     isLink, className, inForm, inline, hover, extHoverClass,
     iconClass, icon, title, value, children,
-    footerClass, showError, error, style, dot,
+    footerClass, showError, error, style, dot, content,
     ...resetProps
   } = props;
   const prefixCls = usePrefixCls('cell', props);
@@ -44,6 +44,7 @@ export const Cell = (props) => {
       </View>
 
       <View className={cls(prefixCls + '__bd')}>
+        {content}
       </View>
 
       <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass)}>

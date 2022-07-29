@@ -9,14 +9,18 @@
   "schema": {
     "type": "object",
     "properties": {
-      "0p256o48umc": {
+      "lgcg1y62gr3": {
         "type": "string",
-        "title": "Radio",
-        "x-component": "Radio",
-        "x-component-props": {
-          "title": "Title"
-        },
+        "title": "Image",
+        "x-component": "Image",
         "x-validator": [],
+        "x-component-props": {
+          "mode": "widthFix",
+          "style": {
+            "width": "100%"
+          }
+        },
+        "x-decorator-props": {},
         "x-reactions": {
           "dependencies": [
             {
@@ -26,23 +30,14 @@
           ],
           "fulfill": {
             "state": {
-              "dataSource": "{{$dictionary.settlement_method}}"
+              "componentProps": "{{{\n  src: $task.review_user.work_card\n, mode: \"widthFix\" }}}"
             }
           }
         },
-        "x-designable-id": "0p256o48umc",
+        "x-designable-id": "lgcg1y62gr3",
         "x-index": 0
-      },
-      "wi78q2pk7hk": {
-        "type": "string",
-        "title": "确认",
-        "x-component": "Button",
-        "x-validator": [],
-        "x-component-props": {},
-        "x-designable-id": "wi78q2pk7hk",
-        "x-index": 1
       }
     },
-    "x-designable-id": "b9z6p1b71yg"
+    "x-designable-id": "8zrie9t17ss"
   }
 }

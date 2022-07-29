@@ -4,7 +4,6 @@ import { Cell } from '@/components'
 
 export const Input = (props) => {
   const { style } = props;
-  console.log('props: ', props);
   return (
     <Cell
       title={

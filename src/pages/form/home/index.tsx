@@ -1,15 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { View, Form, Button } from '@tarojs/components'
-import { createForm } from '@formily/core'
+import { View, Form, Picker as TaroPicker } from '@tarojs/components'
+// import { createForm, onFieldChange } from '@formily/core'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
-import { observable, autorun } from '@formily/reactive'
+import { observable } from '@formily/reactive'
 // import CellOrigin from '@/components/Cell'
-import { Switch, Input, Picker, Text, Cell, LinkCell } from '@/formily-components'
+import { Switch, Input, Picker, Text, Cell, LinkCell, Uploader, Button } from '@/formily-components'
 import AnchorNavigation from '@/components/AnchorNavigation'
-import Taro from '@tarojs/taro'
-import * as api from '@/api'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store'
+import Taro, { useRouter } from '@tarojs/taro'
+import { useDispatch, useSelector } from 'react-redux'
+import { actionCreator, RootState } from '@/store'
 import { initialState } from '@/models/dictionary'
 import objectPath from 'object-path'
 import data from './data.json'
@@ -17,13 +16,15 @@ import '@/weui/style/weui.less'
 
 
 Schema.registerCompiler((expression: any, scope?: any) => {
-  const result = objectPath.get(scope, expression);
+  const obj = { ...scope };
+  const result = objectPath.get(obj, expression);
   return result;
 });
 
-const form = createForm();
+const scope = observable({ $dictionary: { ...initialState }, $task: { review_user: {}, service_user: {} } })
 
 const SchemaField = createSchemaField({
+  scope,
   components: {
     Switch,
     Cell,
@@ -32,10 +33,10 @@ const SchemaField = createSchemaField({
     Text,
     BaseView: View,
     LinkCell,
+    Uploader,
   }
 })
 
-const scope = observable({ $business: { user: { name: '', phone: '' } }, $dictionary: {...initialState} })
 
 const weappBoundingClientRect = (id) => {
   return new Promise((resolve, reject) => {
@@ -50,12 +51,10 @@ const weappBoundingClientRect = (id) => {
 };
 
 
-const HomePage = () => {
-  const [pageStructure, setPageStructure] = useState({ schema: {}, form: {} });
-  const { dictionary } = useSelector((store: RootState) => store);
-  // const [pageStructure, setPageStructure] = useState(data);
-  // const [scope, setScope] = useState({ $business: { name: '', phone: '' } });
-  // const pageEditorComponentRefs = useRef<any>([]);
+const FormHomePage = () => {
+  const { dictionary, fileDocument } = useSelector((store: RootState) => store);
+  const dispatch = useDispatch();
+  const { params } = useRouter();
   const anchorTextList = useMemo(() => {
     const list: any[] = [];
     const { properties } = data.schema;
@@ -72,63 +71,53 @@ const HomePage = () => {
   useEffect(() => {
     scope.$dictionary = dictionary;
   }, [dictionary]);
+  useEffect(() => {
+    scope.$task = fileDocument.task;
+  }, [fileDocument.task]);
 
   const onAnchorClick = async (item) => {
     const rectDom = await weappBoundingClientRect(item.id);
     Taro.pageScrollTo({ scrollTop: rectDom.top });
   };
 
-  async function fetchPageStructure() {
-    const response = await api.getPageStructure({ name: 'file-document' });
-    if (response.data.content) setPageStructure(JSON.parse(response.data.content));
+  // async function fetchPageStructure() {
+  //   const response = await api.getPageStructure({ name: 'file-document' });
+  //   if (response.data.content) setPageStructure(JSON.parse(response.data.content));
 
-    form.setInitialValues({ name: '123' });
-    scope.$business = { user: { name: '崔正', phone: '15824281322' } }
-  }
-
-  const onTestUpload = async () => {
-    const aliossResponse = await api.getAliOSSInfo({});
-    const response = await Taro.chooseImage({})
-    Taro.uploadFile({
-      url: aliossResponse.data.host,
-      filePath: response.tempFilePaths[0],
-      name: 'file',
-      formData: {
-        // key: 'demo.png',
-        signature: aliossResponse.data.signature,
-        policy: aliossResponse.data.policy,
-        OSSAccessKeyId: aliossResponse.data.accessKeyId,
-        'x-oss-security-token': aliossResponse.data.securityToken
-      }
-    })
-  }
+  //   scope.$business = { user: { name: '崔正', phone: '15824281322' } }
+  // }
 
   useEffect(() => {
-    fetchPageStructure()
+    dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
+    dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));
+    dispatch(actionCreator.fileDocument.fetchPageStructure());
   }, []);
 
   const handleSubmit = async () => {
-    const formValues = await form.submit();
-    console.log('formValues: ', formValues);
+    // const formValues = await fileDocument.form.submit();
+    // console.log('formValues: ', formValues);
+
+    console.log('fileDocument.pageStructure: ', fileDocument.pageStructure);
   }
 
   return (
-    <View style={pageStructure.form.style} data-weui-theme="light">
+    // <View style={fileDocument.pageStructure.form.style} data-weui-theme="light">
+    <View style={data.form.style} data-weui-theme="light">
       <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
+      {/* <Uploader value={[]} /> */}
 
-      {/* <CellOrigin dot link title="label">123</CellOrigin> */}
-      {/* <Button onClick={onTestUpload}>测试上传</Button> */}
       <Form onSubmit={handleSubmit}>
-        <FormProvider form={form}>
+        <FormProvider form={fileDocument.form}>
           <View>
-            <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
+            <SchemaField schema={fileDocument.pageStructure.schema}></SchemaField>
+            {/* <SchemaField schema={data.schema}></SchemaField> */}
           </View>
         </FormProvider>
 
-        <Button formType="submit">测试提交</Button>
+        <Button formType="submit" type="default">提交</Button>
       </Form>
     </View>
   )
 }
 
-export default HomePage;
+export default FormHomePage;

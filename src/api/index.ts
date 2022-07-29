@@ -3,7 +3,7 @@ import { RootState, store } from "@/store";
 import Taro from "@tarojs/taro";
 
 // 域名前缀
-const API_ROOT = 'https://api.oscac-sh.com';
+const API_ROOT = Taro.getEnv() === Taro.ENV_TYPE.WEB ? '/api' : 'https://api.oscac-sh.com';
 
 // 请求方式
 enum Method {
@@ -31,6 +31,12 @@ enum APIPath {
   字典档案信息 = '/es/archive/get',
   字典教育经历 = '/es/education/get',
   字典子女信息 = '/es/children/get',
+
+  获取最近一次表单内容 = '/weixin/task/cloudget',
+  提交表单内容json = '/weixin/task/cloudsave',
+  用户最终提交表单 = '/weixin/task/submit',
+  获取任务订单信息 = '/weixin/task/detail',
+  获取阿里云图片链接 = '/weixin/aliyun/stsgetimg',
 }
 
 
@@ -39,7 +45,8 @@ enum APIPath {
 const commomRequest = async ({ action, method, params }) => {
   const { global: { userBaseInfo } }: RootState = store.getState();
   // promiseLogin()
-  const openid = userBaseInfo.open_id
+  // TODO
+  const openid = userBaseInfo.open_id || 'oa14F48o9Rz3SsJ3kfFt5ohc63J4'
 
   const requestParams: any = openid ?
     {
@@ -128,6 +135,26 @@ export const getESEducation = (params?) => {
 
 export const getESChildren = (params?) => {
   return commomRequest({ action: APIPath.字典子女信息, params, method: Method.GET })
+}
+
+export const 获取最近一次表单内容 = (params?) => {
+  return commomRequest({ action: APIPath.获取最近一次表单内容, params, method: Method.GET })
+}
+
+export const 提交表单内容json = (params?) => {
+  return commomRequest({ action: APIPath.提交表单内容json, params, method: Method.POST })
+}
+
+export const 用户最终提交表单 = (params?) => {
+  return commomRequest({ action: APIPath.用户最终提交表单, params, method: Method.POST })
+}
+
+export const 获取任务订单信息 = (params?) => {
+  return commomRequest({ action: APIPath.获取任务订单信息, params, method: Method.GET })
+}
+
+export const 获取阿里云图片链接 = (params?) => {
+  return commomRequest({ action: APIPath.获取阿里云图片链接, params, method: Method.POST })
 }
 
 
