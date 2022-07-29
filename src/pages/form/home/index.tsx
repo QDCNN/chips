@@ -6,7 +6,7 @@ import { observable } from '@formily/reactive'
 // import CellOrigin from '@/components/Cell'
 import { Switch, Input, Picker, Text, Cell, LinkCell, Uploader, Button } from '@/formily-components'
 import AnchorNavigation from '@/components/AnchorNavigation'
-import Taro, { useRouter } from '@tarojs/taro'
+import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
 import { initialState } from '@/models/dictionary'
@@ -87,7 +87,8 @@ const FormHomePage = () => {
   //   scope.$business = { user: { name: '崔正', phone: '15824281322' } }
   // }
 
-  useEffect(() => {
+  useDidShow(() => {
+    // fileDocument.form.setValues({});
     dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchPageStructure());
