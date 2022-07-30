@@ -11,47 +11,51 @@ export const Cell = (props) => {
     ...resetProps
   } = props;
   const prefixCls = usePrefixCls('cell', props);
+  // console.log('props: ', error);
 
   return (
-    <View
-      className={cls(prefixCls, {
-        [prefixCls + '_access']: isLink,
-        [prefixCls + '-inform']: inForm,
-        [prefixCls + '_label-block']: inline,
-      }, className)}
-      hoverClass={cls({ [prefixCls + '_active']: hover }, extHoverClass)}
-      style={style}
-      {...resetProps}
-    >
-      <View className={cls([prefixCls + '__hd'], iconClass)}>
-        {icon && (
-          <Block>
-            <Image src={icon} className={cls(prefixCls + '__icon')} mode="aspectFit" />
-          </Block>
-        )}
+    <Block>
+      <View
+        className={cls(prefixCls, {
+          [prefixCls + '_access']: isLink,
+          [prefixCls + '-inform']: inForm,
+          [prefixCls + '_label-block']: inline,
+        }, className)}
+        hoverClass={cls({ [prefixCls + '_active']: hover }, extHoverClass)}
+        style={style}
+        {...resetProps}
+      >
+        <View className={cls([prefixCls + '__hd'], iconClass)}>
+          {icon && (
+            <Block>
+              <Image src={icon} className={cls(prefixCls + '__icon')} mode="aspectFit" />
+            </Block>
+          )}
 
-        {title && (
-          <Block>
-            <View className={cls({ 'weui-label': inForm })}>{title}</View>
-          </Block>
-        )}
+          {title && (
+            <Block>
+              <View className={cls({ 'weui-label': inForm })}>{title}</View>
+            </Block>
+          )}
 
-        {dot && (
-          <View className={`${prefixCls}__dot-box`}>
-            <View className={`${prefixCls}__dot`}></View>
-          </View>
-        )}
+          {dot && (
+            <View className={`${prefixCls}__dot-box`}>
+              <View className={`${prefixCls}__dot`}></View>
+            </View>
+          )}
+        </View>
+
+        <View className={cls(prefixCls + '__bd')}>
+          {content}
+        </View>
+
+        <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass)}>
+          {children ? children : value && value}
+          {/* {showError && error && <Icon type="warn" size="23" color="#E64340" />} */}
+        </View>
       </View>
-
-      <View className={cls(prefixCls + '__bd')}>
-        {content}
-      </View>
-
-      <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass)}>
-        {children ? children : value && value}
-        {showError && error && <Icon type="warn" size="23" color="#E64340" />}
-      </View>
-    </View>
+      <View  className="weui-cells__tips weui-cells__tips_warn">{error}</View>
+    </Block>
   )
 }
 

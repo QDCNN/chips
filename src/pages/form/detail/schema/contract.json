@@ -44,8 +44,16 @@
         "x-component": "Button",
         "x-validator": [],
         "x-component-props": {
+          "functional": "copy",
           "style": {
             "marginTop": "16px"
+          }
+        },
+        "x-reactions": {
+          "fulfill": {
+            "state": {
+              "value": "{{$task.electronic_contract_url}}"
+            }
           }
         },
         "x-designable-id": "o5jbw47w5nf",

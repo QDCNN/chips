@@ -17,6 +17,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
 import objectPath from 'object-path'
+import merge from 'merge'
+
+// console.log('merge: ', merge);
 
 // import { DictionaryProperty } from '@/models/dictionary'
 // import * as lodash from 'lodash'
@@ -85,7 +88,7 @@ const typeDataMap = {
   'textarea': inputData,
   'radio': radioData,
   'contract': contractData,
-  'review_user.work': reviewUserWorkData,
+  'review_user.work_card': reviewUserWorkData,
   'service_user.work_card': serviceUserWorkData,
 }
 
@@ -97,6 +100,7 @@ const FormDetailPage = () => {
 
   useEffect(() => {
     if (params.type === 'custom') {
+      // console.log('typeDataMap[params.name]: ', typeDataMap, params.name)
       typeDataMap[params.name] && setPageStructure(typeDataMap[params.name])
     } else {
       typeDataMap[params.type] && setPageStructure(typeDataMap[params.type])
@@ -113,6 +117,7 @@ const FormDetailPage = () => {
   }, [fileDocument.task]);
   useEffect(() => {
     let type = '';
+    if (params.type === 'custom') return;
     if (params.type === 'input') type = 'Input';
     if (params.type === 'radio') type = 'Radio';
     if (params.type === 'textarea') type = 'Textarea';
@@ -139,7 +144,8 @@ const FormDetailPage = () => {
 
   const onSubmit = async () => {
     const formValue = await form.submit();
-    dispatch(actionCreator.fileDocument.saveTempValue(formValue));
+    const fullForm = fileDocument.form.getFormState();
+    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive(formValue, fullForm.values)));
     Taro.navigateBack();
   }
 

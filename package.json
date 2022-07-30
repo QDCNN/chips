@@ -53,6 +53,7 @@
     "classnames": "^2.3.1",
     "dayjs": "^1.11.4",
     "immer": "^9.0.15",
+    "merge": "^2.1.1",
     "nanoid": "^4.0.0",
     "object-path": "^0.11.8",
     "react": "^17.0.0",
