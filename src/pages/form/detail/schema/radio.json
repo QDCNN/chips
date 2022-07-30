@@ -9,36 +9,16 @@
   "schema": {
     "type": "object",
     "properties": {
-      "0p256o48umc": {
-        "type": "string",
-        "title": "Radio",
-        "x-component": "Radio",
-        "x-component-props": {
-          "title": "Title"
-        },
-        "x-validator": [],
-        "x-reactions": {
-          "dependencies": [
-            {
-              "property": "value",
-              "type": "any"
-            }
-          ],
-          "fulfill": {
-            "state": {
-              "dataSource": "{{$dictionary.settlement_method}}"
-            }
-          }
-        },
-        "x-designable-id": "0p256o48umc",
-        "x-index": 0
-      },
       "wi78q2pk7hk": {
         "type": "string",
         "title": "确认",
         "x-component": "Button",
         "x-validator": [],
-        "x-component-props": {},
+        "x-component-props": {
+          "style": {
+            "marginTop": "16px"
+          }
+        },
         "x-designable-id": "wi78q2pk7hk",
         "x-index": 1
       }

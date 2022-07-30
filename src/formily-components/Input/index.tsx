@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react'
 import { connect, mapProps, mapReadPretty } from '@formily/react'
 import { isArr, toArr, isValid } from '@formily/shared'
 import { View } from '@tarojs/components'
-import { Input as WeInput } from '@/components'
+import { Input as InputComponent } from '@/components'
 import cls from 'classnames'
 import Base from '../Base'
 // import { Input as AntdInput } from 'antd'
@@ -34,23 +34,30 @@ import Base from '../Base'
 // }
 
 export const Input = connect(
-  WeInput,
+  InputComponent,
   // Base,
-  mapProps((props: any, field) => {
+  mapProps((props, field) => {
+    const error = field.selfErrors.length ? field.selfErrors[0] : '';
+    // console.log('props: any, field: ', props, split(field.selfErrors));
     return {
       ...props,
-      suffix: (
-        <View>
-          {field?.['loading'] || field?.['validating'] ? (
-            'loading'
-          ) : (
-            props.suffix
-          )}
-        </View>
-      ),
+      onInput: (e) => {
+        props.onChange(e.detail.value);
+      },
+      name: field?.props?.name,
+      error
+      // suffix: (
+      //   <View>
+      //     {field?.['loading'] || field?.['validating'] ? (
+      //       'loading'
+      //     ) : (
+      //       props.suffix
+      //     )}
+      //   </View>
+      // ),
     }
   }),
-  mapReadPretty(WeInput)
+  // mapReadPretty(WeInput)
 )
 
 // Input.TextArea = connect(AntdInput.TextArea, mapReadPretty(PreviewText.Input))

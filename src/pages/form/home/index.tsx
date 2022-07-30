@@ -92,11 +92,20 @@ const FormHomePage = () => {
     dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchPageStructure());
-  }, []);
+  });
 
   const handleSubmit = async () => {
-    const formValues = await fileDocument.form.submit();
-    console.log('formValues: ', formValues);
+    try {
+      const formValues = await fileDocument.form.submit();
+      dispatch(actionCreator.fileDocument.submitFormValues({ task_id: params.id, content: JSON.stringify(formValues) }));
+    } catch(validationErrors) {
+      const queryResult = fileDocument.form.query(validationErrors[0].address);
+      // console.log('queryResult: ', );
+      Taro.showToast({
+        icon: 'none',
+        title: `${queryResult.get('title')}: ${validationErrors[0].messages}`
+      });
+    }
   }
 
   return (
@@ -104,6 +113,7 @@ const FormHomePage = () => {
     <View style={data.form.style} data-weui-theme="light">
       <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
       {/* <Uploader value={[]} /> */}
+      {/* <Input /> */}
 
       <Form onSubmit={handleSubmit}>
         <FormProvider form={fileDocument.form}>
@@ -113,7 +123,7 @@ const FormHomePage = () => {
           </View>
         </FormProvider>
 
-        <Button formType="submit" type="default">提交</Button>
+        {fileDocument.pageStructure.schema.properties  && <Button formType="submit" type="default">提交</Button>}
       </Form>
     </View>
   )

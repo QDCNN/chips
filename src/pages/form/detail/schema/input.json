@@ -9,40 +9,16 @@
   "schema": {
     "type": "object",
     "properties": {
-      "lgcg1y62gr3": {
-        "type": "string",
-        "title": "Input",
-        "x-component": "Input",
-        "x-validator": [],
-        "x-component-props": {
-          "placeholder": "",
-          "style": {
-            "backgroundColor": "rgba(255,255,255,1)"
-          }
-        },
-        "x-decorator-props": {},
-        "x-reactions": {
-          "dependencies": [
-            {
-              "property": "value",
-              "type": "any"
-            }
-          ],
-          "fulfill": {
-            "state": {
-              "componentProps": "{{{\n  placeholder: \"请输入\" + $params.title\n}}}"
-            }
-          }
-        },
-        "x-designable-id": "lgcg1y62gr3",
-        "x-index": 0
-      },
       "o5jbw47w5nf": {
         "type": "string",
         "title": "确认",
         "x-component": "Button",
         "x-validator": [],
-        "x-component-props": {},
+        "x-component-props": {
+          "style": {
+            "marginTop": "16px"
+          }
+        },
         "x-designable-id": "o5jbw47w5nf",
         "x-index": 1
       }

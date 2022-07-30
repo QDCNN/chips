@@ -5,7 +5,6 @@ export const Image = connect(
   ImageComponent,
   mapProps(
     (props, field) => {
-      console.log('props, field: ', props, field);
       return {
         ...props,
         // title: field?.title || props.title,

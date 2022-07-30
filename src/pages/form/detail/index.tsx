@@ -1,11 +1,10 @@
-import { useRouter } from '@tarojs/taro'
+import Taro, { useRouter } from '@tarojs/taro'
 import { useEffect, useMemo, useState } from 'react'
 // import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form, Label } from '@tarojs/components'
 import { createForm } from '@formily/core'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
-import { Switch, Input, Picker, Text, Cell, LinkCell, Button, Radio, Image } from '@/formily-components'
-// import { Textarea } from '@/components'
+import { Switch, Input, Picker, Text, Cell, LinkCell, Button, Radio, Image, Textarea } from '@/formily-components'
 import '@/weui/style/weui.less'
 import styles from './index.module.less'
 import inputData from './schema/input.json'
@@ -13,11 +12,14 @@ import radioData from './schema/radio.json'
 import contractData from './schema/contract.json'
 import reviewUserWorkData from './schema/review_user.work_card.json'
 import serviceUserWorkData from './schema/service_user.work_card.json'
-import { RootState } from '@/store'
-import { useSelector } from 'react-redux'
+import { actionCreator, RootState } from '@/store'
+import { useDispatch, useSelector } from 'react-redux'
 import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
 import objectPath from 'object-path'
+import merge from 'merge'
+
+// console.log('merge: ', merge);
 
 // import { DictionaryProperty } from '@/models/dictionary'
 // import * as lodash from 'lodash'
@@ -26,10 +28,14 @@ const handleSingleItem = (expression, scope) => {
   if (expression.includes('+')) {
     expression.split('+').map(item => {
       if (item.includes('"')) return /"(.*)"/.exec(item)[1];
+      if (item.trim() === 'true') return true;
+      if (item.trim() === 'false') return false;
       return scope[item.trim()];
     })
   }
   if (expression.includes('"')) return /"(.*)"/.exec(expression)[1];
+  if (expression.trim() === 'true') return true;
+  if (expression.trim() === 'false') return false;
   return objectPath.get(scope, expression.trim())
 }
 
@@ -40,14 +46,14 @@ Schema.registerCompiler((expression: any, scope?: any) => {
     const matched = expression.replace(/^{/, '').replace(/}$/, '');
 
     for (const item of matched.split(',')) {
-      if (item.includes('...')) {
-        const extObj = objectPath.get(scopeObj, item.replace('...', ''));
-        console.log('extObj: ', { ...scopeObj }, item.replace('...', ''));
-        for (const key in extObj) {
-          resultObj[key] = extObj[key];
-        }
-        continue;
-      }
+      // if (item.includes('...')) {
+      //   const extObj = objectPath.get(scopeObj, item.replace('...', ''));
+      //   console.log('extObj: ', { ...scopeObj }, item.replace('...', ''));
+      //   for (const key in extObj) {
+      //     resultObj[key] = extObj[key];
+      //   }
+      //   continue;
+      // }
       const [key, value] = item.split(':');
       resultObj[key.trim()] = handleSingleItem(value, scope);
     }
@@ -64,6 +70,7 @@ const SchemaField = createSchemaField({
     Switch,
     Cell,
     Input,
+    Textarea,
     Picker,
     Text,
     BaseView: View,
@@ -78,19 +85,22 @@ const scope = observable({ $params: {}, $business: { user: { name: '', phone: ''
 
 const typeDataMap = {
   'input': inputData,
+  'textarea': inputData,
   'radio': radioData,
   'contract': contractData,
-  'review_user.work': reviewUserWorkData,
+  'review_user.work_card': reviewUserWorkData,
   'service_user.work_card': serviceUserWorkData,
 }
 
 const FormDetailPage = () => {
   const { dictionary, fileDocument } = useSelector((store: RootState) => store);
   const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
+  const dispatch = useDispatch();
   const { params } = useRouter();
 
   useEffect(() => {
     if (params.type === 'custom') {
+      // console.log('typeDataMap[params.name]: ', typeDataMap, params.name)
       typeDataMap[params.name] && setPageStructure(typeDataMap[params.name])
     } else {
       typeDataMap[params.type] && setPageStructure(typeDataMap[params.type])
@@ -105,13 +115,43 @@ const FormDetailPage = () => {
   useEffect(() => {
     scope.$task = fileDocument.task;
   }, [fileDocument.task]);
+  useEffect(() => {
+    let type = '';
+    if (params.type === 'custom') return;
+    if (params.type === 'input') type = 'Input';
+    if (params.type === 'radio') type = 'Radio';
+    if (params.type === 'textarea') type = 'Textarea';
+    const currentPageStruct = {
+      ...typeDataMap[params.type],
+      schema: {
+        ...typeDataMap[params.type].schema,
+        properties: {
+          [params.name]: {
+            ...fileDocument.pageStructure.schema.properties[params.name],
+            'x-component': type,
+            'x-index': 0,
+            "x-component-props": {
+              ...fileDocument.pageStructure.schema.properties[params.name]['x-component-props'],
+              // "style": {}
+            }
+          },
+          ...typeDataMap[params.type].schema.properties,
+        }
+      }
+    };
+    setPageStructure(currentPageStruct);
+  }, [fileDocument.pageStructure])
+
+  const onSubmit = async () => {
+    const formValue = await form.submit();
+    const fullForm = fileDocument.form.getFormState();
+    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive(formValue, fullForm.values)));
+    Taro.navigateBack();
+  }
 
   return (
     <View className={styles.page} style={pageStructure.form.style} data-weui-theme="light">
-      {/* <Radio options={[{ label: '1', value: '1' }, { label: '1', value: '1' }]} /> */}
-      {/* <Textarea maxLength={200} showCounter /> */}
-
-      <Form>
+      <Form onSubmit={onSubmit}>
         <FormProvider form={form}>
           <View>
             <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
