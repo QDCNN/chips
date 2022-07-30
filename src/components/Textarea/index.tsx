@@ -1,4 +1,4 @@
-import { View, Textarea as TaroTextarea } from '@tarojs/components'
+import { View, Textarea as TaroTextarea, Text } from '@tarojs/components'
 import cls from 'classnames'
 import React, { useCallback, useState } from 'react'
 
@@ -30,9 +30,9 @@ export const Textarea = (props) => {
       />
       {
         showCounter ?
-          <div className="weui-textarea-counter">
-            <span>{textCounter}</span>{maxLength ? '/' + maxLength : false}
-          </div>
+          <View className="weui-textarea-counter">
+            <Text>{textCounter}</Text>{maxLength ? '/' + maxLength : false}
+          </View>
           : false
       }
     </View>

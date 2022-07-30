@@ -3,6 +3,7 @@ import { useResponsiveFormLayout } from './useResponsiveFormLayout'
 // import { usePrefixCls } from '../__builtins__'
 import cls from 'classnames'
 import { usePrefixCls } from '@/__builtins__'
+import { View } from '@tarojs/components'
 
 export interface IFormLayoutProps {
   prefixCls?: string
@@ -103,9 +104,9 @@ export const FormLayout: React.FC<React.PropsWithChildren<IFormLayoutProps>> & {
     )
   }
   return (
-    <div ref={ref} className={layoutClassName} style={style}>
+    <View ref={ref} className={layoutClassName} style={style}>
       {renderChildren()}
-    </div>
+    </View>
   )
 }
 

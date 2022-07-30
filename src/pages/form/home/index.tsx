@@ -4,7 +4,17 @@ import { View, Form, Picker as TaroPicker } from '@tarojs/components'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
 import { observable } from '@formily/reactive'
 // import CellOrigin from '@/components/Cell'
-import { Switch, Input, Picker, Text, Cell, LinkCell, Uploader, Button } from '@/formily-components'
+import {
+  Switch,
+  Input,
+  Picker,
+  Text,
+  Cell,
+  LinkCell,
+  Uploader,
+  Button,
+  ArrayItems,
+} from '@/formily-components'
 import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,6 +44,7 @@ const SchemaField = createSchemaField({
     BaseView: View,
     LinkCell,
     Uploader,
+    ArrayItems,
   }
 })
 
@@ -57,7 +68,7 @@ const FormHomePage = () => {
   const { params } = useRouter();
   const anchorTextList = useMemo(() => {
     const list: any[] = [];
-    const { properties } = data.schema;
+    const { properties = {} } = fileDocument.pageStructure.schema;
     for (const key in properties) {
       const componentProps = properties[key]['x-component-props'];
       const component = properties[key]['x-component'];

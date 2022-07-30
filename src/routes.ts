@@ -30,6 +30,9 @@ export enum Routes {
 
   // 表单详情填写页
   FormDetailPage = '/pages/form/detail/index',
+
+  // 表单详情填写页
+  DemoPage = '/pages/demo/index',
   /**end*/
 
 }

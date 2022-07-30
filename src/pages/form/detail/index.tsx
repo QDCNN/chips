@@ -19,10 +19,19 @@ import { observable } from '@formily/reactive'
 import objectPath from 'object-path'
 import merge from 'merge'
 
-// console.log('merge: ', merge);
+const getSchemaFromPath = (schema, pathStr) => {
+  const execResult = /(\.\d\.)/.exec(pathStr);
 
-// import { DictionaryProperty } from '@/models/dictionary'
-// import * as lodash from 'lodash'
+  if (!execResult || !execResult[1]) return objectPath.get(schema.properties[pathStr])
+
+  const pathList = pathStr.split(execResult[1]);
+  for (let i = 0; i < pathList.length; i++) {
+    const path = pathList[i];
+    const property = objectPath.get(schema.properties[path]);
+    if (property.type === 'array') return getSchemaFromPath(property.items, pathList[i + 1])
+    i++;
+  }
+}
 
 const handleSingleItem = (expression, scope) => {
   if (expression.includes('+')) {
@@ -92,6 +101,12 @@ const typeDataMap = {
   'service_user.work_card': serviceUserWorkData,
 }
 
+const typeComponentMap = {
+  input: 'Input',
+  radio: 'Radio',
+  textarea: 'Textarea',
+}
+
 const FormDetailPage = () => {
   const { dictionary, fileDocument } = useSelector((store: RootState) => store);
   const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
@@ -100,7 +115,6 @@ const FormDetailPage = () => {
 
   useEffect(() => {
     if (params.type === 'custom') {
-      // console.log('typeDataMap[params.name]: ', typeDataMap, params.name)
       typeDataMap[params.name] && setPageStructure(typeDataMap[params.name])
     } else {
       typeDataMap[params.type] && setPageStructure(typeDataMap[params.type])
@@ -118,34 +132,27 @@ const FormDetailPage = () => {
   useEffect(() => {
     let type = '';
     if (params.type === 'custom') return;
-    if (params.type === 'input') type = 'Input';
-    if (params.type === 'radio') type = 'Radio';
-    if (params.type === 'textarea') type = 'Textarea';
-    const currentPageStruct = {
-      ...typeDataMap[params.type],
-      schema: {
-        ...typeDataMap[params.type].schema,
-        properties: {
-          [params.name]: {
-            ...fileDocument.pageStructure.schema.properties[params.name],
-            'x-component': type,
-            'x-index': 0,
-            "x-component-props": {
-              ...fileDocument.pageStructure.schema.properties[params.name]['x-component-props'],
-              // "style": {}
-            }
-          },
-          ...typeDataMap[params.type].schema.properties,
-        }
+    type = typeComponentMap[params.type];
+
+    const pathSchema = getSchemaFromPath(fileDocument.pageStructure.schema, params.name);
+    const currentSchema = merge.recursive({}, pathSchema, {
+      'x-component': type,
+      'x-index': 0,
+      name: params.name,
+      'x-component-props': {
+        type: pathSchema['x-component-props'].inputType
       }
-    };
-    setPageStructure(currentPageStruct);
+    });
+    const matchedData = typeDataMap[params.type];
+
+    matchedData.schema.properties[currentSchema.name] = currentSchema;
+    setPageStructure(matchedData);
   }, [fileDocument.pageStructure])
 
   const onSubmit = async () => {
     const formValue = await form.submit();
     const fullForm = fileDocument.form.getFormState();
-    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive(formValue, fullForm.values)));
+    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive(fullForm.values, formValue)));
     Taro.navigateBack();
   }
 

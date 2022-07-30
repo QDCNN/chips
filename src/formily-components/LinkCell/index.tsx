@@ -3,6 +3,7 @@ import { connect, mapProps } from '@formily/react'
 import Taro from '@tarojs/taro'
 import { combineQuery } from '@/utils/route'
 import { Routes } from '@/routes'
+import { getFullName } from '@/utils/formily'
 
 export const LinkCell = connect(
   CellComponent,
@@ -20,7 +21,7 @@ export const LinkCell = connect(
         children: field?.description,
         value: props.type === 'input' ? props.value : match?.label,
         onClick: () => {
-          Taro.navigateTo({ url: combineQuery(Routes.FormDetailPage, { title, name: field.props.name, type: props.type }) })
+          Taro.navigateTo({ url: combineQuery(Routes.FormDetailPage, { title, name: getFullName(field), type: props.type }) })
         }
       }
     }

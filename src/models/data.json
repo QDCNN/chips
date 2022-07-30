@@ -1081,172 +1081,212 @@
         "x-designable-id": "7ce4tanponk",
         "x-index": 39
       },
-      "family.appellation": {
-        "title": "称谓",
-        "x-component": "Picker",
-        "x-validator": [],
+      "jjxepayr62p": {
+        "type": "array",
+        "x-component": "ArrayItems",
         "x-component-props": {
-          "style": {
-            "backgroundColor": "rgba(255,255,255,1)",
-            "margin": "16px 0px 0px 0px"
-          },
-          "mode": "selector"
+          "title": "Title"
         },
-        "x-reactions": {
-          "dependencies": [
-            {
-              "property": "value",
-              "type": "any"
-            }
-          ],
-          "fulfill": {
-            "state": {
-              "dataSource": "{{$dictionary.family.appellation}}"
-            }
-          }
-        },
-        "x-designable-id": "6lkty2pka4q",
+        "x-validator": [],
+        "x-designable-id": "jjxepayr62p",
         "x-index": 40,
-        "required": true,
-        "name": "family.appellation"
-      },
-      "family.name": {
-        "type": "string",
-        "title": "姓名",
-        "x-component": "LinkCell",
-        "x-component-props": {
-          "isLink": true,
-          "style": {
-            "backgroundColor": "rgba(255,255,255,1)",
-            "margin": "16px 0px 0px 0px"
-          },
-          "type": "input"
-        },
-        "x-validator": [
-          {
-            "triggerType": "onInput",
-            "message": "请输入",
-            "format": "zh",
-            "required": true
+        "items": {
+          "type": "object",
+          "x-designable-id": "6eagpl2z3rt",
+          "x-validator": [],
+          "properties": {
+            "g50fyj6devf": {
+              "type": "void",
+              "x-component": "ArrayItems.Index",
+              "x-designable-id": "g50fyj6devf",
+              "x-index": 0
+            },
+            "family.appellation": {
+              "title": "称谓",
+              "x-component": "Picker",
+              "x-validator": [],
+              "x-component-props": {
+                "style": {
+                  "backgroundColor": "rgba(255,255,255,1)",
+                  "margin": "16px 0px 0px 0px"
+                },
+                "mode": "selector"
+              },
+              "x-reactions": {
+                "dependencies": [
+                  {
+                    "property": "value",
+                    "type": "any"
+                  }
+                ],
+                "fulfill": {
+                  "state": {
+                    "dataSource": "{{$dictionary.family.appellation}}"
+                  }
+                }
+              },
+              "x-designable-id": "6lkty2pka4q",
+              "x-index": 1,
+              "required": true,
+              "name": "family.appellation"
+            },
+            "family.name": {
+              "type": "string",
+              "title": "姓名",
+              "x-component": "LinkCell",
+              "x-component-props": {
+                "isLink": true,
+                "style": {
+                  "backgroundColor": "rgba(255,255,255,1)",
+                  "margin": "16px 0px 0px 0px"
+                },
+                "type": "input"
+              },
+              "x-validator": [
+                {
+                  "triggerType": "onInput",
+                  "message": "请输入",
+                  "format": "zh",
+                  "required": true
+                }
+              ],
+              "required": true,
+              "x-designable-id": "ofktq2p5bcy",
+              "x-index": 2,
+              "name": "family.name",
+              "x-display": "visible"
+            },
+            "family.political_status": {
+              "title": "政治面貌",
+              "x-component": "Picker",
+              "x-validator": [],
+              "x-component-props": {
+                "style": {
+                  "backgroundColor": "rgba(255,255,255,1)",
+                  "margin": "16px 0px 0px 0px"
+                },
+                "mode": "selector"
+              },
+              "x-reactions": {
+                "dependencies": [
+                  {
+                    "property": "value",
+                    "type": "any"
+                  }
+                ],
+                "fulfill": {
+                  "state": {
+                    "dataSource": "{{$dictionary.family.political_status}}"
+                  }
+                }
+              },
+              "x-designable-id": "tlywfqsjzhh",
+              "x-index": 3,
+              "required": true,
+              "name": "family.political_status"
+            },
+            "dtpl5wzbvqn": {
+              "title": "出生年月日",
+              "x-component": "Picker",
+              "x-validator": [],
+              "x-component-props": {
+                "style": {
+                  "backgroundColor": "rgba(255,255,255,1)",
+                  "margin": "16px 0px 0px 0px"
+                },
+                "mode": "date"
+              },
+              "x-reactions": {
+                "dependencies": [
+                  {
+                    "property": "value",
+                    "type": "any"
+                  }
+                ],
+                "fulfill": {
+                  "state": {
+                    "dataSource": "{{$dictionary.basic.degree}}"
+                  }
+                }
+              },
+              "x-designable-id": "dtpl5wzbvqn",
+              "x-index": 4,
+              "required": true
+            },
+            "family.educational_degree": {
+              "title": "文化程度",
+              "x-component": "Picker",
+              "x-validator": [],
+              "x-component-props": {
+                "style": {
+                  "backgroundColor": "rgba(255,255,255,1)",
+                  "margin": "16px 0px 0px 0px"
+                },
+                "mode": "selector"
+              },
+              "x-reactions": {
+                "dependencies": [
+                  {
+                    "property": "value",
+                    "type": "any"
+                  }
+                ],
+                "fulfill": {
+                  "state": {
+                    "dataSource": "{{$dictionary.family.educational_degree}}"
+                  }
+                }
+              },
+              "x-designable-id": "qzibeip3hw2",
+              "x-index": 5,
+              "required": true,
+              "name": "family.educational_degree"
+            },
+            "family.jobtitle": {
+              "type": "string",
+              "title": "工作单位及职务",
+              "x-component": "LinkCell",
+              "x-component-props": {
+                "isLink": true,
+                "style": {
+                  "backgroundColor": "rgba(255,255,255,1)",
+                  "margin": "16px 0px 0px 0px"
+                },
+                "type": "input"
+              },
+              "x-validator": [
+                {
+                  "triggerType": "onInput",
+                  "message": "",
+                  "format": "zh",
+                  "required": false
+                }
+              ],
+              "required": true,
+              "x-designable-id": "es980lyfvsa",
+              "x-index": 6,
+              "name": "family.jobtitle",
+              "x-display": "visible"
+            },
+            "2rmdahque6h": {
+              "type": "void",
+              "title": "Addition",
+              "x-component": "ArrayItems.Remove",
+              "x-designable-id": "2rmdahque6h",
+              "x-index": 7
+            }
           }
-        ],
-        "required": true,
-        "x-designable-id": "ofktq2p5bcy",
-        "x-index": 41,
-        "name": "family.name",
-        "x-display": "visible"
-      },
-      "family.political_status": {
-        "title": "政治面貌",
-        "x-component": "Picker",
-        "x-validator": [],
-        "x-component-props": {
-          "style": {
-            "backgroundColor": "rgba(255,255,255,1)",
-            "margin": "16px 0px 0px 0px"
-          },
-          "mode": "selector"
         },
-        "x-reactions": {
-          "dependencies": [
-            {
-              "property": "value",
-              "type": "any"
-            }
-          ],
-          "fulfill": {
-            "state": {
-              "dataSource": "{{$dictionary.family.political_status}}"
-            }
+        "properties": {
+          "nnhl8wr9hdg": {
+            "type": "void",
+            "title": "Addition",
+            "x-component": "ArrayItems.Addition",
+            "x-designable-id": "nnhl8wr9hdg",
+            "x-index": 0,
+            "x-component-props": {}
           }
-        },
-        "x-designable-id": "tlywfqsjzhh",
-        "x-index": 42,
-        "required": true,
-        "name": "family.political_status"
-      },
-      "dtpl5wzbvqn": {
-        "title": "出生年月日",
-        "x-component": "Picker",
-        "x-validator": [],
-        "x-component-props": {
-          "style": {
-            "backgroundColor": "rgba(255,255,255,1)",
-            "margin": "16px 0px 0px 0px"
-          },
-          "mode": "date"
-        },
-        "x-reactions": {
-          "dependencies": [
-            {
-              "property": "value",
-              "type": "any"
-            }
-          ],
-          "fulfill": {
-            "state": {
-              "dataSource": "{{$dictionary.basic.degree}}"
-            }
-          }
-        },
-        "x-designable-id": "dtpl5wzbvqn",
-        "x-index": 43,
-        "required": true
-      },
-      "family.educational_degree": {
-        "title": "文化程度",
-        "x-component": "Picker",
-        "x-validator": [],
-        "x-component-props": {
-          "style": {
-            "backgroundColor": "rgba(255,255,255,1)",
-            "margin": "16px 0px 0px 0px"
-          },
-          "mode": "selector"
-        },
-        "x-reactions": {
-          "dependencies": [
-            {
-              "property": "value",
-              "type": "any"
-            }
-          ],
-          "fulfill": {
-            "state": {
-              "dataSource": "{{$dictionary.family.educational_degree}}"
-            }
-          }
-        },
-        "x-designable-id": "qzibeip3hw2",
-        "x-index": 44,
-        "required": true,
-        "name": "family.educational_degree"
-      },
-      "family.jobtitle": {
-        "type": "string",
-        "title": "工作单位及职务",
-        "x-component": "LinkCell",
-        "x-component-props": {
-          "isLink": true,
-          "style": {
-            "backgroundColor": "rgba(255,255,255,1)",
-            "margin": "16px 0px 0px 0px"
-          },
-          "type": "input"
-        },
-        "x-validator": [
-          {
-            "triggerType": "onInput",
-            "message": "",
-            "format": "zh",
-            "required": false
-          }
-        ],
-        "required": true,
-        "x-designable-id": "es980lyfvsa",
-        "x-index": 45,
-        "name": "family.jobtitle",
-        "x-display": "visible"
+        }
       },
       "doe6xsmov81": {
         "type": "string",
@@ -1265,7 +1305,7 @@
           }
         },
         "x-designable-id": "doe6xsmov81",
-        "x-index": 46
+        "x-index": 41
       },
       "ybc31fgha1h": {
         "type": "string",
@@ -1284,7 +1324,7 @@
           }
         },
         "x-designable-id": "ybc31fgha1h",
-        "x-index": 47
+        "x-index": 42
       },
       "social_security.contract_start_date": {
         "title": "开始日期",
@@ -1311,7 +1351,7 @@
           }
         },
         "x-designable-id": "q1ewpet2m9l",
-        "x-index": 48,
+        "x-index": 43,
         "required": true,
         "name": "social_security.contract_start_date"
       },
@@ -1340,7 +1380,7 @@
           }
         },
         "x-designable-id": "pcqsclajm2v",
-        "x-index": 49,
+        "x-index": 44,
         "required": true,
         "name": "social_security.contract_end_date"
       },
@@ -1361,7 +1401,7 @@
           }
         },
         "x-designable-id": "n996w1xrp4r",
-        "x-index": 50
+        "x-index": 45
       },
       "social_security.is_probation_period": {
         "type": "boolean",
@@ -1384,7 +1424,7 @@
         },
         "required": true,
         "x-designable-id": "ie8km5c70c0",
-        "x-index": 51,
+        "x-index": 46,
         "name": "social_security.is_probation_period"
       },
       "zx2y31cpocm": {
@@ -1404,7 +1444,7 @@
           }
         },
         "x-designable-id": "zx2y31cpocm",
-        "x-index": 52
+        "x-index": 47
       },
       "kqtxucvh93g": {
         "title": "开始日期",
@@ -1431,7 +1471,7 @@
           }
         },
         "x-designable-id": "kqtxucvh93g",
-        "x-index": 53,
+        "x-index": 48,
         "required": true
       },
       "rj5b6e3wr6o": {
@@ -1459,7 +1499,7 @@
           }
         },
         "x-designable-id": "rj5b6e3wr6o",
-        "x-index": 54,
+        "x-index": 49,
         "required": true
       },
       "social_security.is_establishment": {
@@ -1485,7 +1525,7 @@
           }
         },
         "x-designable-id": "jlumrwziipu",
-        "x-index": 55,
+        "x-index": 50,
         "required": true,
         "name": "social_security.is_establishment",
         "enum": [
@@ -1521,7 +1561,7 @@
         },
         "required": true,
         "x-designable-id": "zdcmdwvpnlx",
-        "x-index": 56,
+        "x-index": 51,
         "name": "social_security.is_entrepreneurs"
       },
       "social_security.is_juridical_person": {
@@ -1547,7 +1587,7 @@
           }
         },
         "x-designable-id": "7mhxstyhhqc",
-        "x-index": 57,
+        "x-index": 52,
         "required": true,
         "enum": [
           {
@@ -1586,7 +1626,7 @@
           }
         },
         "x-designable-id": "q48kcmy1109",
-        "x-index": 58,
+        "x-index": 53,
         "required": true,
         "name": "social_security.is_largest_shareholder",
         "enum": [
@@ -1623,7 +1663,7 @@
         ],
         "required": true,
         "x-designable-id": "4wmre5ttitf",
-        "x-index": 59,
+        "x-index": 54,
         "name": "social_security.shareholding_ratio",
         "x-display": "visible"
       },
@@ -1642,7 +1682,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "nti6cm3k1ag",
-        "x-index": 60,
+        "x-index": 55,
         "name": "social_security.amount_paid",
         "description": "￥"
       },
@@ -1661,7 +1701,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "jhn8wwsh6u5",
-        "x-index": 61,
+        "x-index": 56,
         "name": "social_security.employees_num",
         "description": "位"
       },
@@ -1682,7 +1722,7 @@
           }
         },
         "x-designable-id": "ry2pisg6sx5",
-        "x-index": 62
+        "x-index": 57
       },
       "hukou_removal.census_register_category": {
         "title": "户籍类别",
@@ -1709,7 +1749,7 @@
           }
         },
         "x-designable-id": "tdoks09dwbf",
-        "x-index": 63,
+        "x-index": 58,
         "required": true,
         "name": "hukou_removal.census_register_category"
       },
@@ -1738,7 +1778,7 @@
           }
         },
         "x-designable-id": "tjjsr46je2n",
-        "x-index": 64,
+        "x-index": 59,
         "required": true
       },
       "hukou_removal.removal_address": {
@@ -1763,7 +1803,7 @@
         ],
         "required": true,
         "x-designable-id": "50ocm7429eb",
-        "x-index": 65,
+        "x-index": 60,
         "name": "hukou_removal.removal_address"
       },
       "e9wi3nyyg2c": {
@@ -1783,7 +1823,7 @@
           }
         },
         "x-designable-id": "e9wi3nyyg2c",
-        "x-index": 66
+        "x-index": 61
       },
       "hukou_removal.police_station": {
         "type": "string",
@@ -1807,7 +1847,7 @@
         ],
         "required": true,
         "x-designable-id": "ztnp83df5fe",
-        "x-index": 67,
+        "x-index": 62,
         "name": "hukou_removal.police_station"
       },
       "nldp5mn2v7n": {
@@ -1827,7 +1867,7 @@
           }
         },
         "x-designable-id": "nldp5mn2v7n",
-        "x-index": 68
+        "x-index": 63
       },
       "hukou_removal.is_provincial_signing": {
         "title": "是否长三角跨省网签",
@@ -1852,7 +1892,7 @@
           }
         },
         "x-designable-id": "k7kzu6707zl",
-        "x-index": 69,
+        "x-index": 64,
         "required": true,
         "name": "hukou_removal.is_provincial_signing",
         "enum": [
@@ -1885,7 +1925,7 @@
           }
         },
         "x-designable-id": "zh1ed7hak4x",
-        "x-index": 70
+        "x-index": 65
       },
       "hukou_movein.is_public": {
         "type": "boolean",
@@ -1907,7 +1947,7 @@
         },
         "required": true,
         "x-designable-id": "tm2n99a9d3q",
-        "x-index": 71,
+        "x-index": 66,
         "name": "hukou_movein.is_public",
         "x-reactions": {
           "dependencies": [
@@ -1944,7 +1984,7 @@
           }
         },
         "x-designable-id": "wzlzq0vfvmu",
-        "x-index": 72,
+        "x-index": 67,
         "required": true,
         "name": "hukou_movein.settlement_options"
       },
@@ -1963,7 +2003,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "enfv1vzkw0q",
-        "x-index": 73
+        "x-index": 68
       },
       "vncbpk3j66d": {
         "type": "string",
@@ -1982,7 +2022,7 @@
           }
         },
         "x-designable-id": "vncbpk3j66d",
-        "x-index": 74
+        "x-index": 69
       },
       "hukou_movein.registered_region": {
         "title": "户口迁入地所在区",
@@ -2009,7 +2049,7 @@
           }
         },
         "x-designable-id": "8nshy0ka5fy",
-        "x-index": 75,
+        "x-index": 70,
         "required": true,
         "name": "hukou_movein.registered_region"
       },
@@ -2028,7 +2068,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "qydxhb2lj2v",
-        "x-index": 76,
+        "x-index": 71,
         "name": "hukou_movein.movein_address"
       },
       "hukou_movein.police_station": {
@@ -2046,7 +2086,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "pwkml12kok4",
-        "x-index": 77,
+        "x-index": 72,
         "name": "hukou_movein.police_station"
       },
       "0pj2n8fryug": {
@@ -2066,7 +2106,7 @@
           }
         },
         "x-designable-id": "0pj2n8fryug",
-        "x-index": 78
+        "x-index": 73
       },
       "archive.archive_keeping": {
         "title": "现档案保管地",
@@ -2093,7 +2133,7 @@
           }
         },
         "x-designable-id": "2u1dmm3pims",
-        "x-index": 79,
+        "x-index": 74,
         "required": true,
         "name": "archive.archive_keeping"
       },
@@ -2112,7 +2152,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "ejbhgd4ccmg",
-        "x-index": 80,
+        "x-index": 75,
         "x-reactions": {
           "dependencies": [
             {
@@ -2143,7 +2183,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "5hmv7hc4x59",
-        "x-index": 81,
+        "x-index": 76,
         "description": "上海市人才服务中心",
         "name": "archive.receiving_unit"
       },
@@ -2164,7 +2204,7 @@
           }
         },
         "x-designable-id": "2afpjhpu248",
-        "x-index": 82
+        "x-index": 77
       },
       "dnx6zpf1np0": {
         "type": "string",
@@ -2183,7 +2223,7 @@
           }
         },
         "x-designable-id": "dnx6zpf1np0",
-        "x-index": 83
+        "x-index": 78
       },
       "xigmgjpqw90": {
         "type": "string",
@@ -2202,7 +2242,7 @@
           }
         },
         "x-designable-id": "xigmgjpqw90",
-        "x-index": 84
+        "x-index": 79
       },
       "education.start_date": {
         "title": "开始日期",
@@ -2229,7 +2269,7 @@
           }
         },
         "x-designable-id": "ss7j2jh1dg5",
-        "x-index": 85,
+        "x-index": 80,
         "required": true,
         "name": "education.start_date"
       },
@@ -2258,7 +2298,7 @@
           }
         },
         "x-designable-id": "frv8k0glfsu",
-        "x-index": 86,
+        "x-index": 81,
         "required": true,
         "name": "education.end_date"
       },
@@ -2287,7 +2327,7 @@
           }
         },
         "x-designable-id": "ao2wfqh9v7m",
-        "x-index": 87,
+        "x-index": 82,
         "required": true,
         "name": "education.education_type"
       },
@@ -2308,7 +2348,7 @@
           }
         },
         "x-designable-id": "o8nr8fgk4tw",
-        "x-index": 88
+        "x-index": 83
       },
       "education.country": {
         "type": "string",
@@ -2325,7 +2365,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "qf7p9z4v5xd",
-        "x-index": 89,
+        "x-index": 84,
         "x-reactions": {
           "dependencies": [
             {
@@ -2366,7 +2406,7 @@
           }
         },
         "x-designable-id": "iygsb8bm8sg",
-        "x-index": 90,
+        "x-index": 85,
         "required": true,
         "name": "education.educational_degree"
       },
@@ -2385,7 +2425,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "t7oe62jfblg",
-        "x-index": 91,
+        "x-index": 86,
         "name": "education.educational_degree_num"
       },
       "b8jirzla54h": {
@@ -2405,7 +2445,7 @@
           }
         },
         "x-designable-id": "b8jirzla54h",
-        "x-index": 92
+        "x-index": 87
       },
       "education.degree": {
         "title": "相应学位",
@@ -2432,7 +2472,7 @@
           }
         },
         "x-designable-id": "r2ij49a8jz7",
-        "x-index": 93,
+        "x-index": 88,
         "required": true,
         "name": "education.degree"
       },
@@ -2453,7 +2493,7 @@
           }
         },
         "x-designable-id": "1yi4ogmyb9z",
-        "x-index": 94
+        "x-index": 89
       },
       "education.degree_num": {
         "type": "string",
@@ -2470,7 +2510,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "juhh85rsf7w",
-        "x-index": 95,
+        "x-index": 90,
         "name": "education.degree_num"
       },
       "8ggcdm3kzn0": {
@@ -2490,7 +2530,7 @@
           }
         },
         "x-designable-id": "8ggcdm3kzn0",
-        "x-index": 96
+        "x-index": 91
       },
       "education.school_name": {
         "type": "string",
@@ -2507,7 +2547,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "txka6ydd72b",
-        "x-index": 97,
+        "x-index": 92,
         "name": "education.school_name"
       },
       "2etpcc5p6mx": {
@@ -2527,7 +2567,7 @@
           }
         },
         "x-designable-id": "2etpcc5p6mx",
-        "x-index": 98
+        "x-index": 93
       },
       "education.school_system": {
         "type": "string",
@@ -2544,7 +2584,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "kttcab0i3ve",
-        "x-index": 99,
+        "x-index": 94,
         "name": "education.school_system"
       },
       "education.major": {
@@ -2562,7 +2602,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "wfxqzzvexcx",
-        "x-index": 100,
+        "x-index": 95,
         "name": "education.major"
       },
       "mzcbu4pxqzt": {
@@ -2582,7 +2622,7 @@
           }
         },
         "x-designable-id": "mzcbu4pxqzt",
-        "x-index": 101
+        "x-index": 96
       },
       "education.learning_modality": {
         "title": "学习形式",
@@ -2609,7 +2649,7 @@
           }
         },
         "x-designable-id": "7e8zx2o2y22",
-        "x-index": 102,
+        "x-index": 97,
         "required": true,
         "name": "education.learning_modality"
       },
@@ -2636,7 +2676,7 @@
           }
         },
         "x-designable-id": "fgurdtmph1b",
-        "x-index": 103,
+        "x-index": 98,
         "required": true,
         "name": "education.is_study",
         "enum": [
@@ -2669,7 +2709,7 @@
           }
         },
         "x-designable-id": "633wraqdntp",
-        "x-index": 104
+        "x-index": 99
       },
       "eokm0gvhgi8": {
         "type": "string",
@@ -2688,7 +2728,7 @@
           }
         },
         "x-designable-id": "eokm0gvhgi8",
-        "x-index": 105
+        "x-index": 100
       },
       "15sdb4aqdf2": {
         "title": "起止年月",
@@ -2715,7 +2755,7 @@
           }
         },
         "x-designable-id": "15sdb4aqdf2",
-        "x-index": 106,
+        "x-index": 101,
         "required": true
       },
       "workexp.country": {
@@ -2733,7 +2773,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "y1oe4d0tyl4",
-        "x-index": 107,
+        "x-index": 102,
         "name": "workexp.country",
         "x-reactions": {
           "dependencies": [
@@ -2774,7 +2814,7 @@
           }
         },
         "x-designable-id": "akkdvnjro8l",
-        "x-index": 108,
+        "x-index": 103,
         "required": true
       },
       "workexp.work_unit": {
@@ -2792,7 +2832,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "szhgpm63hjk",
-        "x-index": 109,
+        "x-index": 104,
         "name": "workexp.work_unit"
       },
       "workexp.jobtitle": {
@@ -2810,7 +2850,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "zbf0rx1kqff",
-        "x-index": 110,
+        "x-index": 105,
         "name": "workexp.jobtitle"
       },
       "workexp.job_content": {
@@ -2828,7 +2868,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "7smlm07nqdm",
-        "x-index": 111,
+        "x-index": 106,
         "name": "workexp.job_content"
       },
       "duhu12g3eju": {
@@ -2848,7 +2888,7 @@
           }
         },
         "x-designable-id": "duhu12g3eju",
-        "x-index": 112
+        "x-index": 107
       },
       "ruwiftjvmg2": {
         "type": "string",
@@ -2867,7 +2907,7 @@
           }
         },
         "x-designable-id": "ruwiftjvmg2",
-        "x-index": 113
+        "x-index": 108
       },
       "j50f2d7c9uc": {
         "type": "string",
@@ -2886,7 +2926,7 @@
           }
         },
         "x-designable-id": "j50f2d7c9uc",
-        "x-index": 114
+        "x-index": 109
       },
       "spouse_basic.credential_type": {
         "title": "配偶证件类型",
@@ -2913,7 +2953,7 @@
           }
         },
         "x-designable-id": "nchuoawbbc7",
-        "x-index": 115,
+        "x-index": 110,
         "required": true,
         "name": "spouse_basic.credential_type"
       },
@@ -2932,7 +2972,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "p7ecm6mekj0",
-        "x-index": 116,
+        "x-index": 111,
         "name": "spouse_basic.credential_num"
       },
       "spouse_basic.name": {
@@ -2950,7 +2990,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "moyxon08d8a",
-        "x-index": 117,
+        "x-index": 112,
         "name": "spouse_basic.name"
       },
       "i7usg4pqrxp": {
@@ -2970,7 +3010,7 @@
           }
         },
         "x-designable-id": "i7usg4pqrxp",
-        "x-index": 118
+        "x-index": 113
       },
       "spouse_basic.previous_name": {
         "type": "string",
@@ -2987,7 +3027,7 @@
         "x-validator": [],
         "required": false,
         "x-designable-id": "d623w2t4xz7",
-        "x-index": 119,
+        "x-index": 114,
         "name": "spouse_basic.previous_name"
       },
       "spouse_basic.gender": {
@@ -3015,7 +3055,7 @@
           }
         },
         "x-designable-id": "x8174mt8j7w",
-        "x-index": 120,
+        "x-index": 115,
         "required": true,
         "name": "spouse_basic.gender"
       },
@@ -3044,7 +3084,7 @@
           }
         },
         "x-designable-id": "ewxw6yfrmuf",
-        "x-index": 121,
+        "x-index": 116,
         "required": true,
         "name": "spouse_basic.birthday"
       },
@@ -3063,7 +3103,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "b0qi9b2thk3",
-        "x-index": 122,
+        "x-index": 117,
         "name": "spouse_basic.ethnicity",
         "x-reactions": {
           "dependencies": [
@@ -3104,7 +3144,7 @@
           }
         },
         "x-designable-id": "vvjc5x8o4d4",
-        "x-index": 123,
+        "x-index": 118,
         "required": true,
         "name": "spouse_basic.political_status"
       },
@@ -3125,7 +3165,7 @@
           }
         },
         "x-designable-id": "p6le1rexst4",
-        "x-index": 124
+        "x-index": 119
       },
       "spouse_basic.country": {
         "type": "string",
@@ -3142,7 +3182,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "q0n5rdok4bs",
-        "x-index": 125,
+        "x-index": 120,
         "name": "spouse_basic.country",
         "x-reactions": {
           "dependencies": [
@@ -3178,7 +3218,7 @@
         ],
         "required": true,
         "x-designable-id": "ytxwcf9kqbh",
-        "x-index": 126,
+        "x-index": 121,
         "name": "spouse_basic.mobile"
       },
       "ckm1lfvy4gb": {
@@ -3198,7 +3238,7 @@
           }
         },
         "x-designable-id": "ckm1lfvy4gb",
-        "x-index": 127
+        "x-index": 122
       },
       "spouse_basic.educational_degree": {
         "title": "配偶国内最高学历",
@@ -3225,7 +3265,7 @@
           }
         },
         "x-designable-id": "ymlwrb4sq8u",
-        "x-index": 128,
+        "x-index": 123,
         "required": true,
         "name": "spouse_basic.educational_degree"
       },
@@ -3254,7 +3294,7 @@
           }
         },
         "x-designable-id": "rxbgusw1mh2",
-        "x-index": 129,
+        "x-index": 124,
         "required": true
       },
       "q49qtkdtbdr": {
@@ -3274,7 +3314,7 @@
           }
         },
         "x-designable-id": "q49qtkdtbdr",
-        "x-index": 130
+        "x-index": 125
       },
       "spouse_basic.work_unit": {
         "type": "string",
@@ -3291,7 +3331,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "w0cj2qo9ur0",
-        "x-index": 131,
+        "x-index": 126,
         "name": "spouse_basic.work_unit"
       },
       "tqiytmhsmvn": {
@@ -3311,7 +3351,7 @@
           }
         },
         "x-designable-id": "tqiytmhsmvn",
-        "x-index": 132
+        "x-index": 127
       },
       "spouse_basic.profession": {
         "type": "string",
@@ -3328,7 +3368,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "uftq6ya7os7",
-        "x-index": 133,
+        "x-index": 128,
         "name": "spouse_basic.profession"
       },
       "spouse_basic.census_register_status": {
@@ -3356,7 +3396,7 @@
           }
         },
         "x-designable-id": "349yk4v7cod",
-        "x-index": 134,
+        "x-index": 129,
         "required": true,
         "name": "spouse_basic.census_register_status"
       },
@@ -3385,7 +3425,7 @@
           }
         },
         "x-designable-id": "j9xf9icc46c",
-        "x-index": 135,
+        "x-index": 130,
         "required": true,
         "name": "spouse_basic.migration_type"
       },
@@ -3406,7 +3446,7 @@
           }
         },
         "x-designable-id": "2v0vnvqaggw",
-        "x-index": 136
+        "x-index": 131
       },
       "spouse_basic.native_place_address": {
         "type": "string",
@@ -3423,7 +3463,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "mty6hfqiax6",
-        "x-index": 137,
+        "x-index": 132,
         "name": "spouse_basic.native_place_address"
       },
       "spouse_basic.native_place_police_station": {
@@ -3441,7 +3481,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "nh5id6h17rw",
-        "x-index": 138,
+        "x-index": 133,
         "name": "spouse_basic.native_place_police_station"
       },
       "jkym4nw5bf5": {
@@ -3461,7 +3501,7 @@
           }
         },
         "x-designable-id": "jkym4nw5bf5",
-        "x-index": 139
+        "x-index": 134
       },
       "spouse_basic.graduated_school": {
         "type": "string",
@@ -3478,7 +3518,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "8eep06uhky8",
-        "x-index": 140,
+        "x-index": 135,
         "name": "spouse_basic.graduated_school"
       },
       "spouse_basic.graduated_date": {
@@ -3506,7 +3546,7 @@
           }
         },
         "x-designable-id": "k5q018w3x63",
-        "x-index": 141,
+        "x-index": 136,
         "required": true,
         "name": "spouse_basic.graduated_date"
       },
@@ -3527,7 +3567,7 @@
           }
         },
         "x-designable-id": "5stoy809sfp",
-        "x-index": 142
+        "x-index": 137
       },
       "spouse_basic.major": {
         "type": "string",
@@ -3544,7 +3584,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "24ukfmp1l50",
-        "x-index": 143,
+        "x-index": 138,
         "name": "spouse_basic.major"
       },
       "spouse_basic.degree": {
@@ -3572,7 +3612,7 @@
           }
         },
         "x-designable-id": "js94jneg0v3",
-        "x-index": 144,
+        "x-index": 139,
         "required": true,
         "name": "spouse_basic.degree"
       },
@@ -3601,7 +3641,7 @@
           }
         },
         "x-designable-id": "4m3idk0f45e",
-        "x-index": 145,
+        "x-index": 140,
         "required": true,
         "name": "spouse_basic.education_type"
       },
@@ -3628,7 +3668,7 @@
           }
         },
         "x-designable-id": "oeo6osba3fu",
-        "x-index": 146,
+        "x-index": 141,
         "required": true,
         "enum": [
           {
@@ -3663,7 +3703,7 @@
           }
         },
         "x-designable-id": "klimyl95m4g",
-        "x-index": 147
+        "x-index": 142
       },
       ".spouse_hukou_remov.is_consistental.": {
         "title": "配偶迁出地址和主调人是否一致",
@@ -3690,7 +3730,7 @@
           }
         },
         "x-designable-id": "kt0vc25fxuh",
-        "x-index": 148,
+        "x-index": 143,
         "required": true,
         "enum": [
           {
@@ -3731,7 +3771,7 @@
           }
         },
         "x-designable-id": "f1g9asijd87",
-        "x-index": 149,
+        "x-index": 144,
         "required": true,
         "name": "spouse_hukou_removal.census_register_category"
       },
@@ -3760,7 +3800,7 @@
           }
         },
         "x-designable-id": "1ohfdwrjpdw",
-        "x-index": 150,
+        "x-index": 145,
         "required": true
       },
       "b27cz464mmv": {
@@ -3778,7 +3818,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "b27cz464mmv",
-        "x-index": 151
+        "x-index": 146
       },
       "nitbagj5u8j": {
         "type": "string",
@@ -3797,7 +3837,7 @@
           }
         },
         "x-designable-id": "nitbagj5u8j",
-        "x-index": 152
+        "x-index": 147
       },
       "spouse_hukou_removal.": {
         "type": "string",
@@ -3814,7 +3854,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "7hit3ew228a",
-        "x-index": 153,
+        "x-index": 148,
         "name": "spouse_hukou_removal."
       },
       "871964np2xl": {
@@ -3834,7 +3874,7 @@
           }
         },
         "x-designable-id": "871964np2xl",
-        "x-index": 154
+        "x-index": 149
       },
       "dhq6uvw7q4p": {
         "title": "配偶户口迁出地派出所",
@@ -3861,7 +3901,7 @@
           }
         },
         "x-designable-id": "dhq6uvw7q4p",
-        "x-index": 155,
+        "x-index": 150,
         "required": true
       },
       "a": {
@@ -3881,7 +3921,7 @@
           }
         },
         "x-designable-id": "rvxh04pu40s",
-        "x-index": 156,
+        "x-index": 151,
         "name": "a"
       },
       "nruhzsknkml": {
@@ -3909,7 +3949,7 @@
           }
         },
         "x-designable-id": "nruhzsknkml",
-        "x-index": 157,
+        "x-index": 152,
         "required": true
       },
       "t7iwdahzvh0": {
@@ -3925,7 +3965,7 @@
           }
         },
         "x-designable-id": "t7iwdahzvh0",
-        "x-index": 158
+        "x-index": 153
       },
       "9zc6ibrhy37": {
         "title": "配偶落户选项",
@@ -3952,7 +3992,7 @@
           }
         },
         "x-designable-id": "9zc6ibrhy37",
-        "x-index": 159,
+        "x-index": 154,
         "required": true
       },
       "nak2bvlbyn6": {
@@ -3980,7 +4020,7 @@
           }
         },
         "x-designable-id": "nak2bvlbyn6",
-        "x-index": 160,
+        "x-index": 155,
         "required": true
       },
       "2dcf5czxc40": {
@@ -3998,7 +4038,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "2dcf5czxc40",
-        "x-index": 161
+        "x-index": 156
       },
       "qvwmouo42oo": {
         "type": "string",
@@ -4015,7 +4055,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "qvwmouo42oo",
-        "x-index": 162
+        "x-index": 157
       },
       "zzk50y3qp2t": {
         "type": "string",
@@ -4034,7 +4074,7 @@
           }
         },
         "x-designable-id": "zzk50y3qp2t",
-        "x-index": 163
+        "x-index": 158
       },
       "4v3tr6hv3j8": {
         "type": "string",
@@ -4053,7 +4093,7 @@
           }
         },
         "x-designable-id": "4v3tr6hv3j8",
-        "x-index": 164
+        "x-index": 159
       },
       "a80aoyc58qn": {
         "title": "配偶现档案保管地",
@@ -4080,7 +4120,7 @@
           }
         },
         "x-designable-id": "a80aoyc58qn",
-        "x-index": 165,
+        "x-index": 160,
         "required": true
       },
       "vvom1octlq3": {
@@ -4098,7 +4138,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "vvom1octlq3",
-        "x-index": 166
+        "x-index": 161
       },
       "caj48hsxb5g": {
         "type": "string",
@@ -4117,7 +4157,7 @@
           }
         },
         "x-designable-id": "caj48hsxb5g",
-        "x-index": 167
+        "x-index": 162
       },
       "zyvoli1zm53": {
         "type": "boolean",
@@ -4133,7 +4173,7 @@
         },
         "required": true,
         "x-designable-id": "zyvoli1zm53",
-        "x-index": 168
+        "x-index": 163
       },
       "n08jemfuz2a": {
         "type": "string",
@@ -4150,7 +4190,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "n08jemfuz2a",
-        "x-index": 169
+        "x-index": 164
       },
       "rn644rtw1md": {
         "type": "string",
@@ -4167,7 +4207,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "rn644rtw1md",
-        "x-index": 170
+        "x-index": 165
       },
       "0yufgr9p4m5": {
         "title": "配偶留学所获学位",
@@ -4194,7 +4234,7 @@
           }
         },
         "x-designable-id": "0yufgr9p4m5",
-        "x-index": 171,
+        "x-index": 166,
         "required": true
       },
       "sllramfh7q0": {
@@ -4214,7 +4254,7 @@
           }
         },
         "x-designable-id": "sllramfh7q0",
-        "x-index": 172
+        "x-index": 167
       },
       "vy6z6pl50l6": {
         "type": "string",
@@ -4233,7 +4273,7 @@
           }
         },
         "x-designable-id": "vy6z6pl50l6",
-        "x-index": 173
+        "x-index": 168
       },
       "ewaylvx89jk": {
         "title": "起止日期",
@@ -4260,7 +4300,7 @@
           }
         },
         "x-designable-id": "ewaylvx89jk",
-        "x-index": 174,
+        "x-index": 169,
         "required": true
       },
       "sql5kjvpd7s": {
@@ -4280,7 +4320,7 @@
           }
         },
         "x-designable-id": "sql5kjvpd7s",
-        "x-index": 175
+        "x-index": 170
       },
       "y4264w3kj5p": {
         "title": "教育类型",
@@ -4307,7 +4347,7 @@
           }
         },
         "x-designable-id": "y4264w3kj5p",
-        "x-index": 176,
+        "x-index": 171,
         "required": true
       },
       "d3wi27xwuyz": {
@@ -4327,7 +4367,7 @@
           }
         },
         "x-designable-id": "d3wi27xwuyz",
-        "x-index": 177
+        "x-index": 172
       },
       "s640cluvs7i": {
         "type": "string",
@@ -4344,7 +4384,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "s640cluvs7i",
-        "x-index": 178
+        "x-index": 173
       },
       "spouse_education.educational_degree_id": {
         "title": "学历",
@@ -4371,7 +4411,7 @@
           }
         },
         "x-designable-id": "mttv0pof25x",
-        "x-index": 179,
+        "x-index": 174,
         "required": true,
         "name": "spouse_education.educational_degree_id"
       },
@@ -4390,7 +4430,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "jsenw7zme5r",
-        "x-index": 180,
+        "x-index": 175,
         "name": "spouse_education.educational_degree_num"
       },
       "u8zx6zg5hfg": {
@@ -4410,7 +4450,7 @@
           }
         },
         "x-designable-id": "u8zx6zg5hfg",
-        "x-index": 181
+        "x-index": 176
       },
       "spouse_education.degree_id": {
         "title": "相应学位",
@@ -4437,7 +4477,7 @@
           }
         },
         "x-designable-id": "6vkglpwwal0",
-        "x-index": 182,
+        "x-index": 177,
         "required": true,
         "name": "spouse_education.degree_id"
       },
@@ -4458,7 +4498,7 @@
           }
         },
         "x-designable-id": "09ne6vt2k5b",
-        "x-index": 183
+        "x-index": 178
       },
       "spouse_education.degree_num": {
         "type": "string",
@@ -4475,7 +4515,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "ugl0uaxg8zt",
-        "x-index": 184,
+        "x-index": 179,
         "name": "spouse_education.degree_num"
       },
       "uxx0hsb2dif": {
@@ -4495,7 +4535,7 @@
           }
         },
         "x-designable-id": "uxx0hsb2dif",
-        "x-index": 185
+        "x-index": 180
       },
       "spouse_education.school_name": {
         "type": "string",
@@ -4512,7 +4552,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "rpccfs6bafg",
-        "x-index": 186,
+        "x-index": 181,
         "name": "spouse_education.school_name"
       },
       "vry3aq6t7q4": {
@@ -4532,7 +4572,7 @@
           }
         },
         "x-designable-id": "vry3aq6t7q4",
-        "x-index": 187
+        "x-index": 182
       },
       "spouse_education.school_system": {
         "type": "string",
@@ -4549,7 +4589,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "65mtkheno7w",
-        "x-index": 188,
+        "x-index": 183,
         "name": "spouse_education.school_system"
       },
       "spouse_education.major": {
@@ -4567,7 +4607,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "p5fs4njh95s",
-        "x-index": 189,
+        "x-index": 184,
         "name": "spouse_education.major"
       },
       "h3k0ny0o7ak": {
@@ -4587,7 +4627,7 @@
           }
         },
         "x-designable-id": "h3k0ny0o7ak",
-        "x-index": 190
+        "x-index": 185
       },
       "spouse_education.learning_modality": {
         "title": "学习形式",
@@ -4614,7 +4654,7 @@
           }
         },
         "x-designable-id": "jkz05ucakaf",
-        "x-index": 191,
+        "x-index": 186,
         "required": true,
         "name": "spouse_education.learning_modality"
       },
@@ -4643,7 +4683,7 @@
           }
         },
         "x-designable-id": "6kio2zv476o",
-        "x-index": 192,
+        "x-index": 187,
         "required": true,
         "name": "spouse_education.is_study"
       },
@@ -4664,7 +4704,7 @@
           }
         },
         "x-designable-id": "9juov51uw8s",
-        "x-index": 193
+        "x-index": 188
       },
       "55yh3y18ank": {
         "type": "string",
@@ -4683,7 +4723,7 @@
           }
         },
         "x-designable-id": "55yh3y18ank",
-        "x-index": 194
+        "x-index": 189
       },
       "v73xh9ldnoa": {
         "title": "起止日期",
@@ -4710,7 +4750,7 @@
           }
         },
         "x-designable-id": "v73xh9ldnoa",
-        "x-index": 195,
+        "x-index": 190,
         "required": true
       },
       "i2xwo25gb5w": {
@@ -4728,7 +4768,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "i2xwo25gb5w",
-        "x-index": 196
+        "x-index": 191
       },
       "ryrcc04xj3s": {
         "title": "国家省市",
@@ -4755,7 +4795,7 @@
           }
         },
         "x-designable-id": "ryrcc04xj3s",
-        "x-index": 197,
+        "x-index": 192,
         "required": true
       },
       "spouse_workexp.work_unit": {
@@ -4773,7 +4813,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "nu10pqmrxzv",
-        "x-index": 198,
+        "x-index": 193,
         "name": "spouse_workexp.work_unit"
       },
       "spouse_workexp.jobtitle": {
@@ -4791,7 +4831,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "1w0tz2qh4lv",
-        "x-index": 199,
+        "x-index": 194,
         "name": "spouse_workexp.jobtitle"
       },
       "spouse_workexp.job_content": {
@@ -4809,7 +4849,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "1sa72c22h56",
-        "x-index": 200,
+        "x-index": 195,
         "name": "spouse_workexp.job_content"
       },
       "fzmoatnvned": {
@@ -4829,7 +4869,7 @@
           }
         },
         "x-designable-id": "fzmoatnvned",
-        "x-index": 201
+        "x-index": 196
       },
       "nym7g438up9": {
         "type": "string",
@@ -4848,7 +4888,7 @@
           }
         },
         "x-designable-id": "nym7g438up9",
-        "x-index": 202
+        "x-index": 197
       },
       "r9728yadpc9": {
         "type": "boolean",
@@ -4864,7 +4904,7 @@
         },
         "required": true,
         "x-designable-id": "r9728yadpc9",
-        "x-index": 203
+        "x-index": 198
       },
       "children.name": {
         "type": "string",
@@ -4881,7 +4921,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "876cmvtvs5i",
-        "x-index": 204,
+        "x-index": 199,
         "name": "children.name"
       },
       "children.credential_type": {
@@ -4909,7 +4949,7 @@
           }
         },
         "x-designable-id": "22w16ksf14w",
-        "x-index": 205,
+        "x-index": 200,
         "required": true,
         "name": "children.credential_type"
       },
@@ -4928,7 +4968,7 @@
         "x-validator": "idcard",
         "required": true,
         "x-designable-id": "y7bt3irrajs",
-        "x-index": 206,
+        "x-index": 201,
         "name": "children.credential_num"
       },
       "children.gender": {
@@ -4956,7 +4996,7 @@
           }
         },
         "x-designable-id": "r6plbffir89",
-        "x-index": 207,
+        "x-index": 202,
         "required": true,
         "name": "children.gender"
       },
@@ -4985,7 +5025,7 @@
           }
         },
         "x-designable-id": "h2xau8srmq3",
-        "x-index": 208,
+        "x-index": 203,
         "required": true,
         "name": "children.birthday"
       },
@@ -5004,7 +5044,7 @@
         "x-validator": [],
         "required": true,
         "x-designable-id": "5immeuq4nj2",
-        "x-index": 209,
+        "x-index": 204,
         "name": "children.country",
         "x-reactions": {
           "dependencies": [
@@ -5045,7 +5085,7 @@
           }
         },
         "x-designable-id": "m2b6t0m7b45",
-        "x-index": 210,
+        "x-index": 205,
         "required": true,
         "name": "children.school_situation"
       },
@@ -5066,7 +5106,7 @@
           }
         },
         "x-designable-id": "o2cohc0mh9z",
-        "x-index": 211
+        "x-index": 206
       },
       "children.census_register_status": {
         "title": "子女户籍情况",
@@ -5093,7 +5133,7 @@
           }
         },
         "x-designable-id": "qc7r139yi1b",
-        "x-index": 212,
+        "x-index": 207,
         "required": true,
         "name": "children.census_register_status"
       },
@@ -5122,7 +5162,7 @@
           }
         },
         "x-designable-id": "vwvn7g9ry9d",
-        "x-index": 213,
+        "x-index": 208,
         "required": true,
         "name": "children.migration_type"
       },
@@ -5143,7 +5183,7 @@
           }
         },
         "x-designable-id": "2kodoev53ja",
-        "x-index": 214
+        "x-index": 209
       },
       "hm6ibj0jtgt": {
         "type": "string",
@@ -5155,7 +5195,7 @@
         "x-decorator-props": {},
         "description": "请准备个人近期正面照片",
         "x-designable-id": "hm6ibj0jtgt",
-        "x-index": 215
+        "x-index": 210
       },
       "drh3t3a5uqq": {
         "type": "string",
@@ -5167,7 +5207,7 @@
         "x-decorator-props": {},
         "description": "请通过留学服务中心网站完成认证并下载认证书后拍照上传",
         "x-designable-id": "drh3t3a5uqq",
-        "x-index": 216
+        "x-index": 211
       },
       "h7dnlze49n0": {
         "type": "string",
@@ -5179,7 +5219,7 @@
         "x-decorator-props": {},
         "description": "请参考样张拍照上传",
         "x-designable-id": "h7dnlze49n0",
-        "x-index": 217
+        "x-index": 212
       },
       "uo2nun37lp8": {
         "type": "string",
@@ -5191,7 +5231,7 @@
         "x-decorator-props": {},
         "description": "请参考样张拍照上传",
         "x-designable-id": "uo2nun37lp8",
-        "x-index": 218
+        "x-index": 213
       },
       "2lwuulf8rzl": {
         "type": "string",
@@ -5203,7 +5243,7 @@
         "x-decorator-props": {},
         "description": "请参考样张拍照上传",
         "x-designable-id": "2lwuulf8rzl",
-        "x-index": 219
+        "x-index": 214
       },
       "i1vsjhfabbb": {
         "type": "string",
@@ -5215,7 +5255,7 @@
         "x-decorator-props": {},
         "description": "请拍照上传与留学经历相关的所有护照图片；港澳台就读的，上传港澳通行证或大陆居民往来台湾通行证\n\n[图片]",
         "x-designable-id": "i1vsjhfabbb",
-        "x-index": 220
+        "x-index": 215
       },
       "kf4p1i5rakb": {
         "type": "string",
@@ -5227,7 +5267,7 @@
         "x-decorator-props": {},
         "description": "提醒文字：材料现场递交时请更新至最新月份\n查询方式\n1. 在移动手机终端下载“移民局APP”进行查询\n2. 在微信、支付宝搜索“移民局”小程序查询\n3. 关注“国家移民管理局”微信公众号后选择“政务服务”进行查询\n4. 搜索“国家移民管理局政务服务平台https://s.nia.gov.cn进行查询",
         "x-designable-id": "kf4p1i5rakb",
-        "x-index": 221
+        "x-index": 216
       },
       "w6ww9y2j16o": {
         "type": "string",
@@ -5239,7 +5279,7 @@
         "x-decorator-props": {},
         "description": "请分别拍照上传国徽面和人像面",
         "x-designable-id": "w6ww9y2j16o",
-        "x-index": 222
+        "x-index": 217
       },
       "3amh32jodb9": {
         "type": "string",
@@ -5251,7 +5291,7 @@
         "x-decorator-props": {},
         "description": "请将户口簿户主页和本人页拍照上传，确保印章显示清晰；也可在户口簿首页清楚标注印章内容，留学期间户籍已注销的须附90天内有效的户籍注销证明",
         "x-designable-id": "3amh32jodb9",
-        "x-index": 223
+        "x-index": 218
       },
       "uzmn20jzjhd": {
         "type": "string",
@@ -5263,7 +5303,7 @@
         "x-decorator-props": {},
         "description": "请打印模板后完成个人签字再拍照上传；如配偶随迁，须双方共同签署",
         "x-designable-id": "uzmn20jzjhd",
-        "x-index": 224
+        "x-index": 219
       },
       "c46vsg9qzgu": {
         "type": "string",
@@ -5275,7 +5315,7 @@
         "x-decorator-props": {},
         "description": "请准备清晰的首页、合同期限及岗位页、签字盖章页",
         "x-designable-id": "c46vsg9qzgu",
-        "x-index": 225
+        "x-index": 220
       },
       "89ve3umkup7": {
         "type": "string",
@@ -5287,7 +5327,7 @@
         "x-decorator-props": {},
         "description": "请拍照上传结婚证书首页及人像页，持国外结婚证明的，另须提供具有资质的翻译机构出具的翻译件",
         "x-designable-id": "89ve3umkup7",
-        "x-index": 226
+        "x-index": 221
       },
       "98b54xpgp7t": {
         "type": "string",
@@ -5299,7 +5339,7 @@
         "x-decorator-props": {},
         "description": "请拍照上传，与申请表中填写的子女信息保持一致",
         "x-designable-id": "98b54xpgp7t",
-        "x-index": 227
+        "x-index": 222
       },
       "5c4ksppbl5y": {
         "type": "string",
@@ -5311,7 +5351,7 @@
         "x-decorator-props": {},
         "description": "请拍照上传配偶身份证件，如身份证国徽面和人像面",
         "x-designable-id": "5c4ksppbl5y",
-        "x-index": 228
+        "x-index": 223
       },
       "ygsiyxvxm6z": {
         "type": "string",
@@ -5323,7 +5363,7 @@
         "x-decorator-props": {},
         "description": "请拍照上传配偶户口簿（首页及本人页）或户籍证明，留学期间户籍已注销的须附90天内有效的户籍注销证明",
         "x-designable-id": "ygsiyxvxm6z",
-        "x-index": 229
+        "x-index": 224
       },
       "e429zt29lgy": {
         "type": "string",
@@ -5335,7 +5375,7 @@
         "x-decorator-props": {},
         "description": "由配偶签字书面放弃随迁承诺书，然后拍照上传",
         "x-designable-id": "e429zt29lgy",
-        "x-index": 230
+        "x-index": 225
       },
       "7m52s6279qt": {
         "type": "string",
@@ -5347,7 +5387,7 @@
         "x-decorator-props": {},
         "description": "请拍照上传户口簿（户主页、子女页）以及子女出生证明/身份证",
         "x-designable-id": "7m52s6279qt",
-        "x-index": 231
+        "x-index": 226
       },
       "7fobt1n4kjc": {
         "type": "string",
@@ -5359,7 +5399,7 @@
         "x-decorator-props": {},
         "description": "由配偶签字书面放弃随迁承诺书，然后拍照上传",
         "x-designable-id": "7fobt1n4kjc",
-        "x-index": 232
+        "x-index": 227
       },
       "duz8hjn4q6n": {
         "type": "string",
@@ -5371,7 +5411,7 @@
         "x-decorator-props": {},
         "description": "请拍照上传自有产权房产证明",
         "x-designable-id": "duz8hjn4q6n",
-        "x-index": 233
+        "x-index": 228
       },
       "okwxv0m9sas": {
         "type": "string",
@@ -5383,7 +5423,7 @@
         "x-decorator-props": {},
         "description": "请拍照上传直系亲属在沪的房产证或者租用居住公房凭证",
         "x-designable-id": "okwxv0m9sas",
-        "x-index": 234
+        "x-index": 229
       },
       "lk27t2mx72m": {
         "type": "string",
@@ -5395,7 +5435,7 @@
         "x-decorator-props": {},
         "description": "请先下载模板，由房屋产权人共同签署的同意入户意见书，须注明与主落户人的关系、同意落户的人员名单（包括主落户人、配偶、子女在内所有落户人员），并由房产证上所有产权人以及产权人户口簿上其他人签名，拍照上传",
         "x-designable-id": "lk27t2mx72m",
-        "x-index": 235
+        "x-index": 230
       },
       "xxgx5m3bbhy": {
         "type": "string",
@@ -5407,9 +5447,9 @@
         "x-decorator-props": {},
         "description": "由审核老师协助补充",
         "x-designable-id": "xxgx5m3bbhy",
-        "x-index": 236
+        "x-index": 231
       }
     },
-    "x-designable-id": "ds0p905r0v2"
+    "x-designable-id": "dfvzcrxnifu"
   }
 }
