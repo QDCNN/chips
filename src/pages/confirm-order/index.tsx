@@ -107,6 +107,18 @@ const ConfirmOrder = () => {
 
 
   const onSubmit = () => {
+    if (!dState.formData.name) {
+      Taro.showToast({ title: '请输入姓名', icon: 'none' });
+      return
+    }
+    if (dState.isIdCard) {
+      Taro.showToast({ title: '请输入正确的身份证号', icon: 'none' });
+      return
+    }
+    if (dState.isPhone) {
+      Taro.showToast({ title: '请输入正确的手机号', icon: 'none' })
+      return
+    }
     let formDate = {
       ...dState.formData,
       goods_id: 10001,
@@ -197,7 +209,7 @@ const ConfirmOrder = () => {
             name='userName'
             title='姓名'
             type='text'
-            placeholder='请输入签约人姓名'
+            placeholder='请输入落户人姓名'
             value={dState.formData.name}
             onChange={onChangeName}
           />
@@ -206,7 +218,7 @@ const ConfirmOrder = () => {
             clear
             error={dState.isIdCard}
             title='身份证号'
-            placeholder={!dState.isIdCard ? '请输入签约人的身份证号' : '请输入正确的身份证号'}
+            placeholder={!dState.isIdCard ? '请输入落户人的身份证号' : '请输入正确的身份证号'}
             placeholderStyle={!dState.isIdCard ? '' : "color:#ff4949"}
             type='idcard'
             value={dState.formData.idcard}
@@ -218,7 +230,7 @@ const ConfirmOrder = () => {
             error={dState.isPhone}
             title='手机号'
             type='phone'
-            placeholder={dState.isPhone ? '请输入正确的手机号' : '请输入签约人手机号'}
+            placeholder={dState.isPhone ? '请输入正确的手机号' : '请输入落户人手机号'}
             placeholderStyle={dState.isPhone ? "color:#ff4949" : ''}
             value={dState.formData.mobile}
             onChange={onChangePhone}
