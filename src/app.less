@@ -78,6 +78,9 @@ button[size=mini] {
 }
 
 body, page {
+  .weui-cell_access .weui-cell__ft {
+    display: block;
+  }
   .weui-cell_access .weui-cell__ft:after {
     transform: none;
   }
@@ -101,11 +104,11 @@ html body {
   font-size: 24px;
   padding-bottom: 16px;
 }
-.weui-cell__ft {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  flex: 1;
+.weui-cell__ft-ellipsis {
+  // overflow: hidden;
+  // white-space: nowrap;
+  // text-overflow: ellipsis;
+  // flex: 1;
 }
 .weui-input_error {
   color: var(--weui-RED);

@@ -10,7 +10,6 @@ export const Picker: React.FC<any> = connect(
   TaroPicker,
   mapProps(
     (props, field) => {
-      console.log('getFullName(field): ', getFullName(field));
       return {
         ...props,
         title: field.title || props.label,

@@ -26,7 +26,7 @@ export const Input = (props) => {
         <TaroInput className={cls} {...props} focus={focus} onBlur={onBlur} />
       }
       style={style}
-    />
+    >{props.addonAfter}</Cell>
   )
 }
 

@@ -45,6 +45,7 @@ export const Input = connect(
         props.onChange(e.detail.value);
       },
       name: field?.props?.name,
+      type: props?.inputType || props?.type,
       error
       // suffix: (
       //   <View>

@@ -2,6 +2,7 @@ import { RadioGroup, Label, Radio as TaroRadio, View, Text } from '@tarojs/compo
 import Taro from '@tarojs/taro';
 import cls from 'classnames';
 import React from 'react';
+import Cell from '../Cell';
 
 const WebLabel = (props) => {
   const { ...other } = props;
@@ -42,12 +43,13 @@ export const Radio = (props) => {
       <RadioGroup className="weui-cells weui-cells_radio" onChange={onChange}>
         {options.map((item, index) => (
           <UsedLabel className={radioClassNameList} key={index} for={index} {...others}>
-            <View className="weui-cell__bd">
-              <Text>{item.label}</Text>
-            </View>
-            {/* <View className="weui-cell__ft"> */}
-              <TaroRadio className="weui-cell__ft" value={item.value} checked={item.value === value} />
-            {/* </View> */}
+            <Cell content={(
+              // <View className="weui-cell__bd">
+                <Text>{item.label}</Text>
+              // </View>
+            )}>
+              <TaroRadio value={item.value} checked={item.value === value} />
+            </Cell>
           </UsedLabel>
         ))}
       </RadioGroup>

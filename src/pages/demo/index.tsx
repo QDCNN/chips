@@ -5,6 +5,20 @@ import { LinkCell } from '@/formily-components';
 import React from 'react';
 import { createForm } from '@formily/core';
 import '@/weui/style/weui.less';
+import { simpleCompiler } from '@/utils/formily';
+
+const result = simpleCompiler(
+  `$form.values.settlement_method == '18' ? $dictionary.basic.graduate_institutions.slice(0, 50) : $form.values.settlement_method == '19' ? $dictionary.basic.graduate_institutions.slice(50, 100) :  $dictionary.basic.graduate_institutions`,
+  {
+    $form: {
+      values: {
+        settlement_method: '19',
+      }
+    },
+    $dictionary: { basic: { graduate_institutions: [1,2,3,4,5,6] } }
+  }
+)
+console.log('result: ', result);
 
 const SchemaField = createSchemaField({
   components: {

@@ -23,13 +23,10 @@ import { initialState } from '@/models/dictionary'
 import objectPath from 'object-path'
 import data from './data.json'
 import '@/weui/style/weui.less'
+import { simpleCompiler } from '@/utils/formily'
 
 
-Schema.registerCompiler((expression: any, scope?: any) => {
-  const obj = { ...scope };
-  const result = objectPath.get(obj, expression);
-  return result;
-});
+Schema.registerCompiler(simpleCompiler);
 
 const scope = observable({ $dictionary: { ...initialState }, $task: { review_user: {}, service_user: {} } })
 
@@ -77,7 +74,7 @@ const FormHomePage = () => {
       }
     }
     return list;
-  }, []);
+  }, [fileDocument.pageStructure.schema]);
 
   useEffect(() => {
     scope.$dictionary = dictionary;

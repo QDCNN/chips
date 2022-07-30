@@ -24,11 +24,11 @@ const form = createForm({
 export const initialState = {
   taskId: '',
   mounted: false,
-  pageStructure: data,
-  // pageStructure: {
-  //   form: { style: {} },
-  //   schema: {}
-  // },
+  // pageStructure: data,
+  pageStructure: {
+    form: { style: {} },
+    schema: {}
+  },
   task: {},
   form,
 }
@@ -51,9 +51,9 @@ const fileDocument = {
   }),
   effects: (dispatch, getState, delay) => ({
     async fetchPageStructure() {
-      // const response = await api.getPageStructure({ name: 'file-document' });
-      // if (!response.data.content) return;
-      // dispatch(actionCreator.fileDocument.setPageStructure(JSON.parse(response.data.content)));
+      const response = await api.getPageStructure({ name: 'file-document' });
+      if (!response.data.content) return;
+      dispatch(actionCreator.fileDocument.setPageStructure(JSON.parse(response.data.content)));
 
       setTimeout(() => {
         store.dispatch(actionCreator.fileDocument.setMounted(true));
