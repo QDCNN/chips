@@ -1994,16 +1994,7 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@formily/core@2.1.11":
-  version "2.1.11"
-  resolved "https://registry.npmjs.org/@formily/core/-/core-2.1.11.tgz"
-  integrity sha512-tN/iTRIhZOJhQ7bwBKUG36RWc4568AkVA+V2genNEIrTsm8T2DaNPEWQPNdP8nY6q5xoUYI/nsacEI4OuMNT+A==
-  dependencies:
-    "@formily/reactive" "2.1.11"
-    "@formily/shared" "2.1.11"
-    "@formily/validator" "2.1.11"
-
-"@formily/core@^2.1.11":
+"@formily/core@2.1.11", "@formily/core@^2.1.11":
   version "2.1.11"
   resolved "https://registry.npmmirror.com/@formily/core/-/core-2.1.11.tgz#2c21e10b2bc456f33c8eda35a5f5a73fb3983a58"
   integrity sha512-tN/iTRIhZOJhQ7bwBKUG36RWc4568AkVA+V2genNEIrTsm8T2DaNPEWQPNdP8nY6q5xoUYI/nsacEI4OuMNT+A==

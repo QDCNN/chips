@@ -3,7 +3,7 @@ import { Block, Icon, Image, View } from '@tarojs/components';
 import cls from 'classnames';
 import React from 'react';
 
-export const Cell = (props) => {
+export const AtCell = (props) => {
   const {
     isLink, className, inForm, inline, hover, extHoverClass,
     iconClass, icon, title, value, children,
@@ -44,19 +44,27 @@ export const Cell = (props) => {
             </View>
           )}
         </View>
-
-        <View className={cls(prefixCls + '__bd')}>
-          {content}
-        </View>
-
-        <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass)}>
-          {children ? children : value && value}
-          {/* {showError && error && <Icon type="warn" size="23" color="#E64340" />} */}
-        </View>
+        {content && (
+          <View className={cls(prefixCls + '__bd')}>
+            {content}
+          </View>
+        )}
+        {children && (
+          <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass)}>
+            {children ? children : value && value}
+          </View>
+        )}
+        {value && (
+          <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass)}>
+            {children ? children : value && value}
+          </View>
+        )}
       </View>
-      <View className="weui-cells__tips weui-cells__tips_warn">{error}</View>
+      {error && (
+        <View className="weui-cells__tips weui-cells__tips_warn">{error}</View>
+      )}
     </Block>
   )
 }
 
-export default Cell;
+export default AtCell;

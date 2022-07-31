@@ -8,33 +8,40 @@ import { useEffect } from 'react'
 import Order from './order'
 import Taro from '@tarojs/taro'
 import { Routes } from '@/routes'
+import { actionCreator, RootState, store } from '@/store';
+import { useSelector } from 'react-redux'
 
-const model = {
-  state: () => ({
-    orderList: [],
-  }),
-  reducers: () => ({
-    setOrderList(state, data) {
-      state.orderList = data
-    },
-  }),
-  effects: ({ dispatch, actionCreator }) => ({
 
-    async getOrderList() {
-      const res = await yinghuoAPI.getOrderList({ dataType: 'all' })
-      dispatch(actionCreator.setOrderList(res.data.list.data))
-    }
-  }),
-};
+// const model = {
+//   state: () => ({
+//     orderList: [],
+//   }),
+//   reducers: () => ({
+//     setOrderList(state, data) {
+//       state.orderList = data
+//     },
+//   }),
+//   effects: ({ dispatch, actionCreator }) => ({
+
+//     async getOrderList() {
+//       const res = await yinghuoAPI.getOrderList({ dataType: 'all' })
+//       dispatch(actionCreator.setOrderList(res.data.list.data))
+//     }
+//   }),
+// };
 
 
 const MyOrder = () => {
-  const [dState, dDispatch, dActionCreator] = useDuraArray(model);
+  const { global: { orderList } } = useSelector((store: RootState) => store);
+
+  // const [dState, dDispatch, dActionCreator] = useDuraArray(model);
 
   useEffect(() => {
-    dDispatch(dActionCreator.getOrderList())
+    // dDispatch(dActionCreator.getOrderList())
+    store.dispatch(actionCreator.global.getOrderList())
   }, [])
 
+  // console.log('订单列表', orderList);
 
 
   const onPay = (item) => {
@@ -73,7 +80,7 @@ const MyOrder = () => {
     <View className={classnames('page', styles.page)}>
       <CustomNavigationBar back onBack={onBack} notFixed title="我的订单" />
       <View className={classnames('container')}>
-        {dState.orderList.map(item => (
+        {orderList.map(item => (
           <Order item={item} onPay={() => { onPay(item) }} />
         ))}
       </View>

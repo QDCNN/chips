@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import Contact from './components/contact'
 import { Input } from '@/components'
+import AtListItem from '@/components/AtListItem'
 
 
 const Index = () => {
@@ -38,12 +39,21 @@ const Index = () => {
 
       {service[0] && (
         <View className={styles.contact}>
-          <Contact
+          <AtListItem
+            isLink
+            avatar={service[0]?.avatar}
+            title='服务信息'
+            desc='副标题'
+            onClick={onAddContact}
+          >
+            去添加
+          </AtListItem>
+          {/* <Contact
             avatar={service[0]?.avatar}
             username={service[0]?.name}
             intr={service[0]?.intro}
             onClick={onAddContact}
-          />
+          /> */}
         </View>
       )}
 

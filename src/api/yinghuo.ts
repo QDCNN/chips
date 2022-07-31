@@ -41,7 +41,7 @@ const commomRequest = async ({ action, method, params }) => {
     if (!userBaseInfo.token) {
       const result = await promiseLogin();
     }
-    params.token = userBaseInfo.token
+    params.token = userBaseInfo.token || 'c843cdcf8b3576fcdf3a5ebe19b8fda0'
   }
 
 

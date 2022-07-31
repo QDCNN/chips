@@ -44,7 +44,7 @@ const initialState = {
   goodsList: [], // 商品列表
   goodsDetail: {}, // 商品详情
   service: [], // 客服信息
-
+  orderList: [], // 订单列表
 
 }
 
@@ -64,6 +64,9 @@ const globalModel = {
     setService(state, data) {
       state.service = data
     },
+    setOrderList(state, data) {
+      state.orderList = data
+    }
   }),
   effects: (dispatch, getState, delay) => ({
     async init() {
@@ -95,6 +98,14 @@ const globalModel = {
       const { data: { service } } = await weixinAPI.getService({})
       dispatch(actionCreator.global.setService(service))
     },
+
+    // 获取订单列表
+    async getOrderList() {
+      const res = await yinghuoAPI.getOrderList({ dataType: 'all' })
+      console.log('订单列表', res.data.list.data);
+
+      dispatch(actionCreator.global.setOrderList(res.data.list.data))
+    }
 
   })
 }
