@@ -40,10 +40,11 @@ const Index = () => {
       {service[0] && (
         <View className={styles.contact}>
           <AtListItem
+            className={'fiche'}
             isLink
             avatar={service[0]?.avatar}
-            title='服务信息'
-            desc='副标题'
+            title={service[0]?.name}
+            desc={service[0]?.intro}
             onClick={onAddContact}
           >
             去添加

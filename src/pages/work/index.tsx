@@ -12,6 +12,7 @@ import Badge from './components/badge'
 import * as weixinAPI from '@/api'
 import { useDuraArray } from '@/hooks/use-dura'
 import { combineQuery } from '@/utils/route'
+import AtListItem from '@/components/AtListItem'
 
 
 const model = {
@@ -34,13 +35,16 @@ const model = {
   }),
 };
 
+
 const Work = () => {
   const [dState, dDispatch, dActionCreator] = useDuraArray(model);
+  console.log('task_status', dState.task_status);
 
   useEffect(() => {
     dDispatch(dActionCreator.getTaskList())
   }, [])
 
+  console.log('dState.taskList', dState.taskList);
 
 
   const onMyOrder = () => {
@@ -71,12 +75,18 @@ const Work = () => {
 
       <View className="container">
         <View className='fiche'>
-          <ListItem
+          {/* <ListItem
             iconLeft={orderIcon}
             title={'我的订单'}
             iconRight={rightIcon}
             onClick={onMyOrder}
-          ></ListItem>
+          ></ListItem> */}
+          <AtListItem
+            isLink
+            title='我的订单'
+            onClick={onMyOrder}
+          >
+          </AtListItem>
         </View>
         {dState.taskList.map(item => (
           <View className={classnames('fiche', 'm-t-32', styles.block)}>
@@ -91,6 +101,30 @@ const Work = () => {
                 <View className={styles.item}><Text>创建时间：{item?.create_time}</Text></View>
               </View>
             </View>
+            {/* {
+              dState.task_status.map(items => {
+                {
+                  items.id === item.task_status && (
+                    <AtListItem
+                      isLink
+                      title={items}
+                      dot
+                      onClick={() => onHandelClick(item)}
+                    >
+                    </AtListItem>
+                  )
+                }
+              })
+            } */}
+            {/* <AtListItem
+              isLink
+              title={dState.task_status}
+              dot
+              onClick={() => onHandelClick(item)}
+            >
+              去添加
+            </AtListItem> */}
+
             <Badge status={item.task_status} onClick={() => onHandelClick(item)} />
           </View>
         ))}

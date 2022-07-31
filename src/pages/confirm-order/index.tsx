@@ -188,9 +188,10 @@ const ConfirmOrder = () => {
           <AtListItem
             isLink
             icon={addressIcon}
-            title='服务信息'
+            title='收货地址'
+            onClick={getAddress}
           >
-            <View></View>
+            {dState.formData.address}
           </AtListItem>
 
           {/* <ListItem
@@ -221,7 +222,7 @@ const ConfirmOrder = () => {
           <ATInputFix
             inForm
             title='姓名'
-            placeholder='占位提示符'
+            placeholder='请输入落户人姓名'
             clear
             error={dState.isName ? '请输入姓名' : ''}
             value={dState.formData.name}
@@ -231,8 +232,10 @@ const ConfirmOrder = () => {
           <ATInputFix
             inForm
             title='身份证号'
-            placeholder='占位提示符'
+            placeholder='请输入落户人身份证号'
             clear
+            type='idcard'
+            adjustPosition
             error={dState.isIdCard ? '请输入正确的身份证号' : ''}
             value={dState.formData.idcard}
             onChange={onChangeIdCard}
@@ -241,8 +244,10 @@ const ConfirmOrder = () => {
           <ATInputFix
             inForm
             title='手机号'
-            placeholder='占位提示符'
+            placeholder='请输入落户人手机号'
             clear
+            type='number'
+            adjustPosition
             error={dState.isPhone ? '请输入正确的手机号' : ''}
             value={dState.formData.mobile}
             onChange={onChangePhone}

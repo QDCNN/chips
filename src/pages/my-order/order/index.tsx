@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { actionCreator, store } from "@/store";
 import Taro from "@tarojs/taro";
 import { Routes } from "@/routes";
+import AtListItem from "@/components/AtListItem";
 
 
 export const useCountdown = (expiryTime) => {
@@ -84,14 +85,14 @@ export const useCountdown = (expiryTime) => {
       if (timeList.length) {
         timeText = timeList.join(':');
       }
-      console.log('timeText', timeText);
+      // console.log('timeText', timeText);
 
       if (timeText === '00:00:00') {
-        Taro.reLaunch({
-          url: Routes.MyOrder
-        })
+        // Taro.reLaunch({
+        //   url: Routes.MyOrder
+        // })
         // console.log('再次请求列表');
-        // store.dispatch(actionCreator.global.getOrderList())
+        store.dispatch(actionCreator.global.getOrderList())
       }
       setTimeText(timeText)
 
@@ -113,64 +114,62 @@ const Order = ({ item, onPay }) => {
   return (
     <View className={classNames('fiche', styles.orderCard)}>
       <View className={styles.orderNumber}>
-        <View className={styles.orderNumberText}>
-          <Text>订单编号：{item.order_no}</Text>
+        <View
+        // className={styles.orderNumberText}
+        >
+          <Text className={classNames('weui-cell__desc')} >订单编号：{item.order_no}</Text>
         </View>
       </View>
-      <ListItem
-        title='服务信息'
-        extraText={item.goods[0]?.goods_name}
-        border
-      ></ListItem>
-      <ListItem
-        title='下单时间'
-        extraText={item.create_time}
-        border
-      ></ListItem>
-      <ListItem
-        title='服务编号'
-        extraText={item.task_no}
-        border
-      ></ListItem>
-      <ListItem
-        title='签约人'
-        extraText={item.name}
-        border
-      ></ListItem>
-      <ListItem
-        title='身份证号'
-        extraText={item.idcard}
-        border
-      ></ListItem>
-      <ListItem
-        title='手机号'
-        extraText={item.mobile}
-        border
-      ></ListItem>
-      <ListItem
-        title='应付款'
-        extraText={`￥${formatMoney(item.order_price, 2)}`}
-        border
-      ></ListItem>
+      {/* <AtListItem
+        // title='订单编号'
+        desc={`订单编号：${item.order_no}`}
+      >
+      </AtListItem> */}
+
+      <AtListItem title='服务信息'>
+        {item.goods[0]?.goods_name}
+      </AtListItem>
+      <AtListItem title='下单时间'>
+        {item.create_time}
+      </AtListItem>
+      <AtListItem title='服务编号'>
+        {item.task_no}
+      </AtListItem>
+      <AtListItem title='签约人'>
+        {item.name}
+      </AtListItem>
+      <AtListItem title='身份证号'>
+        {item.idcard}
+      </AtListItem>
+      <AtListItem title='手机号'>
+        {item.mobile}
+      </AtListItem>
+      <AtListItem title='应付款'>
+        {`￥${formatMoney(item.order_price, 2)}`}
+      </AtListItem>
       {
         item.state_text === "已付款，待发货" && (
-          <ListItem
-            title='实付款'
-            extraText={`￥${item.pay_price}`}
-            border
-          ></ListItem>
+          <AtListItem title='实付款'>
+            {`￥${formatMoney(item.pay_price, 2)}`}
+          </AtListItem>
         )
       }
 
       {
         item.state_text === "待付款" && (
-          <ListItem
-            title='去支付'
-            iconRight={iconRight}
-            // time={showRemainTime(item.expiry_time)}
-            time={useCountdown(item.expiry_time)}
+          <AtListItem title='去支付'
+            isLink
+            desc={`请在${useCountdown(item.expiry_time)}内完成付款`}
             onClick={onPay}
-          ></ListItem>
+          >
+          </AtListItem>
+          // <ListItem
+          //   title='去支付'
+          //   iconRight={iconRight}
+          //   // time={showRemainTime(item.expiry_time)}
+          //   time={useCountdown(item.expiry_time)}
+          //   onClick={onPay}
+          // ></ListItem>
         )
       }
     </View>
