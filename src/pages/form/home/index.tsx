@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form, Picker as TaroPicker } from '@tarojs/components'
 // import { createForm, onFieldChange } from '@formily/core'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
-import { observable } from '@formily/reactive'
 // import CellOrigin from '@/components/Cell'
 import {
   Switch,
@@ -19,16 +18,16 @@ import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
-import { dictionaryQueue, initialState } from '@/models/dictionary'
 import objectPath from 'object-path'
 import data from './data.json'
 import '@/weui/style/weui.less'
 import { simpleCompiler } from '@/utils/formily'
+import { formDictionaryQueue } from '@/queue'
+import { scope } from '@/models/file-document'
 
 
 Schema.registerCompiler(simpleCompiler);
 
-const scope = observable({ $dictionary: { ...initialState }, $task: { review_user: {}, service_user: {} } })
 
 const SchemaField = createSchemaField({
   scope,
@@ -60,7 +59,8 @@ const weappBoundingClientRect = (id) => {
 
 
 const FormHomePage = () => {
-  const { dictionary, fileDocument } = useSelector((store: RootState) => store);
+  const { fileDocument } = useSelector((store: RootState) => store);
+  // const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
   const dispatch = useDispatch();
   const { params } = useRouter();
   const anchorTextList = useMemo(() => {
@@ -76,38 +76,44 @@ const FormHomePage = () => {
     return list;
   }, [fileDocument.pageStructure.schema]);
 
-  useEffect(() => {
-    scope.$dictionary = dictionary;
-  }, [dictionary]);
-  useEffect(() => {
-    scope.$task = fileDocument.task;
-  }, [fileDocument.task]);
-
   const onAnchorClick = async (item) => {
     const rectDom = await weappBoundingClientRect(item.id);
     Taro.pageScrollTo({ scrollTop: rectDom.top });
   };
 
-  // async function fetchPageStructure() {
-  //   const response = await api.getPageStructure({ name: 'file-document' });
-  //   if (response.data.content) setPageStructure(JSON.parse(response.data.content));
-
-  //   scope.$business = { user: { name: '崔正', phone: '15824281322' } }
-  // }
-
   useDidShow(async () => {
-    await dictionaryQueue.onEmpty();
-    console.log('dictionaryQueue.onEmpty()');
-    fileDocument.form.clearFormGraph('*');
+    await formDictionaryQueue.onEmpty();
+    // console.log('dictionaryQueue.onEmpty()');
+    // fileDocument.form.clearFormGraph('*');
+
+    fetchTaskDetail();
+    fetchPageSturture();
+  });
+
+  const fetchPageSturture = async () => {
+    dispatch(actionCreator.fileDocument.fetchPageStructure());
+  }
+
+  const fetchTaskDetail = async () => {
+    if (params.id == fileDocument.taskId) return;
+
     dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));
-    dispatch(actionCreator.fileDocument.fetchPageStructure());
-  });
+  }
+
+  // useEffect(() => {
+  //   console.log('params.id: ', params.id);
+  // }, [params.id]);
+
+  // useEffect(() => {
+  //   setPageStructure(fileDocument.pageStructure);
+  // }, [fileDocument.pageStructure]);
 
   const handleSubmit = async () => {
     try {
       const formValues = await fileDocument.form.submit();
       dispatch(actionCreator.fileDocument.submitFormValues({ task_id: params.id, content: JSON.stringify(formValues) }));
+      Taro.navigateBack();
     } catch(validationErrors) {
       const queryResult = fileDocument.form.query(validationErrors[0].address);
       // console.log('queryResult: ', );

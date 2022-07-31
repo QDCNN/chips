@@ -110,7 +110,7 @@ const AnchorNavigation = ({
               </View>
             </View>
           ))}
-          {!value.length ? '没有数据' : null}
+          {/* {!value.length ? '没有数据' : null} */}
         </View>
       </ScrollView>
     </View>

@@ -1,20 +1,22 @@
 import { ArrayItems } from '@/components';
 import { createSchemaField, FormProvider } from '@formily/react';
 import { Input, View } from '@tarojs/components';
-import { LinkCell } from '@/formily-components';
+import { Cell, LinkCell, Picker } from '@/formily-components';
 import React from 'react';
 import { createForm } from '@formily/core';
 import '@/weui/style/weui.less';
 import { simpleCompiler } from '@/utils/formily';
 
 
+// "description": "{{$self.value ? numeral($self.value).format('0,0.00') : ''}}"
 const result = simpleCompiler(
   // `Number($self.value).toFixed(2) + "%"`,
-  `$form.values.settlement_method == '18' ? $dictionary.basic.graduate_institutions.slice(0, 50) : $form.values.settlement_method == '19' ? $dictionary.basic.graduate_institutions.slice(50, 100) : $dictionary.basic.graduate_institutions`,
-  // `$self.value ? Number($self.value).toFixed(2) + "%" : ''`,
+  // `$form.values.settlement_method == '18' ? $dictionary.basic.graduate_institutions.slice(0, 50) : $form.values.settlement_method == '19' ? $dictionary.basic.graduate_institutions.slice(50, 100) : $dictionary.basic.graduate_institutions`,
+  `$self.value ? numeral($self.value).format('0,0.00') : ''`,
+  // `$self.value ? Number($self.value).toFixed(2) + \"%\" : ''`,
   {
     $self: {
-      value: '222',
+      value: '299922',
     },
     $form: {
       values: {
@@ -46,7 +48,10 @@ const form = createForm()
 const DemoPage = () => {
   return (
     <View>
-      <Input type="digit" />
+      <Picker mode="multiSelector" range={[[1,2,3], [2,3,2]]}>
+        <Cell title="测试">测试</Cell>
+      </Picker>
+      {/* <Input type="digit" /> */}
 
       <FormProvider form={form}>
         <SchemaField>
