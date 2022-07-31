@@ -24,6 +24,8 @@ export const Picker: React.FC<any> = connect(
       // }
       // delete props['value']
 
+      // console.log('options: ', getFullName(field), options);
+
       return {
         ...props,
         title: field?.title || props.label,

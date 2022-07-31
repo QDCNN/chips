@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { View, Form, Picker as TaroPicker } from '@tarojs/components'
-// import { createForm, onFieldChange } from '@formily/core'
+import React, { useMemo, useState } from 'react'
+import { View, Form } from '@tarojs/components'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
-// import CellOrigin from '@/components/Cell'
+import { $ } from '@tarojs/extend'
 import {
   Switch,
   Input,
@@ -15,15 +14,16 @@ import {
   ArrayItems,
 } from '@/formily-components'
 import AnchorNavigation from '@/components/AnchorNavigation'
-import Taro, { useDidShow, useRouter } from '@tarojs/taro'
+import Taro, { useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
-import objectPath from 'object-path'
 import data from './data.json'
 import '@/weui/style/weui.less'
 import { simpleCompiler } from '@/utils/formily'
 import { formDictionaryQueue } from '@/queue'
 import { scope } from '@/models/file-document'
+import { throttle } from 'lodash'
+import { weappBoundingClientRect } from '@/utils/dom'
 
 
 Schema.registerCompiler(simpleCompiler);
@@ -45,20 +45,11 @@ const SchemaField = createSchemaField({
 })
 
 
-const weappBoundingClientRect = (id) => {
-  return new Promise((resolve, reject) => {
-    Taro.createSelectorQuery()
-      .select('#' + id)
-      .boundingClientRect((doms: any) => {
-        if (!doms) reject();
-        resolve({ ...doms, isOver: doms.top + doms.height < 0, fixed: doms.top <= 0 });
-      })
-      .exec();
-  }) as Promise<any>;
-};
-
-
 const FormHomePage = () => {
+  const [scrollTop, setScrollTop] = useState();
+  usePageScroll(throttle((pageRect) => {
+    setScrollTop(pageRect.scrollTop);
+  }, 1000));
   const { fileDocument } = useSelector((store: RootState) => store);
   // const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
   const dispatch = useDispatch();
@@ -78,7 +69,7 @@ const FormHomePage = () => {
 
   const onAnchorClick = async (item) => {
     const rectDom = await weappBoundingClientRect(item.id);
-    Taro.pageScrollTo({ scrollTop: rectDom.top });
+    Taro.pageScrollTo({ scrollTop: scrollTop + rectDom.top });
   };
 
   useDidShow(async () => {
@@ -101,14 +92,6 @@ const FormHomePage = () => {
     dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));
   }
 
-  // useEffect(() => {
-  //   console.log('params.id: ', params.id);
-  // }, [params.id]);
-
-  // useEffect(() => {
-  //   setPageStructure(fileDocument.pageStructure);
-  // }, [fileDocument.pageStructure]);
-
   const handleSubmit = async () => {
     try {
       const formValues = await fileDocument.form.submit();
@@ -127,9 +110,7 @@ const FormHomePage = () => {
   return (
     // <View style={fileDocument.pageStructure.form.style} data-weui-theme="light">
     <View style={data.form.style} data-weui-theme="light">
-      <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
-      {/* <Uploader value={[]} /> */}
-      {/* <Input /> */}
+      <AnchorNavigation value={anchorTextList} scrollTop={scrollTop} onClick={onAnchorClick} />
 
       <Form onSubmit={handleSubmit}>
         <FormProvider form={fileDocument.form}>

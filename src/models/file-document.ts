@@ -8,6 +8,7 @@ import data from './data.json'
 import { observable } from '@formily/reactive'
 import { initialState as dictionaryInitialState } from './dictionary'
 import onceInit from 'once-init'
+import { getFullName } from '@/utils/formily';
 // import { actionCreator, RootState, store } from '@/store';
 
 const onceFetchPageStructure = onceInit(async () => {
@@ -22,7 +23,7 @@ const form = createForm({
     // })
     onFieldValueChange('*', (field, $form) => {
       const fullForm = {...$form.getFormState().values};
-      objectPath.set(fullForm, field.props.name, field.value);
+      objectPath.set(fullForm, getFullName(field), field.value);
       store.dispatch(actionCreator.fileDocument.saveTempValue(fullForm))
     })
   }

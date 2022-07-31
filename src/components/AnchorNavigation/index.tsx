@@ -6,15 +6,17 @@ import React, {
 } from 'react';
 
 import styles from './index.module.less';
-import { AnchorNavigationData, AnchorNavigationShowType } from './type';
+import { weappBoundingClientRect } from '@/utils/dom';
+import { delay } from '@/utils';
 
 const AnchorNavigation = ({
   value = [],
+  scrollTop = 0,
   onClick
-}: { value: any[], onClick?: any }) => {
+}: { value: any[], onClick?: any, scrollTop: number }) => {
   const [current, setCurrent] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const [scrollTop, setScrollTop] = useState(0);
+  // const [scrollLeft, setScrollLeft] = useState(0);
+  const nodeRectList = useRef<any[]>([]);
   const [matchedIndex, setMatchedIndex] = useState(-1);
   const anchorRef = useRef<any>();
   const [scrollIntoView, setScrollIntoView] = useState('');
@@ -56,23 +58,33 @@ const AnchorNavigation = ({
   // useEffect(() => {
   //   updateState(current);
   // }, [current, updateState]);
+  const generateRectTopList = async () => {
+    await delay(0);
+    const queryNodeRectList = await Promise.all(value.map(item => weappBoundingClientRect(item.id)));
+    nodeRectList.current = queryNodeRectList;
+  }
 
   useLayoutEffect(() => {
     let currentFocus = 0;
-    // nodeRectList.forEach(nodeRect => {
-    //   if (viewScrollTop! > nodeRect.top) currentFocus++;
-    // });
+    nodeRectList.current.forEach(nodeRect => {
+      if (scrollTop! > nodeRect.top) currentFocus++;
+    });
 
-    const matchIndex = value.findIndex(item => item.index == currentFocus);
-    if (matchIndex > -1) setMatchedIndex(matchIndex);
+    if (currentFocus > -1) setMatchedIndex(currentFocus);
+  }, [value, scrollTop]);
+
+  useLayoutEffect(() => {
+    generateRectTopList();
   }, [value]);
   const currentIndex = useMemo(() => (matchedIndex > -1 ? matchedIndex : current), [matchedIndex, current]);
+  // console.log('matchedIndex: ', matchedIndex, currentIndex);
 
   const handleClick = (item, index) => {
     onClick && onClick(item, index);
     setMatchedIndex(-1);
     setCurrent(index);
   };
+
   return (
     <View
       ref={anchorRef as any}
@@ -84,8 +96,8 @@ const AnchorNavigation = ({
         scrollWithAnimation
         className={classnames(styles.anchorNavigation)}
         scrollIntoView={scrollIntoView}
-        scrollLeft={scrollLeft}
-        scrollTop={scrollTop}
+        // scrollLeft={scrollLeft}
+        // scrollTop={scrollTop}
       >
         <View>
           {value.map((item, index) => (

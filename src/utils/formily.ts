@@ -241,15 +241,20 @@ export const simpleCompiler = (expression, scope) => {
   return result;
 }
 
+export const objectGetByPath = (object, path) => {
+  if (object[path]) return object[path];
+  return objectPath.get(object, path);
+}
+
 export const getSchemaFromPath = (schema, pathStr) => {
   const execResult = /(\.\d\.)/.exec(pathStr);
 
-  if (!execResult || !execResult[1]) return objectPath.get(schema.properties, pathStr)
+  if (!execResult || !execResult[1]) return objectGetByPath(schema.properties, pathStr);
 
   const pathList = pathStr.split(execResult[1]);
   for (let i = 0; i < pathList.length; i++) {
     const path = pathList[i];
-    const property = objectPath.get(schema.properties, path);
+    const property = objectGetByPath(schema.properties, path);
     if (property.type === 'array') return getSchemaFromPath(property.items, pathList[i + 1])
     i++;
   }

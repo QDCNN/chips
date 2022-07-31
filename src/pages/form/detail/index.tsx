@@ -68,13 +68,17 @@ const typeComponentMap = {
 const form = createForm();
 
 const FormDetailPage = () => {
-  const { dictionary, fileDocument } = useSelector((store: RootState) => store);
+  const { fileDocument } = useSelector((store: RootState) => store);
   const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
   const dispatch = useDispatch();
   const { params } = useRouter();
 
   useDidShow(() => {
     initPage();
+
+    const title = params.title ? decodeURIComponent(params.title) : '';
+    // console.log('params: ', decodeURIComponent(params.title));
+    Taro.setNavigationBarTitle({ title });
   });
 
   const handleCustom = () => {
@@ -102,18 +106,21 @@ const FormDetailPage = () => {
     type = typeComponentMap[paramsType];
 
     const pathSchema = getSchemaFromPath(fileDocument.pageStructure.schema, params.name);
-    const currentSchema = merge.recursive({}, pathSchema, {
+    const currentSchema = merge.recursive({}, { ...pathSchema, properties: { ...pathSchema.properties } }, {
       'x-component': type,
       'x-index': 0,
       name: params.name,
     });
-    const fullSchema = merge.recursive({}, typeDataMap[paramsType], {
+    const fullSchema = merge({}, { ...typeDataMap[paramsType] }, {
       schema: {
         properties: {
-          [currentSchema.name]: currentSchema
+          ...typeDataMap[paramsType].schema.properties,
+          [currentSchema.name]: currentSchema,
         }
       }
     });
+
+    console.log('fullSchema: ', fullSchema);
 
     const matchValue = objectPath.get(fullForm.values, params.name);
     if (matchValue) form.setValuesIn(params.name, matchValue);
