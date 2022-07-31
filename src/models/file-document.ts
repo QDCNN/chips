@@ -4,6 +4,7 @@ import { createForm, onFormMount, onFieldValueChange } from '@formily/core';
 import Taro from '@tarojs/taro';
 // import Taro from '@tarojs/taro';
 import objectPath from 'object-path'
+import data from './data.json'
 // import { actionCreator, RootState, store } from '@/store';
 
 const form = createForm({
@@ -12,10 +13,10 @@ const form = createForm({
     //   console.log('onFieldInitialValueChange')
     //   store.dispatch(actionCreator.fileDocument.setMounted(true));
     // })
-    onFieldValueChange('*', field => {
-      const formValue = {};
-      objectPath.set(formValue, field.props.name, field.value);
-      store.dispatch(actionCreator.fileDocument.saveTempValue(formValue))
+    onFieldValueChange('*', (field, $form) => {
+      const fullForm = {...$form.getFormState().values};
+      objectPath.set(fullForm, field.props.name, field.value);
+      store.dispatch(actionCreator.fileDocument.saveTempValue(fullForm))
     })
   }
 });
@@ -23,10 +24,11 @@ const form = createForm({
 export const initialState = {
   taskId: '',
   mounted: false,
-  pageStructure: {
-    form: { style: {} },
-    schema: {}
-  },
+  pageStructure: data,
+  // pageStructure: {
+  //   form: { style: {} },
+  //   schema: {}
+  // },
   task: {},
   form,
 }
@@ -49,9 +51,9 @@ const fileDocument = {
   }),
   effects: (dispatch, getState, delay) => ({
     async fetchPageStructure() {
-      const response = await api.getPageStructure({ name: 'file-document' });
-      if (!response.data.content) return;
-      dispatch(actionCreator.fileDocument.setPageStructure(JSON.parse(response.data.content)));
+      // const response = await api.getPageStructure({ name: 'file-document' });
+      // if (!response.data.content) return;
+      // dispatch(actionCreator.fileDocument.setPageStructure(JSON.parse(response.data.content)));
 
       setTimeout(() => {
         store.dispatch(actionCreator.fileDocument.setMounted(true));

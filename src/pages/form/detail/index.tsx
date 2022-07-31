@@ -1,4 +1,4 @@
-import Taro, { useRouter } from '@tarojs/taro'
+import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
 import { useEffect, useMemo, useState } from 'react'
 // import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form, Label } from '@tarojs/components'
@@ -18,52 +18,12 @@ import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
 import objectPath from 'object-path'
 import merge from 'merge'
+import { getSchemaFromPath, simpleCompiler } from '@/utils/formily'
 
-// console.log('merge: ', merge);
 
-// import { DictionaryProperty } from '@/models/dictionary'
-// import * as lodash from 'lodash'
+Schema.registerCompiler(simpleCompiler);
 
-const handleSingleItem = (expression, scope) => {
-  if (expression.includes('+')) {
-    expression.split('+').map(item => {
-      if (item.includes('"')) return /"(.*)"/.exec(item)[1];
-      if (item.trim() === 'true') return true;
-      if (item.trim() === 'false') return false;
-      return scope[item.trim()];
-    })
-  }
-  if (expression.includes('"')) return /"(.*)"/.exec(expression)[1];
-  if (expression.trim() === 'true') return true;
-  if (expression.trim() === 'false') return false;
-  return objectPath.get(scope, expression.trim())
-}
-
-Schema.registerCompiler((expression: any, scope?: any) => {
-  const scopeObj = { ...scope };
-  if (/{/.test(expression)) {
-    const resultObj = {};
-    const matched = expression.replace(/^{/, '').replace(/}$/, '');
-
-    for (const item of matched.split(',')) {
-      // if (item.includes('...')) {
-      //   const extObj = objectPath.get(scopeObj, item.replace('...', ''));
-      //   console.log('extObj: ', { ...scopeObj }, item.replace('...', ''));
-      //   for (const key in extObj) {
-      //     resultObj[key] = extObj[key];
-      //   }
-      //   continue;
-      // }
-      const [key, value] = item.split(':');
-      resultObj[key.trim()] = handleSingleItem(value, scope);
-    }
-    return resultObj;
-  }
-  const result = objectPath.get(scopeObj, expression);
-  return result;
-});
-
-const form = createForm();
+// const form = createForm();
 
 const SchemaField = createSchemaField({
   components: {
@@ -81,7 +41,18 @@ const SchemaField = createSchemaField({
   }
 });
 
-const scope = observable({ $params: {}, $business: { user: { name: '', phone: '' } }, $dictionary: { ...initialState }, $task: { review_user: {}, service_user: {} } })
+const scope = observable({
+  $params: {},
+  $fullForm: {},
+  $business: { user: { name: '', phone: '' } },
+  $dictionary: { ...initialState },
+  $task: { review_user: {}, service_user: {} }
+});
+
+// const pageStructure = observable({
+//   schema: {},
+//   form: {},
+// });
 
 const typeDataMap = {
   'input': inputData,
@@ -92,20 +63,30 @@ const typeDataMap = {
   'service_user.work_card': serviceUserWorkData,
 }
 
+const typeComponentMap = {
+  input: 'Input',
+  radio: 'Radio',
+  textarea: 'Textarea',
+}
+
 const FormDetailPage = () => {
   const { dictionary, fileDocument } = useSelector((store: RootState) => store);
   const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
+  const form = useMemo(() => createForm(), [pageStructure])
   const dispatch = useDispatch();
   const { params } = useRouter();
 
   useEffect(() => {
     if (params.type === 'custom') {
-      // console.log('typeDataMap[params.name]: ', typeDataMap, params.name)
-      typeDataMap[params.name] && setPageStructure(typeDataMap[params.name])
+      if (typeDataMap[params.name]) {
+        setPageStructure(typeDataMap[params.name]);
+      }
     } else {
-      typeDataMap[params.type] && setPageStructure(typeDataMap[params.type])
+      if (typeDataMap[params.type]) {
+        setPageStructure(typeDataMap[params.type]);
+      }
     }
-    scope.$params = fileDocument.params;
+    scope.$params = params;
   }, [params]);
 
 
@@ -116,36 +97,37 @@ const FormDetailPage = () => {
     scope.$task = fileDocument.task;
   }, [fileDocument.task]);
   useEffect(() => {
+    // setPageStructure({ form: {}, schema: {} });
+
+
+    const paramsType = params.type || 'input';
     let type = '';
     if (params.type === 'custom') return;
-    if (params.type === 'input') type = 'Input';
-    if (params.type === 'radio') type = 'Radio';
-    if (params.type === 'textarea') type = 'Textarea';
-    const currentPageStruct = {
-      ...typeDataMap[params.type],
-      schema: {
-        ...typeDataMap[params.type].schema,
-        properties: {
-          [params.name]: {
-            ...fileDocument.pageStructure.schema.properties[params.name],
-            'x-component': type,
-            'x-index': 0,
-            "x-component-props": {
-              ...fileDocument.pageStructure.schema.properties[params.name]['x-component-props'],
-              // "style": {}
-            }
-          },
-          ...typeDataMap[params.type].schema.properties,
-        }
-      }
-    };
-    setPageStructure(currentPageStruct);
-  }, [fileDocument.pageStructure])
+    type = typeComponentMap[paramsType];
+
+    const pathSchema = getSchemaFromPath(fileDocument.pageStructure.schema, params.name);
+    const currentSchema = merge({}, {...pathSchema}, {
+      'x-component': type,
+      'x-index': 0,
+      name: params.name,
+    });
+    const fullSchema = { ...typeDataMap[paramsType] };
+    fullSchema.schema.properties[currentSchema.name] = currentSchema;
+    setPageStructure(fullSchema);
+
+    const fullForm = fileDocument.form.getFormState();
+    scope.$fullForm = fullForm;
+  }, []);
+
+  // useDidHide(() => {
+  //   form.clearFormGraph('*');
+  //   setPageStructure({ form: {}, schema: {} });
+  // });
 
   const onSubmit = async () => {
     const formValue = await form.submit();
     const fullForm = fileDocument.form.getFormState();
-    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive(formValue, fullForm.values)));
+    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive(fullForm.values, formValue)));
     Taro.navigateBack();
   }
 

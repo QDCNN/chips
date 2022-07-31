@@ -4,22 +4,29 @@ import { View, Form, Picker as TaroPicker } from '@tarojs/components'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
 import { observable } from '@formily/reactive'
 // import CellOrigin from '@/components/Cell'
-import { Switch, Input, Picker, Text, Cell, LinkCell, Uploader, Button } from '@/formily-components'
+import {
+  Switch,
+  Input,
+  Picker,
+  Text,
+  Cell,
+  LinkCell,
+  Uploader,
+  Button,
+  ArrayItems,
+} from '@/formily-components'
 import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
-import { initialState } from '@/models/dictionary'
+import { dictionaryQueue, initialState } from '@/models/dictionary'
 import objectPath from 'object-path'
 import data from './data.json'
 import '@/weui/style/weui.less'
+import { simpleCompiler } from '@/utils/formily'
 
 
-Schema.registerCompiler((expression: any, scope?: any) => {
-  const obj = { ...scope };
-  const result = objectPath.get(obj, expression);
-  return result;
-});
+Schema.registerCompiler(simpleCompiler);
 
 const scope = observable({ $dictionary: { ...initialState }, $task: { review_user: {}, service_user: {} } })
 
@@ -34,6 +41,7 @@ const SchemaField = createSchemaField({
     BaseView: View,
     LinkCell,
     Uploader,
+    ArrayItems,
   }
 })
 
@@ -57,7 +65,7 @@ const FormHomePage = () => {
   const { params } = useRouter();
   const anchorTextList = useMemo(() => {
     const list: any[] = [];
-    const { properties } = data.schema;
+    const { properties = {} } = fileDocument.pageStructure.schema;
     for (const key in properties) {
       const componentProps = properties[key]['x-component-props'];
       const component = properties[key]['x-component'];
@@ -66,7 +74,7 @@ const FormHomePage = () => {
       }
     }
     return list;
-  }, []);
+  }, [fileDocument.pageStructure.schema]);
 
   useEffect(() => {
     scope.$dictionary = dictionary;
@@ -87,7 +95,9 @@ const FormHomePage = () => {
   //   scope.$business = { user: { name: '崔正', phone: '15824281322' } }
   // }
 
-  useDidShow(() => {
+  useDidShow(async () => {
+    await dictionaryQueue.onEmpty();
+    console.log('dictionaryQueue.onEmpty()');
     fileDocument.form.clearFormGraph('*');
     dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));

@@ -49,12 +49,14 @@ export const Cell = (props) => {
           {content}
         </View>
 
-        <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass)}>
+        <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass, { [prefixCls + '__ft-ellipsis']: value })}>
           {children ? children : value && value}
+
           {/* {showError && error && <Icon type="warn" size="23" color="#E64340" />} */}
         </View>
       </View>
-      <View className="weui-cells__tips weui-cells__tips_warn">{error}</View>
+
+      {error && <View className="weui-cells__tips weui-cells__tips_warn">{error}</View>}
     </Block>
   )
 }
