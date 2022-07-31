@@ -19,7 +19,7 @@ import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
-import { initialState } from '@/models/dictionary'
+import { dictionaryQueue, initialState } from '@/models/dictionary'
 import objectPath from 'object-path'
 import data from './data.json'
 import '@/weui/style/weui.less'
@@ -95,7 +95,9 @@ const FormHomePage = () => {
   //   scope.$business = { user: { name: '崔正', phone: '15824281322' } }
   // }
 
-  useDidShow(() => {
+  useDidShow(async () => {
+    await dictionaryQueue.onEmpty();
+    console.log('dictionaryQueue.onEmpty()');
     fileDocument.form.clearFormGraph('*');
     dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
     dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));

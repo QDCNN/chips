@@ -10,6 +10,7 @@ export const Picker: React.FC<any> = connect(
   TaroPicker,
   mapProps(
     (props, field) => {
+      console.log('Picker: ', props, field);
       return {
         ...props,
         title: field.title || props.label,

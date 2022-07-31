@@ -7,9 +7,15 @@ import { createForm } from '@formily/core';
 import '@/weui/style/weui.less';
 import { simpleCompiler } from '@/utils/formily';
 
+
 const result = simpleCompiler(
-  `$form.values.settlement_method == '18' ? $dictionary.basic.graduate_institutions.slice(0, 50) : $form.values.settlement_method == '19' ? $dictionary.basic.graduate_institutions.slice(50, 100) :  $dictionary.basic.graduate_institutions`,
+  // `Number($self.value).toFixed(2) + "%"`,
+  `$form.values.settlement_method == '18' ? $dictionary.basic.graduate_institutions.slice(0, 50) : $form.values.settlement_method == '19' ? $dictionary.basic.graduate_institutions.slice(50, 100) : $dictionary.basic.graduate_institutions`,
+  // `$self.value ? Number($self.value).toFixed(2) + "%" : ''`,
   {
+    $self: {
+      value: '222',
+    },
     $form: {
       values: {
         settlement_method: '19',
@@ -18,6 +24,7 @@ const result = simpleCompiler(
     $dictionary: { basic: { graduate_institutions: [1,2,3,4,5,6] } }
   }
 )
+
 console.log('result: ', result);
 
 const SchemaField = createSchemaField({

@@ -23,7 +23,7 @@ import { getSchemaFromPath, simpleCompiler } from '@/utils/formily'
 
 Schema.registerCompiler(simpleCompiler);
 
-const form = createForm();
+// const form = createForm();
 
 const SchemaField = createSchemaField({
   components: {
@@ -72,6 +72,7 @@ const typeComponentMap = {
 const FormDetailPage = () => {
   const { dictionary, fileDocument } = useSelector((store: RootState) => store);
   const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
+  const form = useMemo(() => createForm(), [pageStructure])
   const dispatch = useDispatch();
   const { params } = useRouter();
 
@@ -98,36 +99,30 @@ const FormDetailPage = () => {
   useEffect(() => {
     // setPageStructure({ form: {}, schema: {} });
 
+
     const paramsType = params.type || 'input';
     let type = '';
     if (params.type === 'custom') return;
     type = typeComponentMap[paramsType];
 
     const pathSchema = getSchemaFromPath(fileDocument.pageStructure.schema, params.name);
-    const currentSchema = merge.recursive({}, pathSchema, {
+    const currentSchema = merge({}, {...pathSchema}, {
       'x-component': type,
       'x-index': 0,
       name: params.name,
     });
-    const matchedData = merge.recursive({}, typeDataMap[paramsType], {
-      schema: {
-        properties: {
-          [currentSchema.name]: currentSchema
-        }
-      }
-    });
-
-    console.log('currentSchema: ', currentSchema);
-    setPageStructure({...matchedData});
+    const fullSchema = { ...typeDataMap[paramsType] };
+    fullSchema.schema.properties[currentSchema.name] = currentSchema;
+    setPageStructure(fullSchema);
 
     const fullForm = fileDocument.form.getFormState();
     scope.$fullForm = fullForm;
   }, []);
 
-  useDidHide(() => {
-    form.clearFormGraph('*');
-    setPageStructure({ form: {}, schema: {} });
-  });
+  // useDidHide(() => {
+  //   form.clearFormGraph('*');
+  //   setPageStructure({ form: {}, schema: {} });
+  // });
 
   const onSubmit = async () => {
     const formValue = await form.submit();

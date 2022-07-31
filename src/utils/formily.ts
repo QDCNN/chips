@@ -1,5 +1,46 @@
 import objectPath from 'object-path'
 
+const globalScope: { [key: string]: any } = {
+  console,
+
+  setTimeout,
+  setInterval,
+
+  clearTimeout,
+  clearInterval,
+
+  encodeURI,
+  encodeURIComponent,
+  decodeURI,
+  decodeURIComponent,
+  escape,
+  unescape,
+
+  Infinity,
+  NaN,
+  isFinite,
+  isNaN,
+  parseFloat,
+  parseInt,
+  Object,
+  Boolean,
+  Error,
+  EvalError,
+  RangeError,
+  ReferenceError,
+  SyntaxError,
+  TypeError,
+  URIError,
+  Number,
+  Math,
+  Date,
+  String,
+  RegExp,
+  Array,
+  JSON,
+  Promise
+}
+
 export const getFullName = (field) => {
   let path = '';
   if (field.props.basePath) {
@@ -7,6 +48,14 @@ export const getFullName = (field) => {
   }
   path += field.props.name;
   return path;
+}
+
+const charCount = (text, judgeCharacter) => {
+  let count = 0;
+  for (const character of text) {
+    if (character === judgeCharacter) count++;
+  }
+  return count;
 }
 
 const isTrue = text => text === 'true';
@@ -18,6 +67,8 @@ const isAddStatement = text => /\+/.test(text);
 const isString = text => /^"|'/.test(text);
 const isNumber = text => /^\d+\d?$/.test(text);
 const isFunctionCall = text => /\([^()]*\)/.test(text);
+const isFunctionChain = text => charCount(text, '(') > 1;
+const isGlobalVar = text => globalScope[text];
 
 // if (item.includes('...')) {
 //   const extObj = objectPath.get(scopeObj, item.replace('...', ''));
@@ -34,46 +85,87 @@ const handleObject = (expression, scope) => {
 
   for (const item of handledObjText.split(',')) {
     const [_, key, value] = /([^:]*):(.*)/.exec(item);
-    resultObj[key.trim()] = handleSingleItem(value, scope);
+    resultObj[key.trim()] = singleCompiler(value, scope);
   }
   return resultObj;
 }
 
 const handleTernaryExpression = (expression, scope) => {
   const [_, exp1, exp2, exp3] = /([^?:]*)\?([^:]*):(.*)/.exec(expression);
-  const exp1Result = handleSingleItem(exp1, scope);
-  const exp2Result = handleSingleItem(exp2, scope);
+  const exp1Result = singleCompiler(exp1, scope);
+  const exp2Result = singleCompiler(exp2, scope);
   if (exp1Result) return exp2Result;
-  return handleSingleItem(exp3, scope);
+  return singleCompiler(exp3, scope);
 }
 
 const handleJudgmentStatement = (expression, scope) => {
   const [_, exp1, exp2, exp3] = /([^=]*)(===|==|!=|!==)([^=]*)/.exec(expression);
-  if (exp2 == '===') return handleSingleItem(exp1, scope) === handleSingleItem(exp3, scope)
-  if (exp2 == '==') return handleSingleItem(exp1, scope) == handleSingleItem(exp3, scope)
-  if (exp2 == '!=') return handleSingleItem(exp1, scope) != handleSingleItem(exp3, scope)
-  if (exp2 == '!==') return handleSingleItem(exp1, scope) !== handleSingleItem(exp3, scope)
+  if (exp2 == '===') return singleCompiler(exp1, scope) === singleCompiler(exp3, scope)
+  if (exp2 == '==') return singleCompiler(exp1, scope) == singleCompiler(exp3, scope)
+  if (exp2 == '!=') return singleCompiler(exp1, scope) != singleCompiler(exp3, scope)
+  if (exp2 == '!==') return singleCompiler(exp1, scope) !== singleCompiler(exp3, scope)
   return '';
 }
 
 const handleAddStatement = (expression, scope) => {
-  return expression.split('+').reduce((prev, current) => prev + handleAddStatement(current, scope), null);
+  const expList = expression.split('+');
+  const count = expList.length;
+  const prev = singleCompiler(expList[0], scope);
+  let result = null;
+  for (let i = 1; i < count; i++) {
+    result = prev + singleCompiler(expList[i], scope);
+  }
+  return result;
 }
 
 const handleString = (expression) => {
+  // console.log('handleString: ', expression);
   return /([^"']+)/.exec(expression)[1];
 }
 
-const handleFunctionCall = (expression, scope) => {
-  const [_, variable, funcCall] = /(.*)\.([^.]+)$/.exec(expression);
-  const [_2, funcName, args] = /([^(]+)\(([^()]*)\)$/.exec(funcCall);
-  const handledArgs = args ? args.split(',').map(item => handleSingleItem(item, scope)) : [];
-  const target = handleSingleItem(variable, scope);
-  return target[funcName].apply(target, handledArgs);
+const handleFunctionChain = (expression, scope) => {
+  const initialFuncCallList = expression.split(').');
+  const count = initialFuncCallList.length;
+  // const lastItem = initialFuncCallList.pop();
+  const funcCallList = initialFuncCallList.map((item, index) => {
+    if (index === count - 1) return item;
+    return item + ')';
+  });
+
+  let result = null;
+  const preResult = handleFunctionCall(funcCallList[0], scope);
+  // console.log('funcCallList: ', funcCallList);
+  for (let i = 1; i < count; i++) {
+    result = handleTargetFuncCall(preResult, funcCallList[i], scope);
+  }
+  return result;
 }
 
-const handleSingleItem = (expression, scope) => {
-  const trimExpression = expression.trim();
+const handleTargetFuncCall = (target, expression, scope) => {
+  const [_2, funcName, args] = /^([^(]*)\(([^()]+)\)/.exec(expression);
+  const handledArgs = args ? args.split(',').map(item => singleCompiler(item, scope)) : [];
+  // console.log('handleTargetFuncCall: ', target, expression, scope)
+  if (!target) return null;
+  const finalTarget = funcName ? target[funcName] : target;
+  // console.log('handleTargetFuncCall: ', finalTarget, target, expression, scope)
+  const result = finalTarget.apply(target, handledArgs);
+  return result;
+}
+
+const handleFunctionCall = (expression, scope) => {
+  if (isFunctionChain(expression)) return handleFunctionChain(expression, scope);
+
+  const [fullFuncCall, funcCall] = /\.?([^.]+\([^()]+\))$/.exec(expression);
+  const variable = expression.replace(fullFuncCall, '');
+  const target = singleCompiler(variable, scope);
+  // console.log('handleFunctionCall: ', target, expression, variable, { ...scope, $dictionary: { ...scope.$dictionary } })
+  return handleTargetFuncCall(target, funcCall, scope);
+}
+
+const handleGlobalVar = (expression) => global[expression];
+
+const singleCompiler = (expression, scope) => {
+  const trimExpression = typeof expression === 'string' ? expression.trim() : expression;
   if (isObject(trimExpression)) return handleObject(trimExpression, scope);
   if (isTernaryExpression(trimExpression)) return handleTernaryExpression(trimExpression, scope);
   if (isJudgmentStatement(trimExpression)) return handleJudgmentStatement(trimExpression, scope);
@@ -82,15 +174,20 @@ const handleSingleItem = (expression, scope) => {
   if (isNumber(trimExpression)) return Number(trimExpression);
   if (isTrue(trimExpression)) return true;
   if (isFalse(trimExpression)) return false;
-  if (isFunctionCall(trimExpression)) return handleFunctionCall(trimExpression, scope);
-  return objectPath.get(scope, trimExpression);
+  if (isFunctionCall(trimExpression)) {
+    const functionCallResult = handleFunctionCall(trimExpression, scope);
+    return functionCallResult;
+  };
+  // console.log('trimExpression: ', trimExpression, scope);
+  // if (isGlobalVar(trimExpression)) return handleGlobalVar(trimExpression);
+  const result = objectPath.get(scope, trimExpression);
+  return result;
 }
 
 export const simpleCompiler = (expression, scope) => {
   // const scopeObj = { ...scope };
-  // console.log(expression, scope);
-  const result = handleSingleItem(expression, scope);
-  // console.log('result: ', result);
+  const result = singleCompiler(expression, scope);
+  console.log('simpleCompiler: ', expression, scope, result);
   return result;
 }
 

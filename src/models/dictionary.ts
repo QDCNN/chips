@@ -1,5 +1,6 @@
 import * as api from '@/api'
-import { actionCreator, RootState, store } from '@/store';
+import PQueue from '@/queue/p-queue';
+import { actionCreator, RootState, store } from '@/store'
 
 export enum DictionaryProperty {
   落户方式 = 'settlement_method',
@@ -21,6 +22,8 @@ export const initialState = {
   [DictionaryProperty.子女信息]: {},
 }
 
+export const dictionaryQueue = new PQueue();
+
 const dictionaryModel = {
   state: () => initialState,
   reducers: () => ({
@@ -30,13 +33,15 @@ const dictionaryModel = {
   }),
   effects: (dispatch, getState, delay) => ({
     async init() {
-      dispatch(actionCreator.dictionary.fetchSettlementMethod());
-      dispatch(actionCreator.dictionary.fetchBasic());
-      dispatch(actionCreator.dictionary.fetchFamily());
-      dispatch(actionCreator.dictionary.fetchHukouMovein());
-      dispatch(actionCreator.dictionary.fetchArchive());
-      dispatch(actionCreator.dictionary.fetchEducation());
-      dispatch(actionCreator.dictionary.fetchChildren());
+      dictionaryQueue.add(async () => {
+        await dispatch(actionCreator.dictionary.fetchSettlementMethod());
+        await dispatch(actionCreator.dictionary.fetchBasic());
+        await dispatch(actionCreator.dictionary.fetchFamily());
+        await dispatch(actionCreator.dictionary.fetchHukouMovein());
+        await dispatch(actionCreator.dictionary.fetchArchive());
+        await dispatch(actionCreator.dictionary.fetchEducation());
+        await dispatch(actionCreator.dictionary.fetchChildren());
+      });
     },
     async fetchSettlementMethod() {
       const response = await api.getESSettlementMethod();

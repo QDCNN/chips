@@ -7,3 +7,4 @@ export const getPromise = () => {
 }
 
 export const loginQueue: (callback?) => Promise<any> = getPromise();
+// export const singlePromise: (callback?) => Promise<any> = getPromise();
