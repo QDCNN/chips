@@ -98,7 +98,6 @@ const FormDetailPage = () => {
     const paramsType = params.type || 'input';
     let type = '';
     if (params.type === 'custom') return;
-    form.clearFormGraph('*');
 
     const fullForm = fileDocument.form.getFormState();
     scope.$fullForm = fullForm;
@@ -129,6 +128,7 @@ const FormDetailPage = () => {
   };
 
   const initPage = () => {
+
     handleCustom();
     handleSpecific();
   };

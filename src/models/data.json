@@ -10,46 +10,25 @@
   "schema": {
     "type": "object",
     "properties": {
-      "anchor_3": {
-        "type": "string",
-        "x-component": "Text",
-        "x-component-props": {
-          "content": "家庭成员及主要社会关系",
-          "isAnchor": true,
-          "id": "employmentAndSocialInfo",
-          "style": {
-            "margin": "0px 0px 0px 0px"
-          }
-        },
-        "x-decorator": "BaseView",
-        "x-decorator-props": {
-          "style": {
-            "fontWeight": 900,
-            "fontSize": "20px",
-            "padding": "8px 8px 8px 8px",
-            "margin": "0px 0px 0px 0px"
-          }
-        },
-        "x-designable-id": "7ce4tanponk",
-        "x-index": 39,
-        "name": "anchor_3"
-      },
       "family": {
         "type": "array",
         "x-component": "ArrayItems",
         "x-component-props": {
-          "title": "Title"
+          "title": "Title",
+          "min": "1"
         },
         "x-validator": [
           {
-            "exclusiveMinimum": 5,
-            "whitespace": true,
-            "required": true,
+            "triggerType": "onBlur",
+            "max": null,
+            "min": 0,
             "message": "至少需要填写一个家庭成员"
           }
         ],
         "name": "family",
         "x-designable-id": "y29a4efac2a",
+        "x-index": 40,
+        "default": "{{[{}]}}",
         "items": {
           "type": "object",
           "x-validator": [],
@@ -209,7 +188,6 @@
             }
           }
         },
-        "x-index": 40,
         "properties": {
           "wlmyfv2ncmt": {
             "type": "void",
@@ -250,6 +228,6 @@
         }
       }
     },
-    "x-designable-id": "lb3uz6zrly4"
+    "x-designable-id": "pn01td9czt5"
   }
 }

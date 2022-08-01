@@ -98,9 +98,15 @@ const handleObject = (expression, scope) => {
 const handleTernaryExpression = (expression, scope) => {
   const [_, exp1, exp2, exp3] = /([^?:]*)\?([^:]*):(.*)/.exec(expression);
   const exp1Result = singleCompiler(exp1, scope);
-  const exp2Result = singleCompiler(exp2, scope);
-  if (exp1Result) return exp2Result;
-  return singleCompiler(exp3, scope);
+  if (exp1Result) {
+    const exp2Result = singleCompiler(exp2, scope);
+    // console.log('handleTernaryExpression exp2: ', exp2)
+    // console.log('handleTernaryExpression: ', expression, scope, exp1Result, exp2Result)
+    return exp2Result;
+  }
+  const result = singleCompiler(exp3, scope);
+  // console.log('handleTernaryExpression result: ', expression, scope, result)
+  return result;
 }
 
 const handleJudgmentStatement = (expression, scope) => {
@@ -136,6 +142,8 @@ const handleFunctionChain = (expression, scope) => {
     if (index === count - 1) return item;
     return item + ')';
   });
+
+  // console.log('funcCallList: ', funcCallList);
 
   let result = null;
   const preResult = handleFunctionCall(funcCallList[0], scope);
@@ -178,10 +186,11 @@ let parseArgumentsText = (argumentsText) => {
 const handleTargetFuncCall = ({ target, expression, scope, fixedTarget = false }) => {
   const [_2, funcName, args] = /^([^(]*)\(([^()]+)\)/.exec(expression);
   const handledArgs = args ? parseArgumentsText(args).map(item => singleCompiler(item, scope)) : [];
-  if (!target) return null;
+  // if (!target) return null;
   let finalTarget = funcName ? target[funcName] : target;
   let _this = funcName ? target[funcName] : target;
   if (typeof target === 'number') _this = Number(target);
+  if (typeof _this === 'function') _this = target;
   if (fixedTarget) _this = target;
   const result = finalTarget.apply(_this, handledArgs);
   return result;
@@ -199,8 +208,8 @@ const handleInitObject = (expression, scope) => {
 const handleFunctionCall = (expression, scope) => {
   if (isFunctionChain(expression)) return handleFunctionChain(expression, scope);
 
-  // console.log('handleFunctionCall', expression);
   const [fullFuncCall, funcCall] = /\.?([^.]+\([^()]+\))$/.exec(expression);
+  // console.log('handleFunctionCall', expression, fullFuncCall, funcCall);
   const variable = expression.replace(fullFuncCall, '');
   if (variable == '') return handleInitObject(expression, scope)
   const target = singleCompiler(variable, scope);

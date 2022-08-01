@@ -11,8 +11,8 @@ import { simpleCompiler } from '@/utils/formily';
 // "description": "{{$self.value ? numeral($self.value).format('0,0.00') : ''}}"
 const result = simpleCompiler(
   // `Number($self.value).toFixed(2) + "%"`,
-  // `$form.values.settlement_method == '18' ? $dictionary.basic.graduate_institutions.slice(0, 50) : $form.values.settlement_method == '19' ? $dictionary.basic.graduate_institutions.slice(50, 100) : $dictionary.basic.graduate_institutions`,
-  `$self.value ? numeral($self.value).format('0,0.00') : ''`,
+  `$form.values.settlement_method == '18' ? $dictionary.basic.graduate_institutions.slice(0, 5) : $form.values.settlement_method == '19' ? $dictionary.basic.graduate_institutions.slice(5, 10) : $dictionary.basic.graduate_institutions`,
+  // `$self.value ? numeral($self.value).format('0,0.00') : ''`,
   // `$self.value ? Number($self.value).toFixed(2) + \"%\" : ''`,
   {
     $self: {
@@ -20,10 +20,10 @@ const result = simpleCompiler(
     },
     $form: {
       values: {
-        settlement_method: '19',
+        settlement_method: '18',
       }
     },
-    $dictionary: { basic: { graduate_institutions: [1,2,3,4,5,6] } }
+    $dictionary: { basic: { graduate_institutions: [1,2,3,4,5,6,7,8,9,10] } }
   }
 )
 
