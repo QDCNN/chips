@@ -14,7 +14,7 @@ export const LinkCell = connect(
 
       // console.log('dataSource: ', dataSource);
 
-      const match = dataSource.find(item => item.value === props.value);
+      const match = dataSource.filter(item => item).find(item => item.value === props.value);
 
       return {
         ...props,

@@ -1,6 +1,11 @@
 import objectPath from 'object-path'
+import numeral from 'numeral';
 
 const globalScope: { [key: string]: any } = {
+  // custom start
+  numeral,
+  // custom end
+
   console,
 
   setTimeout,
@@ -43,10 +48,10 @@ const globalScope: { [key: string]: any } = {
 
 export const getFullName = (field) => {
   let path = '';
-  if (field.props.basePath) {
+  if (field?.props?.basePath) {
     path += field.props.basePath?.entire + '.';
   }
-  path += field.props.name;
+  if (field?.props?.name) path += field?.props?.name;
   return path;
 }
 
@@ -64,7 +69,7 @@ const isObject = text => /^{[^}]*}$/.test(text);
 const isTernaryExpression = text => /[^?:]*\?[^?:]*:/.test(text);
 const isJudgmentStatement = text => /===|==|!=|!==/.test(text);
 const isAddStatement = text => /\+/.test(text);
-const isString = text => /^"|'/.test(text);
+const isString = text => /^('|")[^"']*('|")$/.test(text);
 const isNumber = text => /^\d+\d?$/.test(text);
 const isFunctionCall = text => /\([^()]*\)/.test(text);
 const isFunctionChain = text => charCount(text, '(') > 1;
@@ -93,9 +98,15 @@ const handleObject = (expression, scope) => {
 const handleTernaryExpression = (expression, scope) => {
   const [_, exp1, exp2, exp3] = /([^?:]*)\?([^:]*):(.*)/.exec(expression);
   const exp1Result = singleCompiler(exp1, scope);
-  const exp2Result = singleCompiler(exp2, scope);
-  if (exp1Result) return exp2Result;
-  return singleCompiler(exp3, scope);
+  if (exp1Result) {
+    const exp2Result = singleCompiler(exp2, scope);
+    // console.log('handleTernaryExpression exp2: ', exp2)
+    // console.log('handleTernaryExpression: ', expression, scope, exp1Result, exp2Result)
+    return exp2Result;
+  }
+  const result = singleCompiler(exp3, scope);
+  // console.log('handleTernaryExpression result: ', expression, scope, result)
+  return result;
 }
 
 const handleJudgmentStatement = (expression, scope) => {
@@ -119,8 +130,8 @@ const handleAddStatement = (expression, scope) => {
 }
 
 const handleString = (expression) => {
-  // console.log('handleString: ', expression);
-  return /([^"']+)/.exec(expression)[1];
+  const execResult = /([^"']+)/.exec(expression);
+  return execResult ? execResult[1] : '';
 }
 
 const handleFunctionChain = (expression, scope) => {
@@ -132,23 +143,65 @@ const handleFunctionChain = (expression, scope) => {
     return item + ')';
   });
 
+  // console.log('funcCallList: ', funcCallList);
+
   let result = null;
   const preResult = handleFunctionCall(funcCallList[0], scope);
-  // console.log('funcCallList: ', funcCallList);
+  // console.log('preResult: ', preResult, expression, scope);
   for (let i = 1; i < count; i++) {
-    result = handleTargetFuncCall(preResult, funcCallList[i], scope);
+    result = handleTargetFuncCall({ target: preResult, expression: funcCallList[i], scope, fixedTarget: true });
   }
+  // console.log('result: ', result);
   return result;
 }
 
-const handleTargetFuncCall = (target, expression, scope) => {
+let parseArgumentsText = (argumentsText) => {
+  let resultArgs = [];
+  let start = '';
+  let current = '';
+  for (let char of argumentsText) {
+    if (['"', '\''].includes(char)) {
+      if (!start) {
+        start = char;
+      } else {
+        start = '';
+        current += char;
+        resultArgs.push(current);
+        current = '';
+        continue;
+      }
+    };
+    if (char == ',' && !start) {
+      resultArgs.push(current);
+      current = '';
+      continue;
+    }
+    current += char;
+  }
+  if (current) resultArgs.push(current);
+  // console.log('resultArgs: ', resultArgs);
+  return resultArgs;
+}
+
+const handleTargetFuncCall = ({ target, expression, scope, fixedTarget = false }) => {
   const [_2, funcName, args] = /^([^(]*)\(([^()]+)\)/.exec(expression);
+  const handledArgs = args ? parseArgumentsText(args).map(item => singleCompiler(item, scope)) : [];
+  // if (!target) return null;
+  let finalTarget = funcName ? target[funcName] : target;
+  let _this = funcName ? target[funcName] : target;
+  if (typeof target === 'number') _this = Number(target);
+  if (typeof _this === 'function') _this = target;
+  if (fixedTarget) _this = target;
+  const result = finalTarget.apply(_this, handledArgs);
+  return result;
+}
+
+const handleInitObject = (expression, scope) => {
+  const [_2, targetName, args] = /^([^(]*)\(([^()]+)\)/.exec(expression);
   const handledArgs = args ? args.split(',').map(item => singleCompiler(item, scope)) : [];
-  // console.log('handleTargetFuncCall: ', target, expression, scope)
-  if (!target) return null;
-  const finalTarget = funcName ? target[funcName] : target;
-  // console.log('handleTargetFuncCall: ', finalTarget, target, expression, scope)
-  const result = finalTarget.apply(target, handledArgs);
+  const target = singleCompiler(targetName, scope);
+  // console.log('handleInitObject: ', targetName, scope, target);
+  const result = target.apply(target, handledArgs);
   return result;
 }
 
@@ -156,20 +209,25 @@ const handleFunctionCall = (expression, scope) => {
   if (isFunctionChain(expression)) return handleFunctionChain(expression, scope);
 
   const [fullFuncCall, funcCall] = /\.?([^.]+\([^()]+\))$/.exec(expression);
+  // console.log('handleFunctionCall', expression, fullFuncCall, funcCall);
   const variable = expression.replace(fullFuncCall, '');
+  if (variable == '') return handleInitObject(expression, scope)
   const target = singleCompiler(variable, scope);
-  // console.log('handleFunctionCall: ', target, expression, variable, { ...scope, $dictionary: { ...scope.$dictionary } })
-  return handleTargetFuncCall(target, funcCall, scope);
+  // console.log('handleFunctionCall: ', variable, target, expression, scope, funcCall);
+  return handleTargetFuncCall({ target, expression: funcCall, scope });
 }
 
 const handleGlobalVar = (expression) => global[expression];
 
 const singleCompiler = (expression, scope) => {
   const trimExpression = typeof expression === 'string' ? expression.trim() : expression;
+  // console.log('singleCompiler before: ', expression, scope);
+
   if (isObject(trimExpression)) return handleObject(trimExpression, scope);
   if (isTernaryExpression(trimExpression)) return handleTernaryExpression(trimExpression, scope);
   if (isJudgmentStatement(trimExpression)) return handleJudgmentStatement(trimExpression, scope);
   if (isAddStatement(trimExpression)) return handleAddStatement(trimExpression, scope);
+  // console.log('singleCompiler after: ', isString(trimExpression), expression, scope);
   if (isString(trimExpression)) return handleString(trimExpression);
   if (isNumber(trimExpression)) return Number(trimExpression);
   if (isTrue(trimExpression)) return true;
@@ -180,26 +238,32 @@ const singleCompiler = (expression, scope) => {
   };
   // console.log('trimExpression: ', trimExpression, scope);
   // if (isGlobalVar(trimExpression)) return handleGlobalVar(trimExpression);
-  const result = objectPath.get(scope, trimExpression);
+  const result = objectPath.get({ ...globalScope, ...scope }, trimExpression);
   return result;
 }
 
 export const simpleCompiler = (expression, scope) => {
   // const scopeObj = { ...scope };
-  const result = singleCompiler(expression, scope);
-  console.log('simpleCompiler: ', expression, scope, result);
+  const result = singleCompiler(expression, { ...scope });
+  // console.log('simpleCompiler: ', expression, scope, result);
+  // console.log('simpleCompiler: ', { ...scope, $task: { ...scope.$task }, $dictionary: { ...scope.$dictionary } });
   return result;
+}
+
+export const objectGetByPath = (object, path) => {
+  if (object[path]) return object[path];
+  return objectPath.get(object, path);
 }
 
 export const getSchemaFromPath = (schema, pathStr) => {
   const execResult = /(\.\d\.)/.exec(pathStr);
 
-  if (!execResult || !execResult[1]) return objectPath.get(schema.properties[pathStr])
+  if (!execResult || !execResult[1]) return objectGetByPath(schema.properties, pathStr);
 
   const pathList = pathStr.split(execResult[1]);
   for (let i = 0; i < pathList.length; i++) {
     const path = pathList[i];
-    const property = objectPath.get(schema.properties[path]);
+    const property = objectGetByPath(schema.properties, path);
     if (property.type === 'array') return getSchemaFromPath(property.items, pathList[i + 1])
     i++;
   }

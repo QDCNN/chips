@@ -38,7 +38,7 @@ export const Input = connect(
   // Base,
   mapProps((props, field) => {
     const error = field.selfErrors.length ? field.selfErrors[0] : '';
-    // console.log('props: any, field: ', props, split(field.selfErrors));
+    // console.log('props: any, field: ', props, field);
     return {
       ...props,
       onInput: (e) => {

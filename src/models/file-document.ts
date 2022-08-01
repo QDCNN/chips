@@ -5,7 +5,15 @@ import Taro from '@tarojs/taro';
 // import Taro from '@tarojs/taro';
 import objectPath from 'object-path'
 import data from './data.json'
+import { observable } from '@formily/reactive'
+import { initialState as dictionaryInitialState } from './dictionary'
+import onceInit from 'once-init'
+import { getFullName } from '@/utils/formily';
 // import { actionCreator, RootState, store } from '@/store';
+
+const onceFetchPageStructure = onceInit(async () => {
+  return await api.getPageStructure({ name: 'file-document' });
+});
 
 const form = createForm({
   effects() {
@@ -14,23 +22,31 @@ const form = createForm({
     //   store.dispatch(actionCreator.fileDocument.setMounted(true));
     // })
     onFieldValueChange('*', (field, $form) => {
-      const fullForm = {...$form.getFormState().values};
-      objectPath.set(fullForm, field.props.name, field.value);
+      const fullForm = { ...$form.getFormState().values };
+      objectPath.set(fullForm, getFullName(field), field.value);
       store.dispatch(actionCreator.fileDocument.saveTempValue(fullForm))
     })
   }
 });
 
+export const scope = observable.shallow({
+  $params: {},
+  $fullForm: {},
+  $dictionary: { ...dictionaryInitialState },
+  $task: { review_user: {}, service_user: {} }
+});
+
 export const initialState = {
   taskId: '',
   mounted: false,
-  pageStructure: data,
-  // pageStructure: {
-  //   form: { style: {} },
-  //   schema: {}
-  // },
+  // pageStructure: data,
+  pageStructure: {
+    form: { style: {} },
+    schema: {}
+  },
   task: {},
   form,
+  // scope,
 }
 
 const fileDocument = {
@@ -47,13 +63,14 @@ const fileDocument = {
     },
     setTask(state, task) {
       state.task = task;
-    }
+    },
   }),
   effects: (dispatch, getState, delay) => ({
     async fetchPageStructure() {
-      // const response = await api.getPageStructure({ name: 'file-document' });
-      // if (!response.data.content) return;
-      // dispatch(actionCreator.fileDocument.setPageStructure(JSON.parse(response.data.content)));
+      const response = await onceFetchPageStructure.init();
+      if (!response.data.content) return;
+      dispatch(actionCreator.fileDocument.setPageStructure(JSON.parse(response.data.content)));
+      // dispatch(actionCreator.fileDocument.setPageStructure(data));
 
       setTimeout(() => {
         store.dispatch(actionCreator.fileDocument.setMounted(true));
@@ -74,6 +91,7 @@ const fileDocument = {
     },
     async fetchTaskDetail(params) {
       const response = await api.获取任务订单信息(params);
+      scope.$task = response.data;
       dispatch(actionCreator.fileDocument.setTask(response.data));
     },
     async submitFormValues(params) {
@@ -82,5 +100,11 @@ const fileDocument = {
   })
 }
 
+// useEffect(() => {
+//   scope.$dictionary = dictionary;
+// }, [dictionary]);
+// useEffect(() => {
+//   scope.$task = fileDocument.task;
+// }, [fileDocument.task]);
 
 export default fileDocument

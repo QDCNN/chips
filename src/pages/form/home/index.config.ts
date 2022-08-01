@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '表单'
+  navigationBarTitleText: '材料详情'
 }

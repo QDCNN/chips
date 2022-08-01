@@ -2397,6 +2397,11 @@
     swiper "6.8.0"
     weui "^1.1.2"
 
+"@tarojs/extend@^3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@tarojs/extend/-/extend-3.5.1.tgz#b26b4677909031ce7b3c706d94026d4446d316fa"
+  integrity sha512-RlaCLnIPcX6DZI9KJviHArYL4rbUuY880LqGV6pysVZY3EeSG9DIWJN5FH/B+dmYrwNAW+Yr4uaESYYPNx73jA==
+
 "@tarojs/helper@2.2.18":
   version "2.2.18"
   resolved "https://registry.npmjs.org/@tarojs/helper/-/helper-2.2.18.tgz"
@@ -5793,6 +5798,11 @@ de-indent@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/de-indent/-/de-indent-1.0.2.tgz"
   integrity sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==
+
+debounce@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.1.tgz#38881d8f4166a5c5848020c11827b834bcb3e0a5"
+  integrity sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==
 
 debug@2.6.9, debug@^2.1.1, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
@@ -9948,6 +9958,11 @@ mississippi@^3.0.0:
     stream-each "^1.1.0"
     through2 "^2.0.0"
 
+mitt@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.0.tgz#69ef9bd5c80ff6f57473e8d89326d01c414be0bd"
+  integrity sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==
+
 mixin-deep@^1.2.0:
   version "1.3.2"
   resolved "https://registry.npmjs.org/mixin-deep/-/mixin-deep-1.3.2.tgz"
@@ -10358,6 +10373,11 @@ number-is-nan@^1.0.0:
   resolved "https://registry.npmjs.org/number-is-nan/-/number-is-nan-1.0.1.tgz"
   integrity sha512-4jbtZXNAsfZbAHiiqjLPBiCl16dES1zI4Hpzzxw61Tk+loF+sBDBKx1ICKKKwIqQ7M0mFn1TmkN7euSncWgHiQ==
 
+numeral@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
+  integrity sha512-qaKRmtYPZ5qdw4jWJD6bxEf1FJEqllJrwxCLIm0sQU/A7v2/czigzOb+C2uSiFsa9lBUzeH7M1oK+Q+OLxL3kA==
+
 nwsapi@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/nwsapi/-/nwsapi-2.2.0.tgz"
@@ -10497,6 +10517,13 @@ on-headers@~1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/on-headers/-/on-headers-1.0.2.tgz"
   integrity sha512-pZAE+FJLoyITytdqK0U5s+FIpjN0JP3OzFi/u8Rx+EV5/W+JTWGXG8xFzevE7AjBfDqHv/8vL8qQsIhHnqRkrA==
+
+once-init@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/once-init/-/once-init-0.8.1.tgz#90aeea8704806d1f79eb851b88cc4740ff622f19"
+  integrity sha512-eRCSG9Rja0PPdRhp0mDmrPEqaa/0cZMgon5BanT1tlCZqmLRQ53OjN1WIFSpCux3LGzAxQMs2sM3I3T2qUzfFw==
+  dependencies:
+    mitt "^3.0.0"
 
 once@^1.3.0, once@^1.3.1, once@^1.4.0:
   version "1.4.0"
@@ -14426,6 +14453,11 @@ ws@^7.4.6:
   version "7.5.8"
   resolved "https://registry.npmjs.org/ws/-/ws-7.5.8.tgz"
   integrity sha512-ri1Id1WinAX5Jqn9HejiGb8crfRio0Qgu8+MtL36rlTA6RLsMdWt1Az/19A2Qij6uSHUMphEFaTKa4WG+UNHNw==
+
+wxapp-lodash@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/wxapp-lodash/-/wxapp-lodash-1.0.1.tgz#e56454e3909fe82e65a8cacfc8fafe8bd16e4263"
+  integrity sha512-3dJgrHiF42x063DgTCpzcffgTFhTS40rEDavggOhcCVSyK5RWmTjZQL1IWCY6VKVDauLTFgzhQWJRBaLEKfxhw==
 
 xdg-basedir@^3.0.0:
   version "3.0.0"

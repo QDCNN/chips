@@ -1,7 +1,7 @@
-import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
+import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import { useEffect, useMemo, useState } from 'react'
 // import React, { useEffect, useMemo, useState } from 'react'
-import { View, Form, Label } from '@tarojs/components'
+import { View, Form } from '@tarojs/components'
 import { createForm } from '@formily/core'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
 import { Switch, Input, Picker, Text, Cell, LinkCell, Button, Radio, Image, Textarea } from '@/formily-components'
@@ -19,6 +19,7 @@ import { observable } from '@formily/reactive'
 import objectPath from 'object-path'
 import merge from 'merge'
 import { getSchemaFromPath, simpleCompiler } from '@/utils/formily'
+import { scope } from '@/models/file-document'
 
 
 Schema.registerCompiler(simpleCompiler);
@@ -41,17 +42,12 @@ const SchemaField = createSchemaField({
   }
 });
 
-const scope = observable({
-  $params: {},
-  $fullForm: {},
-  $business: { user: { name: '', phone: '' } },
-  $dictionary: { ...initialState },
-  $task: { review_user: {}, service_user: {} }
-});
-
-// const pageStructure = observable({
-//   schema: {},
-//   form: {},
+// const scope = observable({
+//   $params: {},
+//   $fullForm: {},
+//   $business: { user: { name: '', phone: '' } },
+//   $dictionary: { ...initialState },
+//   $task: { review_user: {}, service_user: {} }
 // });
 
 const typeDataMap = {
@@ -69,14 +65,23 @@ const typeComponentMap = {
   textarea: 'Textarea',
 }
 
+const form = createForm();
+
 const FormDetailPage = () => {
-  const { dictionary, fileDocument } = useSelector((store: RootState) => store);
+  const { fileDocument } = useSelector((store: RootState) => store);
   const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
-  const form = useMemo(() => createForm(), [pageStructure])
   const dispatch = useDispatch();
   const { params } = useRouter();
 
-  useEffect(() => {
+  useDidShow(() => {
+    initPage();
+
+    const title = params.title ? decodeURIComponent(params.title) : '';
+    // console.log('params: ', decodeURIComponent(params.title));
+    Taro.setNavigationBarTitle({ title });
+  });
+
+  const handleCustom = () => {
     if (params.type === 'custom') {
       if (typeDataMap[params.name]) {
         setPageStructure(typeDataMap[params.name]);
@@ -87,37 +92,46 @@ const FormDetailPage = () => {
       }
     }
     scope.$params = params;
-  }, [params]);
+  };
 
-
-  useEffect(() => {
-    scope.$dictionary = dictionary;
-  }, [dictionary]);
-  useEffect(() => {
-    scope.$task = fileDocument.task;
-  }, [fileDocument.task]);
-  useEffect(() => {
-    // setPageStructure({ form: {}, schema: {} });
-
-
+  const handleSpecific = () => {
     const paramsType = params.type || 'input';
     let type = '';
     if (params.type === 'custom') return;
+
+    const fullForm = fileDocument.form.getFormState();
+    scope.$fullForm = fullForm;
+
     type = typeComponentMap[paramsType];
 
     const pathSchema = getSchemaFromPath(fileDocument.pageStructure.schema, params.name);
-    const currentSchema = merge({}, {...pathSchema}, {
+    const currentSchema = merge.recursive({}, { ...pathSchema, properties: { ...pathSchema.properties } }, {
       'x-component': type,
       'x-index': 0,
       name: params.name,
     });
-    const fullSchema = { ...typeDataMap[paramsType] };
-    fullSchema.schema.properties[currentSchema.name] = currentSchema;
-    setPageStructure(fullSchema);
+    const fullSchema = merge({}, { ...typeDataMap[paramsType] }, {
+      schema: {
+        properties: {
+          ...typeDataMap[paramsType].schema.properties,
+          [currentSchema.name]: currentSchema,
+        }
+      }
+    });
 
-    const fullForm = fileDocument.form.getFormState();
-    scope.$fullForm = fullForm;
-  }, []);
+    console.log('fullSchema: ', fullSchema);
+
+    const matchValue = objectPath.get(fullForm.values, params.name);
+    if (matchValue) form.setValuesIn(params.name, matchValue);
+
+    setPageStructure(fullSchema);
+  };
+
+  const initPage = () => {
+
+    handleCustom();
+    handleSpecific();
+  };
 
   // useDidHide(() => {
   //   form.clearFormGraph('*');
@@ -127,7 +141,8 @@ const FormDetailPage = () => {
   const onSubmit = async () => {
     const formValue = await form.submit();
     const fullForm = fileDocument.form.getFormState();
-    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive(fullForm.values, formValue)));
+    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive({}, fullForm.values, formValue)));
+    fileDocument.form.setValues(formValue);
     Taro.navigateBack();
   }
 
