@@ -43,8 +43,13 @@ const MyOrder = () => {
 
   // console.log('订单列表', orderList);
 
+  // const onOrderCancel = (item) => {
+  //   yinghuoAPI.orderCancel({ order_id: item.order_id }).then(res => {
+  //     console.log('订单取消', res);
+  //   })
+  // }
 
-  const onPay = (item) => {
+  const onOrderPay = (item) => {
     yinghuoAPI.orderPay({ order_id: item.order_id }).then(res => {
       if (res.code === 1) {
         Taro.requestPayment({
@@ -81,7 +86,7 @@ const MyOrder = () => {
       <CustomNavigationBar back onBack={onBack} notFixed title="我的订单" />
       <View className={classnames('container')}>
         {orderList.map(item => (
-          <Order item={item} onPay={() => { onPay(item) }} />
+          <Order item={item} onPay={() => { onOrderPay(item) }} />
         ))}
       </View>
     </View >

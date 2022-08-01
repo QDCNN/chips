@@ -15,6 +15,7 @@ enum APIPath {
   立即购买 = '/api/order/buyNow',
   订单列表 = '/api/user.order/lists',
   订单付款 = '/api/user.order/pay',
+  订单取消 = '/api/user.order/cancel'
 }
 
 // 请求方式
@@ -101,4 +102,9 @@ export const getOrderList = params => {
 // 订单支付
 export const orderPay = params => {
   return commomRequest({ action: APIPath.订单付款, params, method: Method.POST })
+}
+
+// 订单取消
+export const orderCancel = params => {
+  return commomRequest({ action: APIPath.订单取消, params, method: Method.POST })
 }

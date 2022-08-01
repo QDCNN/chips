@@ -3,17 +3,15 @@ import { Text, View } from "@tarojs/components";
 import classNames from "classnames";
 import styles from './index.module.less'
 import iconRight from '@/assets/icon/right.svg'
-// import { useCountdown } from "@/utils/timeCountdown";
 import { formatMoney } from "@/utils/formatMoney";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { actionCreator, store } from "@/store";
-import Taro from "@tarojs/taro";
-import { Routes } from "@/routes";
 import AtListItem from "@/components/AtListItem";
+import * as yinghuoAPI from '@/api/yinghuo'
 
 
-export const useCountdown = (expiryTime) => {
+export const useCountdown = (expiryTime, order_id) => {
   const SECONDS = 1000;
   const MINUTE = 60 * SECONDS; // 分
   const HOUR = 60 * MINUTE; // 时
@@ -22,21 +20,6 @@ export const useCountdown = (expiryTime) => {
   useEffect(() => {
     let timeOut: any = null;
     timeOut = setTimeout(() => {
-      // let now_time = dayjs().valueOf() // 当前时间戳
-
-      // let expiry_time = dayjs('2022-07-27 15:00:00').valueOf() // 截止日期时间戳
-
-      // let remaining_time = now_time - expiry_time  // 剩余时间时间戳
-
-      // let timeTexts = dayjs(remaining_time).format('hh:mm:ss') // 时间戳转 mm:ss
-
-      // setTimeText(timeTexts)
-
-      // let nowTime = dayjs().valueOf(); // 当前时间戳(秒)
-      // let endTime = dayjs(expiryTime).valueOf(); // 截止时间戳(秒)
-
-      // let diffTime = dayjs('2022-07-27 14:00:06').diff(dayjs(), 'ms')
-
       let diffTime = dayjs(expiryTime).valueOf() - dayjs().valueOf()
 
       let timeText = '00:00:00'
@@ -85,14 +68,18 @@ export const useCountdown = (expiryTime) => {
       if (timeList.length) {
         timeText = timeList.join(':');
       }
-      // console.log('timeText', timeText);
-
+      // if (diffTime <= 0) {
+      //  console.log('再次请求列表');
+      //   yinghuoAPI.orderCancel({ order_id }).then(res => {
+      //     console.log('订单倒计时取消', res);
+      //     store.dispatch(actionCreator.global.getOrderList())
+      //   })
+      // }
       if (timeText === '00:00:00') {
-        // Taro.reLaunch({
-        //   url: Routes.MyOrder
-        // })
-        // console.log('再次请求列表');
-        store.dispatch(actionCreator.global.getOrderList())
+        yinghuoAPI.orderCancel({ order_id }).then(res => {
+          console.log('订单倒计时取消', res);
+          store.dispatch(actionCreator.global.getOrderList())
+        })
       }
       setTimeText(timeText)
 
@@ -159,17 +146,10 @@ const Order = ({ item, onPay }) => {
         item.state_text === "待付款" && (
           <AtListItem title='去支付'
             isLink
-            desc={`请在${useCountdown(item.expiry_time)}内完成付款`}
+            desc={`请在${useCountdown(item.expiry_time, item.order_id)}内完成付款`}
             onClick={onPay}
           >
           </AtListItem>
-          // <ListItem
-          //   title='去支付'
-          //   iconRight={iconRight}
-          //   // time={showRemainTime(item.expiry_time)}
-          //   time={useCountdown(item.expiry_time)}
-          //   onClick={onPay}
-          // ></ListItem>
         )
       }
     </View>

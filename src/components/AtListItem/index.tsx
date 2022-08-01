@@ -34,7 +34,7 @@ export const AtListItem = (props) => {
           )}
           {icon && (
             <Block>
-              <Image src={icon} className={cls(prefixCls + '__icon')} mode="aspectFit" style={{ width: '48rpx', height: '48rpx', marginRight: '8rpx' }} />
+              <Image src={icon} className={cls(prefixCls + '__icon')} mode="aspectFit" style={{ width: '48rpx', height: '48rpx', marginRight: '8px' }} />
             </Block>
           )}
 
@@ -43,7 +43,6 @@ export const AtListItem = (props) => {
               <View className={cls({ 'weui-label': inForm })}>
                 <Text>
                   {title}
-
                 </Text>
                 {desc && (
                   <View className={cls(prefixCls + '__desc')}>

@@ -64,10 +64,11 @@ const ATInputFix = (props) => {
               onChange(e.detail.value)
               // console.log(e.detail.value);
             }}
+            cursorSpacing='100'
 
           ></TaroInput>
           {clear && (
-            <Image src={icon} onClick={onClear} className={cls(prefixCls + '__icon')} mode="aspectFit" style={{ width: '18px', height: '18px', display: isBlur ? '' : 'none' }} />
+            <Image src={icon} onClick={onClear} className={cls(prefixCls + '__icon')} mode="aspectFit" style={{ width: '24px', height: '24px', display: isBlur ? '' : 'none' }} />
           )}
         </View>
         {/* )} */}

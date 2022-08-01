@@ -28,6 +28,7 @@ const model = {
     isName: false,
     isIdCard: false,
     isPhone: false,
+    address: '收货地址'
   }),
   reducers: () => ({
     setFormData(state, payload) {
@@ -47,8 +48,8 @@ const model = {
     setIsPhone(state, payload) {
       state.isPhone = !payload
     },
-    setRegionSelectorChecked(state, payload) {
-      state.regionSelectorChecked = payload
+    setAddress(state, address) {
+      state.address = address
     }
   }),
   effects: ({ dispatch, actionCreator }) => ({
@@ -78,20 +79,22 @@ const ConfirmOrder = () => {
     Taro.chooseAddress({
       success: (res => {
         if (res.errMsg !== 'chooseAddress:ok') return;
-        dDispatch(dActionCreator.setFormDataPart({
-          address: `${res.userName} ${res.telNumber} ${res.cityName} ${res.countyName} ${res.detailInfo}`,
-        }))
+        dDispatch(dActionCreator.setAddress(`${res.userName} ${res.telNumber} ${res.cityName} ${res.countyName} ${res.detailInfo}`))
       })
     })
   }
 
   // 姓名
   const onChangeName = (res) => {
-    console.log(res, 'res');
     dDispatch(dActionCreator.setIsName(res))
     dDispatch(dActionCreator.setFormDataPart({
       name: res
     }))
+    // console.log('姓名',res.len);
+    if (res.length = 0) {
+      dDispatch(dActionCreator.setIsName(true))
+    }
+
   }
   // 身份证号
   const onChangeIdCard = (res) => {
@@ -134,8 +137,6 @@ const ConfirmOrder = () => {
       Taro.showToast({ title: '请输入手机号', icon: 'none' })
       return
     }
-    console.log('未拦截');
-
     let formDate = {
       ...dState.formData,
       goods_id: 10001,
@@ -188,10 +189,9 @@ const ConfirmOrder = () => {
           <AtListItem
             isLink
             icon={addressIcon}
-            title='收货地址'
+            title={dState.address}
             onClick={getAddress}
           >
-            {dState.formData.address}
           </AtListItem>
 
           {/* <ListItem
