@@ -10,6 +10,7 @@ import Taro from '@tarojs/taro'
 import { Routes } from '@/routes'
 import { actionCreator, RootState, store } from '@/store';
 import { useSelector } from 'react-redux'
+import { combineQuery } from '@/utils/route'
 
 
 // const model = {
@@ -58,17 +59,22 @@ const MyOrder = () => {
           package: `prepay_id=${res.data.payment.prepay_id}`,
           signType: 'MD5',
           paySign: res.data.payment.paySign,
-          success: (res) => {
-            console.log('支付成功', res);
-            Taro.reLaunch({
-              url: Routes.PayResultSuccess
-            })
+          complete: payData => {
+            console.log('支付', payData);
+            Taro.navigateTo({ url: combineQuery(Routes.PayResultAwait, { order_id: item.order_id }) })
           },
-          fail: (res) => {
-            Taro.reLaunch({
-              url: Routes.MyOrder
-            })
-          },
+
+          // success: (res) => {
+          //   console.log('支付成功', res);
+          //   Taro.reLaunch({
+          //     url: Routes.PayResultSuccess
+          //   })
+          // },
+          // fail: (res) => {
+          //   Taro.reLaunch({
+          //     url: Routes.MyOrder
+          //   })
+          // },
         })
       }
     })

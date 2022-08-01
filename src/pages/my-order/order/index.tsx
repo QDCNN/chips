@@ -68,19 +68,17 @@ export const useCountdown = (expiryTime, order_id) => {
       if (timeList.length) {
         timeText = timeList.join(':');
       }
-      // if (diffTime <= 0) {
-      //  console.log('再次请求列表');
+      if (diffTime <= 0) {
+        yinghuoAPI.orderCancel({ order_id }).then(res => {
+          store.dispatch(actionCreator.global.getOrderList())
+        })
+      }
+      // if (timeText === '00:00:00') {
       //   yinghuoAPI.orderCancel({ order_id }).then(res => {
       //     console.log('订单倒计时取消', res);
       //     store.dispatch(actionCreator.global.getOrderList())
       //   })
       // }
-      if (timeText === '00:00:00') {
-        yinghuoAPI.orderCancel({ order_id }).then(res => {
-          console.log('订单倒计时取消', res);
-          store.dispatch(actionCreator.global.getOrderList())
-        })
-      }
       setTimeText(timeText)
 
       return () => clearTimeout(timeOut)

@@ -3,7 +3,6 @@ import Taro from '@tarojs/taro'
 import classnames from 'classnames'
 import styles from './index.module.less'
 import CustomNavigationBar from '@/custom-navigation-bar'
-import ListItem from '@/components/ListItem'
 import { useDuraArray } from '@/hooks/use-dura'
 import { useSelector, } from 'react-redux'
 import * as yinghuoAPI from '@/api/yinghuo'
@@ -11,12 +10,12 @@ import { Routes } from '@/routes'
 import { formatMoney } from '@/utils/formatMoney'
 import { validateIdCard, validateMobile } from '@/utils/validateId'
 import addressIcon from '@/assets/icon/address.svg'
-import rightIcon from '@/assets/icon/right.svg'
 import clearIcon from '@/assets/icon/clear.svg'
 import { actionCreator, RootState, store } from '@/store';
 import { useEffect } from 'react'
 import AtListItem from '@/components/AtListItem'
 import ATInputFix from '@/components/AtInputFix'
+import { combineQuery } from '@/utils/route'
 
 const model = {
   state: () => ({
@@ -91,9 +90,9 @@ const ConfirmOrder = () => {
       name: res
     }))
     // console.log('姓名',res.len);
-    if (res.length = 0) {
-      dDispatch(dActionCreator.setIsName(true))
-    }
+    // if (res.length = 0) {
+    //   dDispatch(dActionCreator.setIsName(true))
+    // }
 
   }
   // 身份证号
@@ -150,7 +149,8 @@ const ConfirmOrder = () => {
     }
 
     yinghuoAPI.buyNow({ ...formDate }).then(res => {
-      console.log('支付数据', res);
+      console.log('订单id', res.data.order_id);
+      // Taro.navigateTo({ url: combineQuery(Routes.PayResultAwait, { order_id: res.data.order_id }) })
       if (res.code === 1) {
         Taro.requestPayment({
           timeStamp: res.data.payment.timeStamp,
@@ -158,26 +158,33 @@ const ConfirmOrder = () => {
           package: `prepay_id=${res.data.payment.prepay_id}`,
           signType: 'MD5',
           paySign: res.data.payment.paySign,
-          success: (res) => {
-            console.log('支付成功', res);
-            Taro.reLaunch({
-              url: Routes.PayResultSuccess
-            })
+          complete: payData => {
+            console.log('支付', payData);
+            Taro.navigateTo({ url: combineQuery(Routes.PayResultAwait, { order_id: res.data.order_id }) })
           },
-          fail: (res) => {
-            Taro.reLaunch({
-              url: Routes.MyOrder,
-              success: () => {
-                Taro.showToast({
-                  title: '支付失败',
-                  icon: 'error',
-                  duration: 3000
-                })
-              }
-            })
-          },
+          // success: payData => {
+          //   console.log('支付成功', payData);
+          //   Taro.navigateTo({ url: combineQuery(Routes.PayResultAwait, { order_id: res.data.order_id }) })
+          //   // Taro.reLaunch({
+          //   //   url: Routes.PayResultSuccess
+          //   // })
+          // },
+          // fail: (res) => {
+          //   Taro.reLaunch({
+          //     url: Routes.MyOrder,
+          //     success: () => {
+          //       Taro.showToast({
+          //         title: '支付失败',
+          //         icon: 'error',
+          //         duration: 3000
+          //       })
+          //     }
+          //   })
+          // },
+
         })
       }
+
     })
   }
 

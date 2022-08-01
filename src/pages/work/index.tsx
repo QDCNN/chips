@@ -39,13 +39,11 @@ const model = {
 
 const Work = () => {
   const [dState, dDispatch, dActionCreator] = useDuraArray(model);
-  console.log('task_status', dState.task_status);
 
   useEffect(() => {
     dDispatch(dActionCreator.getTaskList())
   }, [])
 
-  console.log('dState.taskList', dState.taskList);
 
 
   const onMyOrder = () => {
