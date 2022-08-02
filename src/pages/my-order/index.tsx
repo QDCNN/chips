@@ -59,22 +59,29 @@ const MyOrder = () => {
           package: `prepay_id=${res.data.payment.prepay_id}`,
           signType: 'MD5',
           paySign: res.data.payment.paySign,
-          complete: payData => {
-            console.log('支付', payData);
+          // complete: payData => {
+          //   console.log('支付', payData);
+          //   Taro.navigateTo({ url: combineQuery(Routes.PayResultAwait, { order_id: item.order_id }) })
+          // },
+          success: (res) => {
             Taro.navigateTo({ url: combineQuery(Routes.PayResultAwait, { order_id: item.order_id }) })
+            // console.log('支付成功', res);
+            // Taro.reLaunch({
+            //   url: Routes.PayResultSuccess
+            // })
           },
-
-          // success: (res) => {
-          //   console.log('支付成功', res);
-          //   Taro.reLaunch({
-          //     url: Routes.PayResultSuccess
-          //   })
-          // },
-          // fail: (res) => {
-          //   Taro.reLaunch({
-          //     url: Routes.MyOrder
-          //   })
-          // },
+          fail: (res) => {
+            Taro.reLaunch({
+              url: Routes.MyOrder,
+              success: () => {
+                Taro.showToast({
+                  title: '支付失败',
+                  icon: 'error',
+                  duration: 3000
+                })
+              }
+            })
+          },
         })
       }
     })
