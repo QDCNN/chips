@@ -39,11 +39,10 @@ const skipTokenUrls = [
 const commomRequest = async ({ action, method, params }) => {
 
   if (!skipTokenUrls.includes(action)) {
+    const result = await loginQueue();
+    if (!result) await promiseLogin();
     const { global: { userBaseInfo } }: RootState = store.getState();
-    if (!userBaseInfo.token) {
-      const result = await promiseLogin();
-    }
-    params.token = userBaseInfo.token || 'c843cdcf8b3576fcdf3a5ebe19b8fda0'
+    params.token = userBaseInfo.token
   }
 
 

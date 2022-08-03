@@ -231,6 +231,7 @@ const ConfirmOrder = () => {
             title='姓名'
             placeholder='请输入落户人姓名'
             clear
+            isLink
             error={dState.isName ? '请输入姓名' : ''}
             value={dState.formData.name}
             onChange={onChangeName}
@@ -241,6 +242,7 @@ const ConfirmOrder = () => {
             title='身份证号'
             placeholder='请输入落户人身份证号'
             clear
+            isLink
             type='idcard'
             adjustPosition
             error={dState.isIdCard ? '请输入正确的身份证号' : ''}
@@ -253,6 +255,7 @@ const ConfirmOrder = () => {
             title='手机号'
             placeholder='请输入落户人手机号'
             clear
+            isLink
             type='number'
             adjustPosition
             error={dState.isPhone ? '请输入正确的手机号' : ''}
