@@ -2,7 +2,7 @@ import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import { useEffect, useMemo, useState } from 'react'
 // import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
-import { createForm } from '@formily/core'
+import { createForm, onFormSubmit } from '@formily/core'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
 import { Switch, Input, Picker, Text, Cell, LinkCell, Button, Radio, Image, Textarea } from '@/formily-components'
 import '@/weui/style/weui.less'
@@ -65,11 +65,10 @@ const typeComponentMap = {
   textarea: 'Textarea',
 }
 
-const form = createForm();
-
 const FormDetailPage = () => {
   const { fileDocument } = useSelector((store: RootState) => store);
   const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
+  const form = useMemo(() => createForm(), []);
   const dispatch = useDispatch();
   const { params } = useRouter();
 
@@ -119,7 +118,7 @@ const FormDetailPage = () => {
       }
     });
 
-    console.log('fullSchema: ', fullSchema);
+    // console.log('fullSchema: ', fullSchema);
 
     const matchValue = objectPath.get(fullForm.values, params.name);
     if (matchValue) form.setValuesIn(params.name, matchValue);
@@ -138,11 +137,16 @@ const FormDetailPage = () => {
   //   setPageStructure({ form: {}, schema: {} });
   // });
 
-  const onSubmit = async () => {
-    const formValue = await form.submit();
-    const fullForm = fileDocument.form.getFormState();
-    dispatch(actionCreator.fileDocument.saveTempValue(merge.recursive({}, fullForm.values, formValue)));
-    fileDocument.form.setValues(formValue);
+  const onSubmit = async (e) => {
+    for (const key of Object.keys(e.detail.value)) {
+      // console.log('key: ', key);
+      fileDocument.form.setValuesIn(key, e.detail.value[key]);
+    }
+    // const fullFormValues = fileDocument.form.getValuesIn('*');
+    // console.log('formValue： ', formValue);
+    // const fullForm = fileDocument.form.getFormState();
+    // dispatch(actionCreator.fileDocument.saveTempValue(merge({}, fullFormValues)));
+    // fileDocument.form.setValues(formValue);
     Taro.navigateBack();
   }
 
@@ -150,9 +154,7 @@ const FormDetailPage = () => {
     <View className={styles.page} style={pageStructure.form.style} data-weui-theme="light">
       <Form onSubmit={onSubmit}>
         <FormProvider form={form}>
-          <View>
-            <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
-          </View>
+          <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
         </FormProvider>
       </Form>
     </View>
