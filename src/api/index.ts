@@ -1,4 +1,6 @@
 /** 请求封装 */
+import { promiseLogin } from "@/models/global";
+import { loginQueue } from "@/queue";
 import { RootState, store } from "@/store";
 import Taro from "@tarojs/taro";
 
@@ -40,13 +42,31 @@ enum APIPath {
   获取阿里云图片链接 = '/weixin/aliyun/stsgetimg',
 }
 
+const skipOpenIdUrls = [
+  APIPath.获取页面结构,
+  APIPath.字典落户方式,
+  APIPath.字典省市,
+  APIPath.字典申请人基本方式,
+  APIPath.字典家庭成员及主要社会关系,
+  APIPath.字典户口迁入信息,
+  APIPath.字典档案信息,
+  APIPath.字典教育经历,
+  APIPath.字典子女信息,
+]
+
 
 // 请求方法封装
 
 const commomRequest = async ({ action, method, params }) => {
-  const { global: { userBaseInfo } }: RootState = store.getState();
-  // promiseLogin()
-  const openid = userBaseInfo.open_id || 'oa14F48o9Rz3SsJ3kfFt5ohc63J4'
+  let openid;
+  if (!skipOpenIdUrls.includes(action)) {
+    const result = await loginQueue();
+    if (!result) await promiseLogin();
+    const { global: { userBaseInfo } }: RootState = store.getState();
+
+    openid = userBaseInfo.open_id
+  }
+
 
   const requestParams: any = openid ?
     {
@@ -67,6 +87,7 @@ const commomRequest = async ({ action, method, params }) => {
       }
     };
 
+  console.log('indexRequestParams', requestParams);
 
   return Taro.request(requestParams).then(response => {
     const { data } = response

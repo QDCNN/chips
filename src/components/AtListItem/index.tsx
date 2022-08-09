@@ -1,41 +1,20 @@
-import { useState } from 'react';
-import styles from './index.module.less'
 import { usePrefixCls } from '@/__builtins__';
 import { Block, Icon, Image, Text, View } from '@tarojs/components';
 import cls from 'classnames';
+import React from 'react';
 
-
-enum BadgeType {
-  BadgeType10 = '10',
-  BadgeType20 = '20',
-}
-
-const badgeTypeColor = {
-  [BadgeType.BadgeType10]: 'background-color:#0d8bcc;',
-  [BadgeType.BadgeType20]: 'background-color:#07c160;',
-}
-
-const badgeTypeText = {
-  [BadgeType.BadgeType10]: '进行中',
-  [BadgeType.BadgeType20]: '线上办结',
-}
-
-
-const Badge = (props) => {
-
+export const AtListItem = (props) => {
   const {
     isLink, className, inForm, inline, hover, extHoverClass,
     iconClass, icon, title, value, children, avatar,
     footerClass, showError, error, style, dot, content,
-    desc, status,
+    desc,
     ...resetProps
   } = props;
   const prefixCls = usePrefixCls('cell', props);
-
-  const [badgeType, setBadgeType] = useState(BadgeType[`BadgeType${status}`])
+  // console.log('props: ', error);
 
   return (
-
     <Block>
       <View
         className={cls(prefixCls, {
@@ -55,7 +34,7 @@ const Badge = (props) => {
           )}
           {icon && (
             <Block>
-              <Image src={icon} className={cls(prefixCls + '__icon')} mode="aspectFit" style={{ width: '48rpx', height: '48rpx', marginRight: '8rpx' }} />
+              <Image src={icon} className={cls(prefixCls + '__icon')} mode="aspectFit" style={{ width: '48rpx', height: '48rpx', marginRight: '8px' }} />
             </Block>
           )}
 
@@ -63,8 +42,7 @@ const Badge = (props) => {
             <Block>
               <View className={cls({ 'weui-label': inForm })}>
                 <Text>
-                  {/* {title} */}
-                  {badgeTypeText[badgeType]}
+                  {title}
                 </Text>
                 {desc && (
                   <View className={cls(prefixCls + '__desc')}>
@@ -77,7 +55,7 @@ const Badge = (props) => {
 
           {dot && (
             <View className={`${prefixCls}__dot-box`}>
-              <View className={`${prefixCls}__dot`} style={badgeTypeColor[badgeType]}></View>
+              <View className={`${prefixCls}__dot`}></View>
             </View>
           )}
         </View>
@@ -93,21 +71,7 @@ const Badge = (props) => {
       </View>
       {/* <View className="weui-cells__tips weui-cells__tips_warn">{error}</View> */}
     </Block>
-
-
-
-    // <View className={styles.badge}>
-    //   <View className={styles.left}>
-    //     <View className={styles.content}>
-    //       <Text className={styles.title}>{badgeTypeText[badgeType]}</Text>
-    //     </View>
-    //     <View className={styles.status} style={badgeTypeColor[badgeType]}></View>
-    //   </View>
-    //   <View className={styles.iconRight}>
-    //     <Image src={RightIcon} className={styles.icon}></Image>
-    //   </View>
-    // </View>
-  );
+  )
 }
 
-export default Badge;
+export default AtListItem;

@@ -5,7 +5,7 @@
   "appid": "wx81a8af3699c16047",
   "setting": {
     "urlCheck": true,
-    "es6": true,
+    "es6": false,
     "postcss": false,
     "minified": false,
     "coverView": true,
@@ -14,7 +14,7 @@
     "autoAudits": false,
     "uglifyFileName": false,
     "uploadWithSourceMap": true,
-    "enhance": true,
+    "enhance": false,
     "useMultiFrameRuntime": true,
     "showShadowRootInWxmlPanel": true,
     "packNpmManually": false,

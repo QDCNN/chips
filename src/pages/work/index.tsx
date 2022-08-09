@@ -12,6 +12,8 @@ import Badge from './components/badge'
 import * as weixinAPI from '@/api'
 import { useDuraArray } from '@/hooks/use-dura'
 import { combineQuery } from '@/utils/route'
+import AtListItem from '@/components/AtListItem'
+import classNames from 'classnames'
 
 
 const model = {
@@ -33,6 +35,7 @@ const model = {
     }
   }),
 };
+
 
 const Work = () => {
   const [dState, dDispatch, dActionCreator] = useDuraArray(model);
@@ -71,12 +74,19 @@ const Work = () => {
 
       <View className="container">
         <View className='fiche'>
-          <ListItem
+          {/* <ListItem
             iconLeft={orderIcon}
             title={'我的订单'}
             iconRight={rightIcon}
             onClick={onMyOrder}
-          ></ListItem>
+          ></ListItem> */}
+          <AtListItem
+            isLink
+            title='我的订单'
+            icon={orderIcon}
+            onClick={onMyOrder}
+          >
+          </AtListItem>
         </View>
         {dState.taskList.map(item => (
           <View className={classnames('fiche', 'm-t-32', styles.block)}>
@@ -85,13 +95,13 @@ const Work = () => {
                 <Text>{item?.title}</Text>
               </View>
               <View className={styles.content}>
-                <View className={styles.item}><Text>服务编号：{item?.task_no}</Text></View>
-                <View className={styles.item}><Text>咨询老师：{item?.service_qywx_user_name}</Text></View>
-                <View className={styles.item}><Text>审核老师：{item?.review_qywx_user_name}</Text></View>
-                <View className={styles.item}><Text>创建时间：{item?.create_time}</Text></View>
+                <View className={classNames('weui-cell__desc')}><Text>服务编号：{item?.task_no}</Text></View>
+                <View className={classNames('weui-cell__desc')}><Text>咨询老师：{item?.service_qywx_user_name}</Text></View>
+                <View className={classNames('weui-cell__desc')}><Text>审核老师：{item?.review_qywx_user_name}</Text></View>
+                <View className={classNames('weui-cell__desc')}><Text>创建时间：{item?.create_time}</Text></View>
               </View>
             </View>
-            <Badge status={item.task_status} onClick={() => onHandelClick(item)} />
+            <Badge status={item.task_status} isLink title dot onClick={() => onHandelClick(item)} />
           </View>
         ))}
       </View>
