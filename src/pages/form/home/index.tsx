@@ -14,7 +14,7 @@ import {
   ArrayItems,
 } from '@/formily-components'
 import AnchorNavigation from '@/components/AnchorNavigation'
-import Taro, { useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
+import Taro, { useDidHide, useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
 import data from './data.json'
@@ -51,7 +51,6 @@ const FormHomePage = () => {
     setScrollTop(pageRect.scrollTop);
   }, 1000));
   const { fileDocument } = useSelector((store: RootState) => store);
-  // const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
   const dispatch = useDispatch();
   const { params } = useRouter();
   const anchorTextList = useMemo(() => {
@@ -74,11 +73,13 @@ const FormHomePage = () => {
 
   useDidShow(async () => {
     await formDictionaryQueue.onEmpty();
-    // console.log('dictionaryQueue.onEmpty()');
-    // fileDocument.form.clearFormGraph('*');
 
     fetchTaskDetail();
     fetchPageSturture();
+  });
+
+  useDidHide(() => {
+    fileDocument.form.clearFormGraph('*');
   });
 
   const fetchPageSturture = async () => {
@@ -99,7 +100,6 @@ const FormHomePage = () => {
       Taro.navigateBack();
     } catch(validationErrors) {
       const queryResult = fileDocument.form.query(validationErrors[0].address);
-      // console.log('queryResult: ', );
       Taro.showToast({
         icon: 'none',
         title: `${queryResult.get('title')}: ${validationErrors[0].messages}`
@@ -108,7 +108,6 @@ const FormHomePage = () => {
   }
 
   return (
-    // <View style={fileDocument.pageStructure.form.style} data-weui-theme="light">
     <View style={data.form.style} data-weui-theme="light">
       <AnchorNavigation value={anchorTextList} scrollTop={scrollTop} onClick={onAnchorClick} />
 
@@ -116,7 +115,6 @@ const FormHomePage = () => {
         <FormProvider form={fileDocument.form}>
           <View>
             <SchemaField schema={fileDocument.pageStructure.schema}></SchemaField>
-            {/* <SchemaField schema={data.schema}></SchemaField> */}
           </View>
         </FormProvider>
 

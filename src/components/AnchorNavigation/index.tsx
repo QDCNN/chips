@@ -74,7 +74,9 @@ const AnchorNavigation = ({
   }, [value, scrollTop]);
 
   useLayoutEffect(() => {
-    generateRectTopList();
+    setTimeout(() => {
+      generateRectTopList();
+    }, 0);
   }, [value]);
   const currentIndex = useMemo(() => (matchedIndex > -1 ? matchedIndex : current), [matchedIndex, current]);
   // console.log('matchedIndex: ', matchedIndex, currentIndex);

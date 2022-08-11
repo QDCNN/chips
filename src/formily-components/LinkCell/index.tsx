@@ -12,8 +12,6 @@ export const LinkCell = connect(
       const { dataSource = [] } = field;
       const title = field?.title || props.title;
 
-      // console.log('dataSource: ', dataSource);
-
       const match = dataSource.filter(item => item).find(item => item.value === props.value);
 
       return {
@@ -23,6 +21,7 @@ export const LinkCell = connect(
         children: field?.description,
         value: props.type === 'input' ? props.value : match?.label,
         onClick: () => {
+          if (props.disabled) return;
           console.log('props, field: ', props, field);
           Taro.navigateTo({ url: combineQuery(Routes.FormDetailPage, { title, name: getFullName(field), type: props.type }) })
         }

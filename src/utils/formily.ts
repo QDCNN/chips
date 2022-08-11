@@ -159,8 +159,19 @@ let parseArgumentsText = (argumentsText) => {
   let resultArgs = [];
   let start = '';
   let current = '';
+  let prefixBracket = '';
   for (let char of argumentsText) {
-    if (['"', '\''].includes(char)) {
+    if (['(', '[', '{'].includes(char)) {
+      prefixBracket = char;
+      current += char;
+      continue;
+    }
+    if ([')', ']', '}'].includes(char)) {
+      prefixBracket = '';
+      current += char;
+      continue;
+    }
+    if (!prefixBracket && ['"', '\''].includes(char)) {
       if (!start) {
         start = char;
       } else {
@@ -191,8 +202,13 @@ const handleTargetFuncCall = ({ target, expression, scope, fixedTarget = false }
   let _this = funcName ? target[funcName] : target;
   if (typeof target === 'number') _this = Number(target);
   if (typeof _this === 'function') _this = target;
+  if (globalScope.hasOwnProperty(target)) {
+    _this = target
+    finalTarget = target
+  };
   if (fixedTarget) _this = target;
   const result = finalTarget.apply(_this, handledArgs);
+  // console.log('finalTarget: ', result, finalTarget, _this, handledArgs, parseArgumentsText(args));
   return result;
 }
 
@@ -200,7 +216,6 @@ const handleInitObject = (expression, scope) => {
   const [_2, targetName, args] = /^([^(]*)\(([^()]+)\)/.exec(expression);
   const handledArgs = args ? args.split(',').map(item => singleCompiler(item, scope)) : [];
   const target = singleCompiler(targetName, scope);
-  // console.log('handleInitObject: ', targetName, scope, target);
   const result = target.apply(target, handledArgs);
   return result;
 }
@@ -211,6 +226,7 @@ const handleFunctionCall = (expression, scope) => {
   const [fullFuncCall, funcCall] = /\.?([^.]+\([^()]+\))$/.exec(expression);
   // console.log('handleFunctionCall', expression, fullFuncCall, funcCall);
   const variable = expression.replace(fullFuncCall, '');
+  // console.log('handleFunctionCall', variable);
   if (variable == '') return handleInitObject(expression, scope)
   const target = singleCompiler(variable, scope);
   // console.log('handleFunctionCall: ', variable, target, expression, scope, funcCall);

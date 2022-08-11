@@ -77,7 +77,6 @@ const FormDetailPage = () => {
     initPage();
 
     const title = params.title ? decodeURIComponent(params.title) : '';
-    // console.log('params: ', decodeURIComponent(params.title));
     Taro.setNavigationBarTitle({ title });
   });
 
@@ -119,8 +118,6 @@ const FormDetailPage = () => {
       }
     });
 
-    console.log('fullSchema: ', fullSchema);
-
     const matchValue = objectPath.get(fullForm.values, params.name);
     if (matchValue) form.setValuesIn(params.name, matchValue);
 
@@ -128,7 +125,6 @@ const FormDetailPage = () => {
   };
 
   const initPage = () => {
-
     handleCustom();
     handleSpecific();
   };

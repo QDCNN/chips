@@ -20,6 +20,7 @@ export const Cell = (props) => {
           [prefixCls + '_access']: isLink,
           [prefixCls + '-inform']: inForm,
           [prefixCls + '_label-block']: inline,
+          [prefixCls + '_disabled']: props.disabled,
         }, className)}
         hoverClass={cls({ [prefixCls + '_active']: hover }, extHoverClass)}
         style={style}

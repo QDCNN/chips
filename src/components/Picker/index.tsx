@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Picker as TaroPicker, View } from '@tarojs/components'
 import { Cell } from '@/components'
+import classNames from 'classnames';
 
 enum Mode {
   单向选择 = 'selector',
@@ -101,7 +102,7 @@ export const Picker = (props, ref) => {
 
   return (
     <TaroPicker mode={mode} range={range} value={pickerValue} {...other} onChange={handleChange} onColumnChange={handleColumnChange}>
-      <Cell className={props.className} style={props.style} {...other} title={other.title} value={showText}>{showText}</Cell>
+      <Cell className={classNames(props.className, { 'weui-cell_disabled': props.disabled })} style={props.style} {...other} title={other.title} value={showText}>{showText}</Cell>
     </TaroPicker>
   )
 }

@@ -9,6 +9,7 @@ import { observable } from '@formily/reactive'
 import { initialState as dictionaryInitialState } from './dictionary'
 import onceInit from 'once-init'
 import { getFullName } from '@/utils/formily';
+import { specialHandleProperties } from '@/utils/schema';
 // import { actionCreator, RootState, store } from '@/store';
 
 const onceFetchPageStructure = onceInit(async () => {
@@ -29,11 +30,19 @@ const form = createForm({
   }
 });
 
-export const scope = observable.shallow({
+export const scope = observable.deep({
   $params: {},
   $fullForm: {},
   $dictionary: { ...dictionaryInitialState },
-  $task: { review_user: {}, service_user: {} }
+  $task: { config: {}, review_user: {}, service_user: {} },
+  $shared: {
+    calcPattern($self, $task) {
+      if (!$self?.props?.name) return 'editable';
+      const itemConfig = $task?.config?.[$self.props.name.split('.').shift()];
+      if (itemConfig == 0) return 'disabled';
+      return 'editable';
+    }
+  }
 });
 
 export const initialState = {
@@ -69,8 +78,9 @@ const fileDocument = {
     async fetchPageStructure() {
       const response = await onceFetchPageStructure.init();
       if (!response.data.content) return;
-      dispatch(actionCreator.fileDocument.setPageStructure(JSON.parse(response.data.content)));
-      // dispatch(actionCreator.fileDocument.setPageStructure(data));
+      const pageStructureObj = JSON.parse(response.data.content);
+      pageStructureObj.schema.properties = specialHandleProperties({ properties: pageStructureObj.schema.properties, payload: { key: 'x-pattern', value: '{{$shared.calcPattern($self, $task)}}' } })
+      dispatch(actionCreator.fileDocument.setPageStructure(pageStructureObj));
 
       setTimeout(() => {
         store.dispatch(actionCreator.fileDocument.setMounted(true));
@@ -80,7 +90,7 @@ const fileDocument = {
       dispatch(actionCreator.fileDocument.setMounted(false));
       dispatch(actionCreator.fileDocument.setTaskId(params.task_id));
       const result = await api.获取最近一次表单内容(params);
-      form.setInitialValues(result.data.content);
+      form.setValues(result.data.content);
     },
     async saveTempValue(contentObj) {
       const state = getState();

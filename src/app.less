@@ -120,3 +120,16 @@ html body {
 .weui-cells__tips.weui-cells__tips_warn {
   color: var(--weui-RED);
 }
+
+.weui-cell_disabled {
+  &&& {
+    background-color: #EBEBEB;
+    color: #CFCFCF;
+
+    &:active {
+      &:after {
+        display: none;
+      }
+    }
+  }
+}

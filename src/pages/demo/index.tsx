@@ -11,12 +11,13 @@ import { simpleCompiler } from '@/utils/formily';
 // "description": "{{$self.value ? numeral($self.value).format('0,0.00') : ''}}"
 const result = simpleCompiler(
   // `Number($self.value).toFixed(2) + "%"`,
-  `$form.values.settlement_method == '18' ? $dictionary.basic.graduate_institutions.slice(0, 5) : $form.values.settlement_method == '19' ? $dictionary.basic.graduate_institutions.slice(5, 10) : $dictionary.basic.graduate_institutions`,
+  `Object.assign($self.props, {content: $form.values.hukou_movein.is_public ? '默认为“实际居住地社区公共户”，用户不可修改；' : '需填写户口迁入地的详细地址，例如：**区**路**弄**号**室'})`,
   // `$self.value ? numeral($self.value).format('0,0.00') : ''`,
   // `$self.value ? Number($self.value).toFixed(2) + \"%\" : ''`,
   {
     $self: {
       value: '299922',
+      props: {},
     },
     $form: {
       values: {
