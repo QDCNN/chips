@@ -15,6 +15,8 @@ enum APIPath {
   立即购买 = '/api/order/buyNow',
   订单列表 = '/api/user.order/lists',
   订单付款 = '/api/user.order/pay',
+  订单取消 = '/api/user.order/cancel',
+  订单详情 = '/api/user.order/detail'
 }
 
 // 请求方式
@@ -37,10 +39,9 @@ const skipTokenUrls = [
 const commomRequest = async ({ action, method, params }) => {
 
   if (!skipTokenUrls.includes(action)) {
+    const result = await loginQueue();
+    if (!result) await promiseLogin();
     const { global: { userBaseInfo } }: RootState = store.getState();
-    if (!userBaseInfo.token) {
-      const result = await promiseLogin();
-    }
     params.token = userBaseInfo.token
   }
 
@@ -101,4 +102,14 @@ export const getOrderList = params => {
 // 订单支付
 export const orderPay = params => {
   return commomRequest({ action: APIPath.订单付款, params, method: Method.POST })
+}
+
+// 订单取消
+export const orderCancel = params => {
+  return commomRequest({ action: APIPath.订单取消, params, method: Method.POST })
+}
+
+// 查询订单支付情况
+export const getOrderDetail = params => {
+  return commomRequest({ action: APIPath.订单详情, params, method: Method.GET })
 }

@@ -77,10 +77,13 @@ button[size=mini] {
   }
 }
 
-body, page {
+
+body,
+page {
   .weui-cell_access .weui-cell__ft {
     display: block;
   }
+
   .weui-cell_access .weui-cell__ft:after {
     transform: none;
   }
@@ -89,21 +92,25 @@ body, page {
 .weui-btn:after {
   border: none;
 }
+
 /*  #ifdef  h5  */
 html body {
   taro-view-core {
     line-height: 1;
   }
 }
+
 .picker__group {
   background-color: #fff;
 }
+
 /*  #endif  */
 .weui-uploader__description {
   color: rgb(112, 112, 112);
   font-size: 24px;
   padding-bottom: 16px;
 }
+
 .weui-cell__ft-ellipsis {
   overflow: hidden;
   white-space: nowrap;
@@ -113,6 +120,7 @@ html body {
 .weui-cell {
   width: 100%;
 }
+
 .weui-input_error {
   color: var(--weui-RED);
 }
@@ -132,4 +140,8 @@ html body {
       }
     }
   }
+}
+.weui-cell__desc {
+  color: var(--weui-FG-2);
+  font-size: 12px
 }

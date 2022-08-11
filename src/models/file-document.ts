@@ -23,7 +23,7 @@ const form = createForm({
     //   store.dispatch(actionCreator.fileDocument.setMounted(true));
     // })
     onFieldValueChange('*', (field, $form) => {
-      const fullForm = {...$form.getFormState().values};
+      const fullForm = { ...$form.getFormState().values };
       objectPath.set(fullForm, getFullName(field), field.value);
       store.dispatch(actionCreator.fileDocument.saveTempValue(fullForm))
     })
@@ -110,11 +110,11 @@ const fileDocument = {
   })
 }
 
-  // useEffect(() => {
-  //   scope.$dictionary = dictionary;
-  // }, [dictionary]);
-  // useEffect(() => {
-  //   scope.$task = fileDocument.task;
-  // }, [fileDocument.task]);
+// useEffect(() => {
+//   scope.$dictionary = dictionary;
+// }, [dictionary]);
+// useEffect(() => {
+//   scope.$task = fileDocument.task;
+// }, [fileDocument.task]);
 
 export default fileDocument
