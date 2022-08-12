@@ -1,0 +1,75 @@
+{
+  "form": {
+    "labelCol": 6,
+    "wrapperCol": 12,
+    "style": {
+      "backgroundColor": "rgba(246,246,246,1)"
+    },
+    "wrapperWidth": "auto"
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "htk5pfudwvj": {
+        "type": "void",
+        "x-component": "BaseView",
+        "x-component-props": {
+          "title": "Title",
+          "style": {
+            "display": "flex",
+            "justifyContent": "flex-start"
+          }
+        },
+        "x-designable-id": "htk5pfudwvj",
+        "properties": {
+          "py5c9di7e1c": {
+            "type": "string",
+            "title": "Button",
+            "x-component": "Button",
+            "x-validator": [],
+            "x-component-props": {
+              "size": "small"
+            },
+            "x-designable-id": "py5c9di7e1c",
+            "x-index": 0,
+            "x-reactions": {
+              "dependencies": [
+                {
+                  "property": "value",
+                  "type": "any"
+                }
+              ],
+              "fulfill": {
+                "run": "$props({\n  onClick(keyword){\n    console.log(\"123\")\n    }\n})"
+              }
+            }
+          },
+          "o7gll7tiyyg": {
+            "type": "string",
+            "title": "Button",
+            "x-component": "Button",
+            "x-validator": [],
+            "x-component-props": {
+              "size": "small"
+            },
+            "x-designable-id": "o7gll7tiyyg",
+            "x-index": 1
+          },
+          "5nmzqx5116p": {
+            "type": "string",
+            "title": "Button",
+            "x-component": "Button",
+            "x-validator": [],
+            "x-component-props": {
+              "size": "small"
+            },
+            "x-designable-id": "5nmzqx5116p",
+            "x-index": 2
+          }
+        },
+        "x-index": 0
+      }
+    },
+    "x-designable-id": "023jyvcw8yl"
+  }
+}

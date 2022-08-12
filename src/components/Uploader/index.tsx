@@ -3,12 +3,13 @@ import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Taro from '@tarojs/taro';
 import Cell from '../Cell';
+import styles from './index.module.less';
 
 export const Uploader = (props) => {
   const {
     title = '图片上传',
     description = '描述信息',
-    maxCount = 4,
+    maxCount = 9,
     maxWidth = 500,
     onUpload,
     onPrePathsHandle,
@@ -44,6 +45,7 @@ export const Uploader = (props) => {
 
     if (onUpload) {
       const uploadResult = await onUpload(chooseImageResult);
+      setShowPaths([]);
       onChange && onChange(value.concat(uploadResult));
       await preHandlePaths(uploadResult);
       setTempFiles([]);
@@ -58,11 +60,18 @@ export const Uploader = (props) => {
 
   useEffect(() => {
     preHandlePaths(value);
-  }, [])
+  }, [value])
 
   // const handleFile = (file, cb) => {
   //   cb(file);
   // }
+
+  const onCloseClick = (index) => {
+    const nextValue = [...value];
+    nextValue.splice(index, 1);
+    setShowPaths([]);
+    onChange && onChange([...nextValue]);
+  }
 
   const commonRenderFiles = (pathList, status?) => {
     return pathList.map((path, idx) => {
@@ -73,7 +82,7 @@ export const Uploader = (props) => {
       };
       let cls = classNames({
         'weui-uploader__file': true,
-        'weui-uploader__file_status': status
+        'weui-uploader__file_status': status == 'uploading'
       });
 
       // if (onClick) {
@@ -81,13 +90,16 @@ export const Uploader = (props) => {
       // }
 
       let handleFileClick = e => {
-        Taro.previewImage({ urls: pathList, current: path });
+        Taro.previewImage({ urls: pathList, current: path, showmenu: true });
       };
 
       return (
-        <View className={cls} key={idx} style={fileStyle} onClick={handleFileClick}>
-          <View className="weui-uploader__file-content">
-            <Icon type="waiting" />
+        <View className={styles.item}>
+          {status == 'done' && <Icon className={styles.closeBtn} type="cancel" onClick={() => onCloseClick(idx)} />}
+          <View className={cls} key={idx} style={fileStyle} onClick={handleFileClick}>
+            <View className="weui-uploader__file-content">
+              <Icon type="waiting" />
+            </View>
           </View>
         </View>
       );
@@ -96,8 +108,7 @@ export const Uploader = (props) => {
 
   const renderTempFiles = useMemo(() => commonRenderFiles(tempFiles.map(item => item.path), 'uploading'), [tempFiles]);
 
-  console.log('showPaths: ', showPaths);
-  const renderFiles = useMemo(() => commonRenderFiles(showPaths), [showPaths]);
+  const renderFiles = useMemo(() => commonRenderFiles(showPaths, 'done'), [showPaths]);
 
   return (
     <View className="weui-cells">

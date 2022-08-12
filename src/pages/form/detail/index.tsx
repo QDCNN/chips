@@ -1,5 +1,5 @@
 import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 // import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
 import { createForm, onFormSubmit } from '@formily/core'
@@ -16,7 +16,6 @@ import { actionCreator, RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
-import objectPath from 'object-path'
 import merge from 'merge'
 import { getSchemaFromPath, simpleCompiler } from '@/utils/formily'
 import { scope as globalScope } from '@/models/file-document'
@@ -68,6 +67,7 @@ const typeDataMap = {
   'review_user.work_card': reviewUserWorkData,
   'service_user.work_card': serviceUserWorkData,
   'fanli': require('./schema/fanli.json'),
+  'demo-button': require('./schema/demo-button.json'),
 }
 
 const typeComponentMap = {

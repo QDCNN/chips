@@ -22,7 +22,7 @@ export const Button = (props) => {
     onClick?.();
   };
   return (
-    <TaroButton onClick={handleClick} formType="submit" disabled={disabled} className={cls} {...others}>{children}</TaroButton>
+    <TaroButton onClick={handleClick} disabled={disabled} className={cls} {...others}>{children}</TaroButton>
   )
 }
 

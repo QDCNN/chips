@@ -16,9 +16,10 @@ export const LinkCell = connect(
 
       // console.log('LinkCell props, field: ', props, field)
 
+      // console.log('field?.required && field?.value != undefined: ', field)
       return {
         ...props,
-        dot: field?.props?.required && !Boolean(field?.value),
+        dot: field?.required && field?.value != undefined,
         title: field?.title || props.title,
         children: field?.description,
         value: props.type === 'input' ? props.value : match?.label,

@@ -51,7 +51,7 @@ export const Cell = (props) => {
         </View>
 
         <View className={cls(prefixCls + '__ft', prefixCls + '__ft_in-access', footerClass, { [prefixCls + '__ft-ellipsis']: value })}>
-          {children ? children : value && value}
+          {children ? children : (value && value)}
 
           {/* {showError && error && <Icon type="warn" size="23" color="#E64340" />} */}
         </View>

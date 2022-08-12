@@ -41,6 +41,7 @@ const SchemaField = createSchemaField({
     LinkCell,
     Uploader,
     ArrayItems,
+    Button,
   }
 })
 
