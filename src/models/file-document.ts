@@ -30,9 +30,13 @@ const form = createForm({
   }
 });
 
+form.setInitialValues({ archive: {} });
+
 export const scope = observable.deep({
   $params: {},
-  $fullForm: {},
+  $fullForm: {
+    values: {},
+  },
   $dictionary: { ...dictionaryInitialState },
   $task: { config: {}, review_user: {}, service_user: {} },
   $shared: {

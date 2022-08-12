@@ -1,0 +1,63 @@
+{
+  "form": {
+    "labelCol": 6,
+    "wrapperCol": 12,
+    "style": {
+      "backgroundColor": ""
+    },
+    "wrapperWidth": "auto",
+    "labelWidth": "inherit"
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "9d0hvmh4zu5": {
+        "type": "string",
+        "title": "Textarea",
+        "x-decorator": "BaseView",
+        "x-component": "Textarea",
+        "x-validator": [],
+        "x-component-props": {
+          "autoHeight": true,
+          "maxLength": 2000
+        },
+        "x-decorator-props": {
+          "style": {
+            "backgroundColor": "rgba(255,255,255,1)",
+            "padding": "16px"
+          }
+        },
+        "description": "",
+        "x-designable-id": "9d0hvmh4zu5",
+        "x-index": 0,
+        "default": "本人于2016年至2020年五年间赴中国友好邦交国韩国科研进修，期间主要研究方向除了日韩双语本身之外，还就韩国的文化、历史、社会、建筑及日韩对照比较等进行了一系列探索与学习。在韩期间，曾在名为“韩国义务入伍系统及大众心理”的研究课题进行一系列话题专访，整理后对韩国兵役现状及前景分析并制作成易读信息后，进行半小时的发表演讲，大获担当教授及同期学生的好评。曾荣获2019Mediheal Global Leader Scholarship外国人奖学金。科研时间之余勤工俭学并为更迅速地融入新集体，参与了各项实践活动。现日语日文学及全球韩国研究融合专业顺利毕业，熟练掌握了两门友好邻国的语言——日语及韩语，并且对三国的人文、关系、意识形态等的了解，达到了崭新而深刻的认知。现正在为亚洲三国间的交流事业共同美好发展而努力贡献微薄之力。",
+        "x-pattern": "disabled"
+      },
+      "uofvuc26y08": {
+        "type": "string",
+        "title": "复制",
+        "x-component": "Button",
+        "x-validator": [],
+        "x-component-props": {
+          "style": {
+            "marginTop": "16px"
+          }
+        },
+        "x-designable-id": "uofvuc26y08",
+        "x-index": 1,
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "run": "$props({\n  onClick(keyword){\n    console.log(\"123\")\n    }\n})"
+          }
+        }
+      }
+    },
+    "x-designable-id": "023jyvcw8yl"
+  }
+}

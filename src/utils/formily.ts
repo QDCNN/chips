@@ -1,9 +1,12 @@
 import objectPath from 'object-path'
 import numeral from 'numeral';
+import Taro from '@tarojs/taro';
+import { createContext, run, runInContext } from '@/compiler';
 
 const globalScope: { [key: string]: any } = {
   // custom start
   numeral,
+  Taro,
   // custom end
 
   console,
@@ -260,7 +263,19 @@ const singleCompiler = (expression, scope) => {
 
 export const simpleCompiler = (expression, scope) => {
   // const scopeObj = { ...scope };
-  const result = singleCompiler(expression, { ...scope });
+  // const result = singleCompiler(expression, { ...scope });
+  let usedExpression = expression;
+  if (/^function\(\)/.test(expression)) usedExpression = usedExpression.replace(/^function\(\)/, 'function anonymous()')
+
+  usedExpression = 'module.exports = ' + usedExpression;
+
+  const context = createContext({
+    numeral,
+    Taro,
+    ...scope
+  });
+  // console.log('simpleCompiler: ', expression, scope)
+  const result = runInContext(usedExpression, context)
   // console.log('simpleCompiler: ', expression, scope, result);
   // console.log('simpleCompiler: ', { ...scope, $task: { ...scope.$task }, $dictionary: { ...scope.$dictionary } });
   return result;

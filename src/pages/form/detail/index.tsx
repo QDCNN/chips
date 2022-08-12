@@ -57,6 +57,7 @@ const typeDataMap = {
   'contract': contractData,
   'review_user.work_card': reviewUserWorkData,
   'service_user.work_card': serviceUserWorkData,
+  'fanli': require('./schema/fanli.json'),
 }
 
 const typeComponentMap = {

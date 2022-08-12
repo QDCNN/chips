@@ -20,6 +20,8 @@ export const Textarea = (props) => {
     otherProps.onChange && otherProps.onChange(e)
   }, [otherProps.onChange])
 
+  console.log('maxLength: ', maxLength);
+
   return (
     <View>
       <TaroTextarea
