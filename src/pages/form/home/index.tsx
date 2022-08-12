@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
 import { FormProvider, createSchemaField, Schema } from '@formily/react'
-import { $ } from '@tarojs/extend'
+// import { $ } from '@tarojs/extend'
 import {
   Switch,
   Input,
@@ -30,7 +30,7 @@ Schema.registerCompiler(simpleCompiler);
 
 
 const SchemaField = createSchemaField({
-  scope,
+  // scope,
   components: {
     Switch,
     Cell,
@@ -72,14 +72,14 @@ const FormHomePage = () => {
   };
 
   useDidShow(async () => {
+    if (params.id != fileDocument.taskId) {
+      fileDocument.form.clearFormGraph('*');
+    }
+
     await formDictionaryQueue.onEmpty();
 
     fetchTaskDetail();
     fetchPageSturture();
-  });
-
-  useDidHide(() => {
-    fileDocument.form.clearFormGraph('*');
   });
 
   const fetchPageSturture = async () => {
@@ -114,7 +114,7 @@ const FormHomePage = () => {
       <Form onSubmit={handleSubmit}>
         <FormProvider form={fileDocument.form}>
           <View>
-            <SchemaField schema={fileDocument.pageStructure.schema}></SchemaField>
+            <SchemaField schema={fileDocument.pageStructure.schema} scope={scope}></SchemaField>
           </View>
         </FormProvider>
 

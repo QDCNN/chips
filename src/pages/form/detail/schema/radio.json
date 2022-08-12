@@ -20,7 +20,15 @@
           }
         },
         "x-designable-id": "wi78q2pk7hk",
-        "x-index": 1
+        "x-index": 1,
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ]
+        }
       }
     },
     "x-designable-id": "b9z6p1b71yg"

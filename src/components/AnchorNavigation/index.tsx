@@ -8,6 +8,9 @@ import React, {
 import styles from './index.module.less';
 import { weappBoundingClientRect } from '@/utils/dom';
 import { delay } from '@/utils';
+import Taro from '@tarojs/taro';
+
+const ENV = Taro.getEnv()
 
 const AnchorNavigation = ({
   value = [],
@@ -15,7 +18,7 @@ const AnchorNavigation = ({
   onClick
 }: { value: any[], onClick?: any, scrollTop: number }) => {
   const [current, setCurrent] = useState(0);
-  // const [scrollLeft, setScrollLeft] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
   const nodeRectList = useRef<any[]>([]);
   const [matchedIndex, setMatchedIndex] = useState(-1);
   const anchorRef = useRef<any>();
@@ -23,41 +26,43 @@ const AnchorNavigation = ({
   const insideAnchorRef = useRef<any>();
   // const currentNodeRect = useMemo(() => stickyList[componentIndex!] || { fixed: false }, [stickyList, componentIndex]);
 
-  // const updateState = useCallback(
-  //   idx => {
-  //     if (scroll) {
-  //       // 标签栏滚动
-  //       switch (ENV) {
-  //         case Taro.ENV_TYPE.WEAPP:
-  //         case Taro.ENV_TYPE.ALIPAY:
-  //         case Taro.ENV_TYPE.SWAN:
-  //           const index = Math.max(idx - 1, 0);
-  //           setScrollIntoView(`tab${index}`);
-  //           break;
+  const updateState = useCallback(
+    idx => {
+      if (scrollTop) {
+        // 标签栏滚动
+        switch (ENV) {
+          case Taro.ENV_TYPE.WEAPP:
+          case Taro.ENV_TYPE.ALIPAY:
+          case Taro.ENV_TYPE.SWAN:
+            const index = Math.max(idx - 1, 0);
+            setScrollIntoView(`tab_${index}`);
+            break;
 
-  //         case Taro.ENV_TYPE.WEB: {
-  //           const childIndex = Math.max(idx - 1, 0);
-  //           if (!anchorRef.current.container) return;
-  //           const prevTabItem = anchorRef.current.container.childNodes[childIndex];
-  //           if (prevTabItem) {
-  //             setScrollTop(prevTabItem.offsetTop);
-  //             setScrollLeft(prevTabItem.offsetLeft);
-  //           }
-  //           break;
-  //         }
+          case Taro.ENV_TYPE.WEB: {
+            const childIndex = Math.max(idx - 1, 0);
+            if (!anchorRef.current.container) return;
+            const prevTabItem = anchorRef.current.container.childNodes[childIndex];
+            if (prevTabItem) {
+              // setScrollTop(prevTabItem.offsetTop);
+              setScrollLeft(prevTabItem.offsetLeft);
+            }
+            break;
+          }
 
-  //         default:
-  //           console.warn('AtTab 组件在该环境还未适配');
-  //           break;
-  //       }
-  //     }
-  //   },
-  //   [scroll],
-  // );
+          default:
+            console.warn('AtTab 组件在该环境还未适配');
+            break;
+        }
+      }
+    },
+    [scrollTop],
+  );
 
-  // useEffect(() => {
-  //   updateState(current);
-  // }, [current, updateState]);
+  const currentIndex = useMemo(() => (matchedIndex > -1 ? matchedIndex : current), [matchedIndex, current]);
+
+  useEffect(() => {
+    updateState(currentIndex);
+  }, [currentIndex, updateState]);
   const generateRectTopList = async () => {
     await delay(0);
     const queryNodeRectList = await Promise.all(value.map(item => weappBoundingClientRect(item.id)));
@@ -78,8 +83,6 @@ const AnchorNavigation = ({
       generateRectTopList();
     }, 0);
   }, [value]);
-  const currentIndex = useMemo(() => (matchedIndex > -1 ? matchedIndex : current), [matchedIndex, current]);
-  // console.log('matchedIndex: ', matchedIndex, currentIndex);
 
   const handleClick = (item, index) => {
     onClick && onClick(item, index);
@@ -98,13 +101,13 @@ const AnchorNavigation = ({
         scrollWithAnimation
         className={classnames(styles.anchorNavigation)}
         scrollIntoView={scrollIntoView}
-        // scrollLeft={scrollLeft}
+        scrollLeft={scrollLeft}
         // scrollTop={scrollTop}
       >
         <View>
           {value.map((item, index) => (
             <View
-              id={`tab${index}`}
+              id={`tab_${index}`}
               key={index}
               className={classnames('item', styles.item, {
                 [styles.itemActive]: currentIndex === index,

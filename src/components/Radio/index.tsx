@@ -17,7 +17,7 @@ const UsedLabel = Taro.getEnv() === Taro.ENV_TYPE.WEB ? WebLabel : Label
 export const Radio = (props) => {
   const {
     className, children,
-    vcode, warn,
+    vcode, warn, name,
     select, selectPos, value, options = [],
     onChange, ...others
   } = props;
@@ -40,7 +40,7 @@ export const Radio = (props) => {
 
   return (
     <View clasName="weui-cells__group weui-cells__group_form">
-      <RadioGroup className="weui-cells weui-cells_radio" onChange={onChange}>
+      <RadioGroup name={name} className="weui-cells weui-cells_radio" onChange={onChange}>
         {options.map((item, index) => (
           <UsedLabel className={radioClassNameList} key={index} for={index} {...others}>
             <Cell content={(

@@ -1,4 +1,4 @@
-import Taro, { useDidShow, useRouter } from '@tarojs/taro'
+import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
 import { useEffect, useMemo, useState } from 'react'
 // import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
@@ -19,7 +19,7 @@ import { observable } from '@formily/reactive'
 import objectPath from 'object-path'
 import merge from 'merge'
 import { getSchemaFromPath, simpleCompiler } from '@/utils/formily'
-import { scope } from '@/models/file-document'
+import { scope as globalScope } from '@/models/file-document'
 
 
 Schema.registerCompiler(simpleCompiler);
@@ -42,13 +42,23 @@ const SchemaField = createSchemaField({
   }
 });
 
-// const scope = observable({
-//   $params: {},
-//   $fullForm: {},
-//   $business: { user: { name: '', phone: '' } },
-//   $dictionary: { ...initialState },
-//   $task: { review_user: {}, service_user: {} }
-// });
+const scope = observable({
+  $params: {},
+  $fullForm: {
+    values: {},
+  },
+  $dictionary: { ...initialState },
+  $task: { config: {}, review_user: {}, service_user: {} },
+  $shared: {
+    calcPattern($self, $task) {
+      if (!$self?.props?.name) return 'editable';
+      const config = { ...$task.config };
+      const itemConfig = config[$self.props.name.split('.').shift()];
+      if (itemConfig == 0) return 'disabled';
+      return 'editable';
+    }
+  }
+});
 
 const typeDataMap = {
   'input': inputData,
@@ -83,14 +93,13 @@ const FormDetailPage = () => {
   const handleCustom = () => {
     if (params.type === 'custom') {
       if (typeDataMap[params.name]) {
-        setPageStructure(typeDataMap[params.name]);
+        setPageStructure(merge.recursive({}, typeDataMap[params.name]));
       }
     } else {
       if (typeDataMap[params.type]) {
-        setPageStructure(typeDataMap[params.type]);
+        setPageStructure(merge.recursive({}, typeDataMap[params.type]));
       }
     }
-    scope.$params = params;
   };
 
   const handleSpecific = () => {
@@ -98,18 +107,18 @@ const FormDetailPage = () => {
     let type = '';
     if (params.type === 'custom') return;
 
-    const fullForm = fileDocument.form.getFormState();
-    scope.$fullForm = fullForm;
+    // const fullForm = fileDocument.form.getFormState();
+    // scope.$fullForm.values = fullForm.values;
 
     type = typeComponentMap[paramsType];
 
     const pathSchema = getSchemaFromPath(fileDocument.pageStructure.schema, params.name);
-    const currentSchema = merge.recursive({}, { ...pathSchema, properties: { ...pathSchema.properties } }, {
+    const currentSchema = merge.recursive({}, pathSchema, {
       'x-component': type,
       'x-index': 0,
       name: params.name,
     });
-    const fullSchema = merge({}, { ...typeDataMap[paramsType] }, {
+    const fullSchema = merge.recursive({}, typeDataMap[paramsType], {
       schema: {
         properties: {
           ...typeDataMap[paramsType].schema.properties,
@@ -118,41 +127,50 @@ const FormDetailPage = () => {
       }
     });
 
-    const matchValue = objectPath.get(fullForm.values, params.name);
-    if (matchValue) form.setValuesIn(params.name, matchValue);
+    console.log('fullSchema: ', fullSchema);
+
+    // const matchValue = objectPath.get(fullForm.values, params.name);
+    // console.log('matchValue: ', matchValue);
+    // if (matchValue) form.setValuesIn(params.name, matchValue);
 
     setPageStructure(fullSchema);
   };
 
   const initPage = () => {
+    const fullForm = fileDocument.form.getFormState();
+    form.setValues(fullForm.values);
+
+    scope.$dictionary = merge.recursive({}, globalScope.$dictionary);
+    scope.$task = merge.recursive({}, globalScope.$task);
+    scope.$fullForm.values = merge.recursive({}, fullForm.values);
+    scope.$params = params;
     handleCustom();
     handleSpecific();
   };
 
-  // useDidHide(() => {
-  //   form.clearFormGraph('*');
-  //   setPageStructure({ form: {}, schema: {} });
-  // });
+  useDidHide(() => {
+    form.clearFormGraph('*');
+    // setPageStructure({ form: {}, schema: {} });
+  });
 
   const onSubmit = async (e) => {
+    const validateResult = await form.validate();
+    console.log('validateResult: ', validateResult);
+    // const fullFormValues = fileDocument.form.getFormState().values;
     for (const key of Object.keys(e.detail.value)) {
-      // console.log('key: ', key);
       fileDocument.form.setValuesIn(key, e.detail.value[key]);
     }
-    // const fullFormValues = fileDocument.form.getValuesIn('*');
-    // console.log('formValue： ', formValue);
-    // const fullForm = fileDocument.form.getFormState();
-    // dispatch(actionCreator.fileDocument.saveTempValue(merge({}, fullFormValues)));
-    // fileDocument.form.setValues(formValue);
+
+    dispatch(actionCreator.fileDocument.saveTempValue(fileDocument.form.getFormState().values))
     Taro.navigateBack();
   }
 
   return (
     <View className={styles.page} style={pageStructure.form.style} data-weui-theme="light">
       <Form onSubmit={onSubmit}>
-        <FormProvider form={form}>
-          <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
-        </FormProvider>
+      <FormProvider form={form}>
+        <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
+      </FormProvider>
       </Form>
     </View>
   )

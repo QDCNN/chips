@@ -1,9 +1,11 @@
 import React from 'react'
 import { Button as TaroButton } from '@tarojs/components'
 import classNames from 'classnames'
+import { useForm } from '@formily/react'
 
 export const Button = (props) => {
-  const { disabled, size, type = 'primary', plain, className, children, ...others } = props;
+  // const form = useForm();
+  const { disabled, size, type = 'primary', formType, plain, className, children, onClick, ...others } = props;
   const cls = classNames({
     'weui-btn': true,
     'weui-btn_mini': size === 'small',
@@ -16,8 +18,11 @@ export const Button = (props) => {
     'weui-btn_plain-disabled': disabled && plain,
     [className]: className
   });
+  const handleClick = () => {
+    onClick?.();
+  };
   return (
-    <TaroButton disabled={disabled} className={cls} {...others}>{children}</TaroButton>
+    <TaroButton onClick={handleClick} formType="submit" disabled={disabled} className={cls} {...others}>{children}</TaroButton>
   )
 }
 

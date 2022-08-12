@@ -8,7 +8,8 @@ export const Radio = connect(
     (props, field: any) => {
       return {
         ...props,
-        options: field?.dataSource || []
+        options: field?.dataSource || [],
+        name: field?.props?.name,
       }
     }
   ),

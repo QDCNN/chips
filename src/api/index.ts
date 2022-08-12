@@ -86,8 +86,6 @@ const commomRequest = async ({ action, method, params }) => {
       }
     };
 
-  console.log('indexRequestParams', requestParams);
-
   return Taro.request(requestParams).then(response => {
     const { data } = response
     if (data.code == -1) {

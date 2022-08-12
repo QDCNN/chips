@@ -1,12 +1,13 @@
 import { ArrayItems } from '@/components';
 import { createSchemaField, FormProvider } from '@formily/react';
-import { Input, View } from '@tarojs/components';
+import { Button, Input, View, WebView } from '@tarojs/components';
 import { Cell, LinkCell, Picker } from '@/formily-components';
-import React from 'react';
+import React, { useState } from 'react';
 import { createForm } from '@formily/core';
 import '@/weui/style/weui.less';
 import { simpleCompiler } from '@/utils/formily';
 import { createContext, runInContext } from '@/compiler';
+import Taro, { useDidShow } from '@tarojs/taro';
 
 
 // "description": "{{$self.value ? numeral($self.value).format('0,0.00') : ''}}"
@@ -69,14 +70,41 @@ const SchemaField = createSchemaField({
 const form = createForm()
 
 const DemoPage = () => {
+  const [loaded, setLoaded] = useState(false);
+
+  const handlePDFFile = async () => {
+    const downloadResponse = await Taro.downloadFile({
+      url: 'https://chips-oss.oscac-sh.com/sample/%E6%94%BE%E5%BC%83%E9%9A%8F%E8%BF%81%E6%89%BF%E8%AF%BA%E4%B9%A6%EF%BC%88%E5%AD%90%E5%A5%B3%EF%BC%89.pdf'
+    });
+    await Taro.openDocument({
+      filePath: downloadResponse.tempFilePath,
+    });
+  }
+
+  const handleSharePDFFile = async () => {
+    const downloadResponse = await Taro.downloadFile({
+      url: 'https://chips-oss.oscac-sh.com/sample/%E6%94%BE%E5%BC%83%E9%9A%8F%E8%BF%81%E6%89%BF%E8%AF%BA%E4%B9%A6%EF%BC%88%E5%AD%90%E5%A5%B3%EF%BC%89.pdf'
+    });
+    await Taro.shareFileMessage({
+      filePath: downloadResponse.tempFilePath,
+    });
+  }
+
+  useDidShow(() => {
+    // handlePDFFile();
+  });
+
   return (
     <View>
-      <Picker mode="multiSelector" range={[[1,2,3], [2,3,2]]}>
+      <Button onClick={handlePDFFile}>预览</Button>
+      <Button onClick={handleSharePDFFile}>转发</Button>
+      {/* {loaded && <WebView src="https://chips-oss.oscac-sh.com/sample/%E6%94%BE%E5%BC%83%E9%9A%8F%E8%BF%81%E6%89%BF%E8%AF%BA%E4%B9%A6%EF%BC%88%E5%AD%90%E5%A5%B3%EF%BC%89.pdf" />} */}
+      {/* <Picker mode="multiSelector" range={[[1,2,3], [2,3,2]]}>
         <Cell title="测试">测试</Cell>
-      </Picker>
+      </Picker> */}
       {/* <Input type="digit" /> */}
 
-      <FormProvider form={form}>
+      {/* <FormProvider form={form}>
         <SchemaField>
           <SchemaField.Array
             name="string_array"
@@ -115,10 +143,6 @@ const DemoPage = () => {
                 x-decorator="BaseView"
                 x-component="ArrayItems.Remove"
               />
-              {/* <SchemaField.Void
-                x-decorator="BaseView"
-                x-component="ArrayItems.Copy"
-              /> */}
             </SchemaField.Void>
             <SchemaField.Void
               x-component="ArrayItems.Addition"
@@ -126,10 +150,7 @@ const DemoPage = () => {
             />
           </SchemaField.Array>
         </SchemaField>
-        {/* <FormButtonGroup>
-          <Submit onSubmit={console.log}>提交</Submit>
-        </FormButtonGroup> */}
-      </FormProvider>
+      </FormProvider> */}
     </View>
   )
 }

@@ -1,6 +1,6 @@
 import { Icon, View, Text } from '@tarojs/components';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Taro from '@tarojs/taro';
 import Cell from '../Cell';
 
@@ -11,15 +11,17 @@ export const Uploader = (props) => {
     maxCount = 4,
     maxWidth = 500,
     onUpload,
+    onPrePathsHandle,
     onChange,
     onError,
-    paths = [],
+    value = [],
     langs = { maxError: maxCount => `最多只能上传${maxCount}张图片` },
     className,
     ...others
   } = props;
 
-  const [tempFiles, setTempFiles] = useState([]);
+  const [showPaths, setShowPaths] = useState<string[]>([]);
+  const [tempFiles, setTempFiles] = useState<any[]>([]);
 
   const cls = classNames({
     // 'weui-cells': true,
@@ -42,10 +44,21 @@ export const Uploader = (props) => {
 
     if (onUpload) {
       const uploadResult = await onUpload(chooseImageResult);
-      onChange && onChange(paths.concat(uploadResult));
+      onChange && onChange(value.concat(uploadResult));
+      await preHandlePaths(uploadResult);
       setTempFiles([]);
     }
   };
+
+  const preHandlePaths = async (paths) => {
+    if (!onPrePathsHandle || !paths.length) return paths;
+    const nextPaths = await onPrePathsHandle(paths);
+    setShowPaths([...showPaths, ...nextPaths]);
+  };
+
+  useEffect(() => {
+    preHandlePaths(value);
+  }, [])
 
   // const handleFile = (file, cb) => {
   //   cb(file);
@@ -81,9 +94,10 @@ export const Uploader = (props) => {
     });
   }
 
-  const renderTempFiles = () => commonRenderFiles(tempFiles.map(item => item.path), 'uploading');
+  const renderTempFiles = useMemo(() => commonRenderFiles(tempFiles.map(item => item.path), 'uploading'), [tempFiles]);
 
-  const renderFiles = () => commonRenderFiles(paths);
+  console.log('showPaths: ', showPaths);
+  const renderFiles = useMemo(() => commonRenderFiles(showPaths), [showPaths]);
 
   return (
     <View className="weui-cells">
@@ -91,13 +105,13 @@ export const Uploader = (props) => {
         <View className={cls} {...others}>
           <View className="weui-uploader__hd">
             <Text className="weui-uploader__title">{title}</Text>
-            <View className="weui-uploader__info">{paths.length + tempFiles.length}/{maxCount}</View>
+            <View className="weui-uploader__info">{showPaths.length + tempFiles.length}/{maxCount}</View>
           </View>
           <View className="weui-uploader__description">{description}</View>
           <View className="weui-uploader__bd">
             <View className="weui-uploader__files">
-              {renderFiles()}
-              {renderTempFiles()}
+              {renderFiles}
+              {renderTempFiles}
             </View>
             <View className="weui-uploader__input-box">
               <View

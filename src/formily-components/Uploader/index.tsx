@@ -7,7 +7,7 @@ import { wxuuid } from '@/utils/uuid';
 
 const singleUpload = async (file, uploadParams) => {
   const uuid = wxuuid();
-  // const targetUrl = uploadParams.host + uuid;
+  const targetUrl = uploadParams.host + '/' + uuid;
 
   await Taro.uploadFile({
     url: uploadParams.host,
@@ -21,16 +21,21 @@ const singleUpload = async (file, uploadParams) => {
       'x-oss-security-token': uploadParams.securityToken
     }
   })
-  return uuid;
+  return targetUrl;
 }
 
 const onUpload = async (chooseResult) => {
   const aliossResponse = await api.getAliOSSInfo({});
 
-  const uuidList = await Promise.all(chooseResult.tempFiles.map(file => singleUpload(file, aliossResponse.data)));
-  const response = await api.获取阿里云图片链接({ object: uuidList.join(',') });
-  return uuidList.map(item => response.data[item]).filter(item => item);
+  return await Promise.all(chooseResult.tempFiles.map(file => singleUpload(file, aliossResponse.data)));
 }
+
+const onPrePathsHandle = async (paths = []) => {
+  const uuidList = paths.map(item => item.split('/').pop());
+  const response = await api.获取阿里云图片链接({ object: uuidList.join(',') });
+  const result = uuidList.map(item => response.data[item]).filter(item => item);
+  return result;
+};
 
 export const Uploader = connect(
   OriginUploader,
@@ -38,8 +43,10 @@ export const Uploader = connect(
     (props, field) => {
       return {
         ...props,
+        value: props.value,
         onUpload,
-        paths: props.value,
+        onPrePathsHandle,
+        // paths: props.value,
         title: field?.title,
         description: field?.description,
       }

@@ -1,6 +1,6 @@
 import * as api from '@/api'
 import { actionCreator, store } from '@/store';
-import { createForm, onFormMount, onFieldValueChange } from '@formily/core';
+import { createForm, onFormMount, onFieldValueChange, onFieldInputValueChange } from '@formily/core';
 import Taro from '@tarojs/taro';
 // import Taro from '@tarojs/taro';
 import objectPath from 'object-path'
@@ -10,7 +10,6 @@ import { initialState as dictionaryInitialState } from './dictionary'
 import onceInit from 'once-init'
 import { getFullName } from '@/utils/formily';
 import { specialHandleProperties } from '@/utils/schema';
-// import { actionCreator, RootState, store } from '@/store';
 
 const onceFetchPageStructure = onceInit(async () => {
   return await api.getPageStructure({ name: 'file-document' });
@@ -18,21 +17,15 @@ const onceFetchPageStructure = onceInit(async () => {
 
 const form = createForm({
   effects() {
-    // onFormMount(() => {
-    //   console.log('onFieldInitialValueChange')
-    //   store.dispatch(actionCreator.fileDocument.setMounted(true));
-    // })
-    onFieldValueChange('*', (field, $form) => {
-      const fullForm = { ...$form.getFormState().values };
-      objectPath.set(fullForm, getFullName(field), field.value);
-      store.dispatch(actionCreator.fileDocument.saveTempValue(fullForm))
+    onFieldInputValueChange('*', (field, $form) => {
+      store.dispatch(actionCreator.fileDocument.saveTempValue($form.getFormState().values))
     })
   }
 });
 
-form.setInitialValues({ archive: {} });
+form.setInitialValues({ archive: {}, spouse_basic: {}, spouse_hukou_movein: {} });
 
-export const scope = observable.deep({
+export const scope = observable.shallow({
   $params: {},
   $fullForm: {
     values: {},
@@ -42,7 +35,8 @@ export const scope = observable.deep({
   $shared: {
     calcPattern($self, $task) {
       if (!$self?.props?.name) return 'editable';
-      const itemConfig = $task?.config?.[$self.props.name.split('.').shift()];
+      const config = {...$task.config};
+      const itemConfig = config[$self.props.name.split('.').shift()];
       if (itemConfig == 0) return 'disabled';
       return 'editable';
     }
