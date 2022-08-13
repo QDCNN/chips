@@ -15,20 +15,13 @@
         "x-component": "Button",
         "x-validator": [],
         "x-component-props": {
+          "formType": "submit",
           "style": {
             "marginTop": "16px"
           }
         },
         "x-designable-id": "wi78q2pk7hk",
-        "x-index": 1,
-        "x-reactions": {
-          "dependencies": [
-            {
-              "property": "value",
-              "type": "any"
-            }
-          ]
-        }
+        "x-index": 1
       }
     },
     "x-designable-id": "b9z6p1b71yg"

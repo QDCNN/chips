@@ -58,7 +58,6 @@ const commomRequest = async ({ action, method, params }) => {
     method, // 请求方式
   }
   if (method === Method.POST) requestParams.data = params
-  console.log('requestParams', requestParams);
 
 
   return Taro.request(requestParams).then(response => {

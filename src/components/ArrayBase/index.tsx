@@ -1,15 +1,5 @@
 import React, { createContext, useContext } from 'react'
-// import { Button } from 'antd'
-// import {
-//   DeleteOutlined,
-//   DownOutlined,
-//   UpOutlined,
-//   PlusOutlined,
-//   MenuOutlined,
-//   CopyOutlined,
-// } from '@ant-design/icons'
-// import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon'
-// import { ButtonProps } from 'antd/lib/button'
+global.HTMLElement = function HTMLElement() {};
 import { Button, ButtonProps, Text, View } from '@tarojs/components'
 import { ArrayField } from '@formily/core'
 import {

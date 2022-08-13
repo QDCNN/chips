@@ -18,7 +18,6 @@ export const Input = (props) => {
 
   return (
     <Cell
-      dot
       onClick={() => {
         setFocus(true);
       }}

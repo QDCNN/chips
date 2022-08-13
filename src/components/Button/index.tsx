@@ -5,7 +5,7 @@ import { useForm } from '@formily/react'
 
 export const Button = (props) => {
   // const form = useForm();
-  const { disabled, size, type = 'primary', formType, plain, className, children, onClick, ...others } = props;
+  const { disabled, size, type = 'primary', plain, className, children, onClick, ...others } = props;
   const cls = classNames({
     'weui-btn': true,
     'weui-btn_mini': size === 'small',

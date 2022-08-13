@@ -12,7 +12,6 @@ async function loginWrapper() {
   Taro.showLoading({ title: '加载中' });
   // 获取场景值
   const launchData = Taro.getLaunchOptionsSync()
-  console.log('LaunchData', launchData);
 
   // 获取code
   const wxLoginResult = await Taro.login()

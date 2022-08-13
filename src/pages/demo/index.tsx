@@ -30,7 +30,6 @@ const context = createContext({
 });
 // console.log('simpleCompiler: ', expression, scope)
 const result = runInContext('module.exports = $form.values.hukou_movein.is_public', context)
-console.log('context result: ', result);
 
 // const result = simpleCompiler(
 //   // `Number($self.value).toFixed(2) + "%"`,
@@ -51,7 +50,6 @@ console.log('context result: ', result);
 //   }
 // )
 
-console.log('result: ', result);
 
 const SchemaField = createSchemaField({
   components: {

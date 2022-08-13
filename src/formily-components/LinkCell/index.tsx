@@ -25,7 +25,12 @@ export const LinkCell = connect(
         value: props.type === 'input' ? props.value : match?.label,
         onClick: () => {
           if (props.disabled) return;
-          Taro.navigateTo({ url: combineQuery(Routes.FormDetailPage, { title, name: getFullName(field), type: props.type }) })
+          const params: any = {
+            type: props.type,
+          }
+          params.name = props.type == 'custom' ? props.pageName : getFullName(field);
+
+          Taro.navigateTo({ url: combineQuery(Routes.FormDetailPage, params) });
         }
       }
     }

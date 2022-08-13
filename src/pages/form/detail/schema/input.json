@@ -15,6 +15,7 @@
         "x-component": "Button",
         "x-validator": [],
         "x-component-props": {
+          "formType": "submit",
           "style": {
             "marginTop": "16px"
           }

@@ -46,14 +46,17 @@ export const scope = observable.shallow({
 export const initialState = {
   taskId: '',
   mounted: false,
-  // pageStructure: data,
+  originPageStructure: {
+    form: { style: {} },
+    schema: {}
+  },
   pageStructure: {
     form: { style: {} },
     schema: {}
   },
   task: {},
   form,
-  // scope,
+
 }
 
 const fileDocument = {
@@ -68,6 +71,9 @@ const fileDocument = {
     setPageStructure(state, pageStructure) {
       state.pageStructure = pageStructure;
     },
+    setOriginPageStructure(state, pageStructure) {
+      state.originPageStructure = pageStructure;
+    },
     setTask(state, task) {
       state.task = task;
     },
@@ -78,6 +84,7 @@ const fileDocument = {
       if (!response.data.content) return;
       const pageStructureObj = JSON.parse(response.data.content);
       pageStructureObj.schema.properties = specialHandleProperties({ properties: pageStructureObj.schema.properties, payload: { key: 'x-pattern', value: '{{$shared.calcPattern($self, $task)}}' } })
+      dispatch(actionCreator.fileDocument.setOriginPageStructure({ ...pageStructureObj }));
       dispatch(actionCreator.fileDocument.setPageStructure(pageStructureObj));
 
       setTimeout(() => {
@@ -104,7 +111,7 @@ const fileDocument = {
     },
     async submitFormValues(params) {
       await api.用户最终提交表单(params);
-    }
+    },
   })
 }
 

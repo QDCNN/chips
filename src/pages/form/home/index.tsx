@@ -30,7 +30,6 @@ Schema.registerCompiler(simpleCompiler);
 
 
 const SchemaField = createSchemaField({
-  // scope,
   components: {
     Switch,
     Cell,
@@ -48,9 +47,6 @@ const SchemaField = createSchemaField({
 
 const FormHomePage = () => {
   const [scrollTop, setScrollTop] = useState();
-  usePageScroll(throttle((pageRect) => {
-    setScrollTop(pageRect.scrollTop);
-  }, 1000));
   const { fileDocument } = useSelector((store: RootState) => store);
   const dispatch = useDispatch();
   const { params } = useRouter();
@@ -71,6 +67,10 @@ const FormHomePage = () => {
     const rectDom = await weappBoundingClientRect(item.id);
     Taro.pageScrollTo({ scrollTop: scrollTop + rectDom.top });
   };
+
+  usePageScroll(throttle((pageRect) => {
+    setScrollTop(pageRect.scrollTop);
+  }, 1000));
 
   useDidShow(async () => {
     if (params.id != fileDocument.taskId) {
@@ -107,6 +107,13 @@ const FormHomePage = () => {
       });
     }
   }
+
+  useDidHide(() => {
+    dispatch(actionCreator.fileDocument.setPageStructure({
+      form: { style: {} },
+      schema: {}
+    }));
+  });
 
   return (
     <View style={data.form.style} data-weui-theme="light">
