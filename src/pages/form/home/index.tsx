@@ -17,7 +17,7 @@ import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro, { useDidHide, useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
-import data from './data.json'
+// import data from './data.json'
 import '@/weui/style/weui.less'
 import { simpleCompiler } from '@/utils/formily'
 import { formDictionaryQueue } from '@/queue'
@@ -116,7 +116,7 @@ const FormHomePage = () => {
   });
 
   return (
-    <View style={data.form.style} data-weui-theme="light">
+    <View style={fileDocument.pageStructure.form.style} data-weui-theme="light">
       <AnchorNavigation value={anchorTextList} scrollTop={scrollTop} onClick={onAnchorClick} />
 
       <Form onSubmit={handleSubmit}>
