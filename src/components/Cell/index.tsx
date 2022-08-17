@@ -11,7 +11,6 @@ export const Cell = (props) => {
     ...resetProps
   } = props;
   const prefixCls = usePrefixCls('cell', props);
-  // console.log('props: ', error);
 
   return (
     <Block>

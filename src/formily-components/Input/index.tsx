@@ -36,13 +36,20 @@ import Base from '../Base'
 export const Input = connect(
   InputComponent,
   // Base,
-  mapProps((props, field) => {
+  mapProps({
+    onInput: 'onChange',
+  },
+  (props, field) => {
+    const onChange = props.onChange
     const error = field.selfErrors.length ? field.selfErrors[0] : '';
     // console.log('props: any, field: ', props, field);
+    // delete props.onChange;
     return {
-      ...props,
       onInput: (e) => {
-        props.onChange(e.detail.value);
+        console.log('e.detail.value: ', e.detail.value);
+        if (onChange) {
+          onChange(e.detail.value);
+        }
       },
       name: field?.props?.name,
       type: props?.inputType || props?.type,

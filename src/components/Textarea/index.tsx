@@ -20,7 +20,6 @@ export const Textarea = (props) => {
     otherProps.onChange && otherProps.onChange(e)
   }, [otherProps.onChange])
 
-
   return (
     <View>
       <TaroTextarea

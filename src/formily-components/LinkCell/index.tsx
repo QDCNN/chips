@@ -10,13 +10,12 @@ export const LinkCell = connect(
   mapProps(
     (props, field) => {
       const { dataSource = [] } = field;
-      const title = field?.title || props.title;
+      // const title = field?.title || props.title;
 
       const match = dataSource.filter(item => item).find(item => item.value === props.value);
 
       // console.log('LinkCell props, field: ', props, field)
 
-      // console.log('field?.required && field?.value != undefined: ', field)
       return {
         ...props,
         dot: field?.required && field?.value != undefined,

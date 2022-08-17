@@ -18,6 +18,7 @@ const onceFetchPageStructure = onceInit(async () => {
 const form = createForm({
   effects() {
     onFieldInputValueChange('*', (field, $form) => {
+      console.log('field: ', field);
       store.dispatch(actionCreator.fileDocument.saveTempValue($form.getFormState().values))
     })
   }
@@ -95,7 +96,8 @@ const fileDocument = {
       dispatch(actionCreator.fileDocument.setMounted(false));
       dispatch(actionCreator.fileDocument.setTaskId(params.task_id));
       const result = await api.获取最近一次表单内容(params);
-      form.setValues(result.data.content);
+      form.setInitialValues(result.data.content);
+      // form.setValues(result.data.content);
     },
     async saveTempValue(contentObj) {
       const state = getState();

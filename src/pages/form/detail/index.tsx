@@ -1,24 +1,21 @@
 import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
 import { useEffect, useMemo, useState } from 'react'
-// import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
 import { createForm, onFormSubmit } from '@formily/core'
 import { FormProvider, createSchemaField, Schema, observer } from '@formily/react'
 import { Switch, Input, Picker, Text, Cell, LinkCell, Button, Radio, Image, Textarea } from '@/formily-components'
 import '@/weui/style/weui.less'
 import styles from './index.module.less'
-import inputData from './schema/input.json'
-import radioData from './schema/radio.json'
 import { actionCreator, RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
-import merge from 'merge'
 import { getSchemaFromPath, simpleCompiler } from '@/utils/formily'
 import { scope as globalScope } from '@/models/file-document'
-// import { useDuraArray } from '@/hooks/use-dura'
-// import { fileDocumentDetailObserve } from '@/models/file-document-detail'
-// import objectPath from 'object-path'
+import cloneDeep from 'clone-deep'
+import create from 'zustand'
+import * as api from '@/api'
+import { defaultPageStructure } from '@/default/page-structure'
 
 Schema.registerCompiler(simpleCompiler);
 
@@ -57,34 +54,62 @@ const scope = observable({
 });
 
 const typeDataMap = {
-  'input': inputData,
-  'textarea': inputData,
-  'radio': radioData,
+  'input': require('./schema/input.json'),
+  'textarea': require('./schema/input.json'),
+  'radio': require('./schema/radio.json'),
 }
-
 const typeComponentMap = {
   input: 'Input',
   radio: 'Radio',
   textarea: 'Textarea',
 }
-const FormDetailPage = () => {
-  const { fileDocument, fileDocumentDetail } = useSelector((store: RootState) => store);
-  const [pageStructure, setPageStructure] = useState({ form: {}, schema: {} });
-  const form = useMemo(() => createForm(), []);
-  const dispatch = useDispatch();
+
+interface PageState {
+  domain: {
+    pageStructure: any;
+  },
+  toolkit: {
+    fetchPageStructure: (name: string) => Promise<any>;
+    setPageStructure: (pageStructure: any) => void;
+  }
+}
+const usePageState = create<PageState>((set) => ({
+  domain: {
+    pageStructure: cloneDeep(defaultPageStructure),
+  },
+  toolkit: {
+    async fetchPageStructure(name) {
+      const response = await api.getPageStructure({ name });
+      const pageStructure = JSON.parse(response.data.content);
+      set({ domain: { pageStructure } });
+    },
+    setPageStructure(pageStructure) {
+      set({ domain: { pageStructure } });
+    }
+  }
+}))
+
+const FormDetailPage = observer(() => {
+  const { fileDocument } = useSelector((store: RootState) => store);
+  const { domain, toolkit } = usePageState();
+  const form = useMemo(() => createForm(), [domain.pageStructure]);
   const { params } = useRouter();
+  const dispatch = useDispatch();
 
   useDidShow(() => {
-    setPageStructure({ form: {}, schema: {} });
+    scope.$params = params;
 
-    setTimeout(() => {
-      // initPageData();
-      initPagestructure();
-    }, 1000);
+    initPagestructure();
   });
 
+  useEffect(() => {
+    const fullForm = fileDocument.form.getFormState();
+    console.log('fullForm.values: ', fullForm.values);
+    form.setValues(fullForm.values);
+  }, [form])
+
   const handleCustom = async () => {
-    dispatch(actionCreator.fileDocumentDetail.fetchPageStructure(params.name));
+    await toolkit.fetchPageStructure(params?.name);
   };
 
   const handleSpecific = () => {
@@ -92,22 +117,14 @@ const FormDetailPage = () => {
     const component = typeComponentMap[paramsType];
 
     const pathSchema = getSchemaFromPath(fileDocument.originPageStructure.schema, params.name);
-    const currentSchema = merge.recursive({}, pathSchema, {
-      'x-component': component,
-      'x-index': 0,
-      name: params.name,
-    });
-    const fullSchema = merge.recursive({}, typeDataMap[paramsType]);
+    const currentSchema = cloneDeep(pathSchema);
+    currentSchema['x-component'] = component;
+    currentSchema['x-index'] = 0;
+    currentSchema.name = params.name;
+    const fullSchema = cloneDeep(typeDataMap[paramsType]);
     fullSchema.schema.properties[currentSchema.name] = { ...currentSchema };
-    setPageStructure(fullSchema);
-
-    const fullForm = fileDocument.form.getFormState();
-    scope.$fullForm.values = fullForm.values;
-    form.setValues(fullForm.values);
+    toolkit.setPageStructure(fullSchema);
   };
-
-  // const initPageData = () => {
-  // };
 
   const initPagestructure = () => {
     if (params.type === 'custom') {
@@ -118,15 +135,11 @@ const FormDetailPage = () => {
   }
 
   useDidHide(() => {
-    form.clearFormGraph('*');
-    setPageStructure({ form: {}, schema: {} });
-    // dispatch(actionCreator.fileDocumentDetail.setPageStructure({ form: {}, schema: {} }));
+    toolkit.setPageStructure(cloneDeep(defaultPageStructure));
   });
 
   const onSubmit = async (e) => {
-    const validateResult = await form.validate();
-    console.log('validateResult: ', validateResult);
-    // const fullFormValues = fileDocument.form.getFormState().values;
+    await form.validate();
     for (const key of Object.keys(e.detail.value)) {
       fileDocument.form.setValuesIn(key, e.detail.value[key]);
     }
@@ -136,25 +149,22 @@ const FormDetailPage = () => {
   }
 
   useEffect(() => {
-    const fullForm = fileDocument.form.getFormState();
-    form.setValues(fullForm.values);
-    scope.$dictionary = merge.recursive({}, globalScope.$dictionary);
-    scope.$task = merge.recursive({}, globalScope.$task);
-    scope.$fullForm.values = merge.recursive({}, fullForm.values);
-    scope.$params = params;
+    scope.$dictionary = cloneDeep(globalScope.$dictionary);
+    console.log('cloneDeep(globalScope.$dictionary): ', cloneDeep(globalScope.$dictionary));
+    scope.$task = cloneDeep(globalScope.$task);
+  }, [domain.pageStructure]);
 
-    setPageStructure({ ...fileDocumentDetail.pageStructure });
-  }, [fileDocumentDetail.pageStructure]);
+  console.log('domain: ', domain.pageStructure);
 
   return (
-    <View className={styles.page} style={pageStructure.form.style} data-weui-theme="light">
+    <View className={styles.page} style={domain.pageStructure.form.style} data-weui-theme="light">
       <Form onSubmit={onSubmit}>
         <FormProvider form={form}>
-          <SchemaField schema={pageStructure.schema} scope={scope}></SchemaField>
+          <SchemaField schema={domain.pageStructure.schema} scope={scope}></SchemaField>
         </FormProvider>
       </Form>
     </View>
   )
-}
+})
 
 export default FormDetailPage;

@@ -105,6 +105,7 @@ const getDefaultValue = (defaultValue: any, schema: Schema) => {
 export const ArrayBase: ComposedArrayBase = (props) => {
   const field = useField<ArrayField>()
   const schema = useFieldSchema()
+
   return (
     <RecordsScope getRecords={() => field.value}>
       <ArrayBaseContext.Provider value={{ field, schema, props }}>

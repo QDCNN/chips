@@ -17,17 +17,14 @@ import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro, { useDidHide, useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
-// import data from './data.json'
-import '@/weui/style/weui.less'
 import { simpleCompiler } from '@/utils/formily'
 import { formDictionaryQueue } from '@/queue'
 import { scope } from '@/models/file-document'
-import { throttle } from 'lodash'
 import { weappBoundingClientRect } from '@/utils/dom'
-
+import cloneDeep from 'clone-deep'
+import { defaultPageStructure } from '@/default/page-structure'
 
 Schema.registerCompiler(simpleCompiler);
-
 
 const SchemaField = createSchemaField({
   components: {
@@ -43,7 +40,6 @@ const SchemaField = createSchemaField({
     Button,
   }
 })
-
 
 const FormHomePage = () => {
   const [scrollTop, setScrollTop] = useState();
@@ -68,9 +64,9 @@ const FormHomePage = () => {
     Taro.pageScrollTo({ scrollTop: scrollTop + rectDom.top });
   };
 
-  usePageScroll(throttle((pageRect) => {
+  usePageScroll((pageRect) => {
     setScrollTop(pageRect.scrollTop);
-  }, 1000));
+  });
 
   useDidShow(async () => {
     if (params.id != fileDocument.taskId) {
@@ -109,15 +105,12 @@ const FormHomePage = () => {
   }
 
   useDidHide(() => {
-    dispatch(actionCreator.fileDocument.setPageStructure({
-      form: { style: {} },
-      schema: {}
-    }));
+    dispatch(actionCreator.fileDocument.setPageStructure(cloneDeep(defaultPageStructure)));
   });
 
   return (
     <View style={fileDocument.pageStructure.form.style} data-weui-theme="light">
-      <AnchorNavigation value={anchorTextList} scrollTop={scrollTop} onClick={onAnchorClick} />
+      <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
 
       <Form onSubmit={handleSubmit}>
         <FormProvider form={fileDocument.form}>

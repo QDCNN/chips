@@ -5,7 +5,7 @@ import 'taro-skeleton/dist/index.css'
 import { actionCreator, store } from './store'
 import { Provider } from 'react-redux'
 import '@/polyfills/lodash'
-// import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
+import '@/weui/style/weui.less'
 class App extends Component {
 
   componentDidMount() {
