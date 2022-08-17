@@ -274,9 +274,9 @@ export const simpleCompiler = (expression, scope) => {
     Taro,
     ...scope
   });
-  // console.log('simpleCompiler: ', expression, scope)
+  // console.log('simpleCompiler before: ', expression, scope)
   const result = runInContext(usedExpression, context)
-  // console.log('simpleCompiler: ', expression, scope, result);
+  // console.log('simpleCompiler after: ', expression, scope, result);
   // console.log('simpleCompiler: ', { ...scope, $task: { ...scope.$task }, $dictionary: { ...scope.$dictionary } });
   return result;
 }

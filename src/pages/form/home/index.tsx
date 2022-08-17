@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
-import { FormProvider, createSchemaField, Schema } from '@formily/react'
-// import { $ } from '@tarojs/extend'
+import { FormProvider, createSchemaField, observer } from '@formily/react'
 import {
   Switch,
   Input,
@@ -15,88 +14,32 @@ import {
 } from '@/formily-components'
 import AnchorNavigation from '@/components/AnchorNavigation'
 import Taro, { useDidHide, useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
-import { useDispatch, useSelector } from 'react-redux'
+// import { useDispatch, useSelector } from 'react-redux'
 import { actionCreator, RootState } from '@/store'
-import { simpleCompiler } from '@/utils/formily'
 import { formDictionaryQueue } from '@/queue'
-import { scope } from '@/models/file-document'
+import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import { weappBoundingClientRect } from '@/utils/dom'
 import cloneDeep from 'clone-deep'
 import { defaultPageStructure } from '@/default/page-structure'
+import { SchemaContainer } from '@/containers'
+import { createForm, onFieldInputValueChange, onFormInit } from '@formily/core'
+import { delay } from '@/utils'
 
-Schema.registerCompiler(simpleCompiler);
+const FormHomeInnerPage = observer((props) => {
+  const { form, scope } = props;
+  const { domain, toolkit } = useFileDocumentState();
 
-const SchemaField = createSchemaField({
-  components: {
-    Switch,
-    Cell,
-    Input,
-    Picker,
-    Text,
-    BaseView: View,
-    LinkCell,
-    Uploader,
-    ArrayItems,
-    Button,
-  }
-})
-
-const FormHomePage = () => {
-  const [scrollTop, setScrollTop] = useState();
-  const { fileDocument } = useSelector((store: RootState) => store);
-  const dispatch = useDispatch();
+  // const { fileDocument } = useSelector((store: RootState) => store);
+  // const dispatch = useDispatch();
   const { params } = useRouter();
-  const anchorTextList = useMemo(() => {
-    const list: any[] = [];
-    const { properties = {} } = fileDocument.pageStructure.schema;
-    for (const key in properties) {
-      const componentProps = properties[key]['x-component-props'];
-      const component = properties[key]['x-component'];
-      if (component === 'Text' && componentProps.isAnchor && componentProps.id) {
-        list.push({ title: componentProps.content, index: properties[key]['x-index'], id: componentProps.id })
-      }
-    }
-    return list;
-  }, [fileDocument.pageStructure.schema]);
-
-  const onAnchorClick = async (item) => {
-    const rectDom = await weappBoundingClientRect(item.id);
-    Taro.pageScrollTo({ scrollTop: scrollTop + rectDom.top });
-  };
-
-  usePageScroll((pageRect) => {
-    setScrollTop(pageRect.scrollTop);
-  });
-
-  useDidShow(async () => {
-    if (params.id != fileDocument.taskId) {
-      fileDocument.form.clearFormGraph('*');
-    }
-
-    await formDictionaryQueue.onEmpty();
-
-    fetchTaskDetail();
-    fetchPageSturture();
-  });
-
-  const fetchPageSturture = async () => {
-    dispatch(actionCreator.fileDocument.fetchPageStructure());
-  }
-
-  const fetchTaskDetail = async () => {
-    if (params.id == fileDocument.taskId) return;
-
-    dispatch(actionCreator.fileDocument.fetchTaskDetail({ task_id: params.id }));
-    dispatch(actionCreator.fileDocument.fetchLatestTask({ task_id: params.id }));
-  }
 
   const handleSubmit = async () => {
     try {
-      const formValues = await fileDocument.form.submit();
-      dispatch(actionCreator.fileDocument.submitFormValues({ task_id: params.id, content: JSON.stringify(formValues) }));
+      const formValues = await form.submit();
+      toolkit.submitFormValues({ task_id: params.id, content: JSON.stringify(formValues) });
       Taro.navigateBack();
-    } catch(validationErrors) {
-      const queryResult = fileDocument.form.query(validationErrors[0].address);
+    } catch (validationErrors) {
+      const queryResult = form.query(validationErrors[0].address);
       Taro.showToast({
         icon: 'none',
         title: `${queryResult.get('title')}: ${validationErrors[0].messages}`
@@ -104,23 +47,90 @@ const FormHomePage = () => {
     }
   }
 
-  useDidHide(() => {
-    dispatch(actionCreator.fileDocument.setPageStructure(cloneDeep(defaultPageStructure)));
-  });
-
   return (
-    <View style={fileDocument.pageStructure.form.style} data-weui-theme="light">
-      <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} />
+    <View style={domain.pageStructure.form.style}>
+      {/* <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} /> */}
 
       <Form onSubmit={handleSubmit}>
-        <FormProvider form={fileDocument.form}>
-          <View>
-            <SchemaField schema={fileDocument.pageStructure.schema} scope={scope}></SchemaField>
-          </View>
+        <FormProvider form={form}>
+          <SchemaContainer schema={domain.pageStructure.schema} scope={scope} />
         </FormProvider>
 
-        {fileDocument.pageStructure.schema.properties  && <Button formType="submit" type="default">提交</Button>}
+        {domain.pageStructure.schema.properties && <Button formType="submit" type="default">提交</Button>}
       </Form>
+    </View>
+  )
+})
+
+const filterAnchorTextList = (properties, list = [] as any[]) => {
+    for (const key in properties) {
+      const componentProps = properties[key]['x-component-props'];
+      const component = properties[key]['x-component'];
+      if (component === 'Text' && componentProps.isAnchor && componentProps.id) {
+        list.push({ title: componentProps.content, index: properties[key]['x-index'], id: componentProps.id })
+      }
+      if (component.properties) filterAnchorTextList(component.properties, list);
+    }
+    return list;
+}
+
+const FormHomePage = () => {
+  const { domain, toolkit } = useFileDocumentState();
+  const [scrollTop, setScrollTop] = useState(0);
+  const [anchorTextList, setAnchorTextList] = useState<any[]>([]);
+  const { params } = useRouter();
+  const form = useMemo(() => createForm({
+    effects() {
+      // onFormInit(() => {
+      //   console.log('onFormInit');
+      // });
+      onFieldInputValueChange('*', (field, $form) => {
+        toolkit.saveTempValue($form.getFormState().values);
+      });
+    }
+  }), []);
+
+  useEffect(() => {
+    form.setInitialValues(domain.formValues)
+  }, [domain.formValues]);
+
+  usePageScroll((pageRect) => {
+    setScrollTop(pageRect.scrollTop);
+  });
+
+  const init = async () => {
+    await formDictionaryQueue.onEmpty();
+
+    fetchTaskDetail();
+    fetchPageSturture();
+  }
+
+  useDidShow(() => {
+    init();
+  });
+
+  const fetchPageSturture = async () => {
+    const pageStructure = await toolkit.fetchPageStructure();
+    setAnchorTextList(filterAnchorTextList(pageStructure.schema.properties, []));
+  }
+
+  const fetchTaskDetail = async () => {
+    if (params.id == domain.taskId) return;
+
+    toolkit.fetchTaskDetail({ task_id: params.id });
+    toolkit.fetchLatestTask({ task_id: params.id });
+  }
+
+  const onAnchorClick = async (item) => {
+    const rectDom = await weappBoundingClientRect(item.id);
+    Taro.pageScrollTo({ scrollTop: scrollTop + rectDom.top });
+  };
+
+  return (
+    <View>
+      <AnchorNavigation scrollTop={scrollTop} value={anchorTextList} onClick={onAnchorClick} />
+
+      <FormHomeInnerPage form={form} scope={globalScope} />
     </View>
   )
 }

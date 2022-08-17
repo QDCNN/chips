@@ -1,45 +1,24 @@
 import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { View, Form } from '@tarojs/components'
-import { createForm, onFormSubmit } from '@formily/core'
-import { FormProvider, createSchemaField, Schema, observer } from '@formily/react'
+import { createForm } from '@formily/core'
+import { FormProvider, createSchemaField, observer } from '@formily/react'
 import { Switch, Input, Picker, Text, Cell, LinkCell, Button, Radio, Image, Textarea } from '@/formily-components'
-import '@/weui/style/weui.less'
 import styles from './index.module.less'
 import { actionCreator, RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
-import { getSchemaFromPath, simpleCompiler } from '@/utils/formily'
-import { scope as globalScope } from '@/models/file-document'
+import { getSchemaFromPath } from '@/utils/formily'
+import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import cloneDeep from 'clone-deep'
 import create from 'zustand'
 import * as api from '@/api'
 import { defaultPageStructure } from '@/default/page-structure'
-
-Schema.registerCompiler(simpleCompiler);
-
-const SchemaField = createSchemaField({
-  components: {
-    Switch,
-    Cell,
-    Input,
-    Textarea,
-    Picker,
-    Text,
-    BaseView: View,
-    LinkCell,
-    Button,
-    Radio,
-    Image,
-  }
-});
+import { SchemaContainer } from '@/containers'
 
 const scope = observable({
   $params: {},
-  $fullForm: {
-    values: {},
-  },
   $dictionary: { ...initialState },
   $task: { config: {}, review_user: {}, service_user: {} },
   $shared: {
@@ -89,12 +68,11 @@ const usePageState = create<PageState>((set) => ({
   }
 }))
 
-const FormDetailPage = observer(() => {
-  const { fileDocument } = useSelector((store: RootState) => store);
+const FormDetailPage = () => {
+  const { domain: globalDomain, toolkit: globalToolkit } = useFileDocumentState();
   const { domain, toolkit } = usePageState();
-  const form = useMemo(() => createForm(), [domain.pageStructure]);
+  const form = useMemo(() => createForm({ initialValues: globalDomain.formValues }), [globalDomain.formValues]);
   const { params } = useRouter();
-  const dispatch = useDispatch();
 
   useDidShow(() => {
     scope.$params = params;
@@ -103,9 +81,7 @@ const FormDetailPage = observer(() => {
   });
 
   useEffect(() => {
-    const fullForm = fileDocument.form.getFormState();
-    console.log('fullForm.values: ', fullForm.values);
-    form.setValues(fullForm.values);
+    form.setValues(cloneDeep(globalDomain.formValues));
   }, [form])
 
   const handleCustom = async () => {
@@ -116,7 +92,7 @@ const FormDetailPage = observer(() => {
     const paramsType = params.type || 'input';
     const component = typeComponentMap[paramsType];
 
-    const pathSchema = getSchemaFromPath(fileDocument.originPageStructure.schema, params.name);
+    const pathSchema = getSchemaFromPath(globalDomain.originPageStructure.schema, params.name);
     const currentSchema = cloneDeep(pathSchema);
     currentSchema['x-component'] = component;
     currentSchema['x-index'] = 0;
@@ -124,13 +100,16 @@ const FormDetailPage = observer(() => {
     const fullSchema = cloneDeep(typeDataMap[paramsType]);
     fullSchema.schema.properties[currentSchema.name] = { ...currentSchema };
     toolkit.setPageStructure(fullSchema);
+    console.log('fullSchema: ', fullSchema);
   };
 
   const initPagestructure = () => {
     if (params.type === 'custom') {
       handleCustom();
     } else {
-      handleSpecific();
+      setTimeout(() => {
+        handleSpecific();
+      }, 100);
     }
   }
 
@@ -141,30 +120,27 @@ const FormDetailPage = observer(() => {
   const onSubmit = async (e) => {
     await form.validate();
     for (const key of Object.keys(e.detail.value)) {
-      fileDocument.form.setValuesIn(key, e.detail.value[key]);
+      form.setValuesIn(key, e.detail.value[key]);
     }
 
-    dispatch(actionCreator.fileDocument.saveTempValue(fileDocument.form.getFormState().values))
+    globalToolkit.saveTempValue(form.getFormState().values);
     Taro.navigateBack();
   }
 
   useEffect(() => {
     scope.$dictionary = cloneDeep(globalScope.$dictionary);
-    console.log('cloneDeep(globalScope.$dictionary): ', cloneDeep(globalScope.$dictionary));
     scope.$task = cloneDeep(globalScope.$task);
   }, [domain.pageStructure]);
-
-  console.log('domain: ', domain.pageStructure);
 
   return (
     <View className={styles.page} style={domain.pageStructure.form.style} data-weui-theme="light">
       <Form onSubmit={onSubmit}>
         <FormProvider form={form}>
-          <SchemaField schema={domain.pageStructure.schema} scope={scope}></SchemaField>
+          <SchemaContainer schema={domain.pageStructure.schema} scope={scope} />
         </FormProvider>
       </Form>
     </View>
   )
-})
+}
 
 export default FormDetailPage;

@@ -8,14 +8,14 @@ import React, {
 import styles from './index.module.less';
 import { weappBoundingClientRect } from '@/utils/dom';
 import { delay } from '@/utils';
-import Taro, { usePageScroll } from '@tarojs/taro';
-import { throttle } from 'lodash'
+import Taro from '@tarojs/taro';
+// import { throttle } from 'lodash'
 
 const ENV = Taro.getEnv()
 
 const AnchorNavigation = ({
   value = [],
-  // scrollTop = 0,
+  scrollTop = 0,
   onClick
 }: { value: any[], onClick?: any, scrollTop: number }) => {
   const [current, setCurrent] = useState(0);
@@ -25,7 +25,7 @@ const AnchorNavigation = ({
   const anchorRef = useRef<any>();
   const [scrollIntoView, setScrollIntoView] = useState('');
   const insideAnchorRef = useRef<any>();
-  const [scrollTop, setScrollTop] = useState(0);
+  // const [scrollTop, setScrollTop] = useState(0);
   // const currentNodeRect = useMemo(() => stickyList[componentIndex!] || { fixed: false }, [stickyList, componentIndex]);
 
   const updateState = useCallback(
@@ -62,10 +62,9 @@ const AnchorNavigation = ({
 
   const currentIndex = useMemo(() => (matchedIndex > -1 ? matchedIndex : current), [matchedIndex, current]);
 
-  usePageScroll((rect) => {
-    setScrollTop(rect.scrollTop);
+  useEffect(() => {
     updateState(currentIndex);
-  });
+  }, [currentIndex, updateState]);
 
   const generateRectTopList = async () => {
     await delay(0);
