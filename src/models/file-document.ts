@@ -1,36 +1,24 @@
 import * as api from '@/api'
 import { actionCreator, store } from '@/store';
-import { createForm, onFormMount, onFieldValueChange, onFieldInputValueChange } from '@formily/core';
 import Taro from '@tarojs/taro';
 // import Taro from '@tarojs/taro';
-import objectPath from 'object-path'
-import data from './data.json'
+// import objectPath from 'object-path'
 import { observable } from '@formily/reactive'
 import { initialState as dictionaryInitialState } from './dictionary'
 import onceInit from 'once-init'
-import { getFullName } from '@/utils/formily';
-import { specialHandleProperties } from '@/utils/schema';
+// import { getFullName } from '@/utils/formily'
+import { specialHandleProperties } from '@/utils/schema'
+import { defaultPageStructure } from '@/default/page-structure'
+import cloneDeep from 'clone-deep'
+import create from 'zustand'
+import produce from 'immer'
+import { defaultFormValues } from '@/default/form'
+import deepmerge from 'deepmerge'
 
-const onceFetchPageStructure = onceInit(async () => {
-  return await api.getPageStructure({ name: 'file-document' });
-});
-
-const form = createForm({
-  effects() {
-    onFieldInputValueChange('*', (field, $form) => {
-      console.log('field: ', field);
-      store.dispatch(actionCreator.fileDocument.saveTempValue($form.getFormState().values))
-    })
-  }
-});
-
-form.setInitialValues({ archive: {}, spouse_basic: {}, spouse_hukou_movein: {} });
+const onceFetchPageStructure = onceInit(() => api.getPageStructure({ name: 'file-document' }));
 
 export const scope = observable.shallow({
   $params: {},
-  $fullForm: {
-    values: {},
-  },
   $dictionary: { ...dictionaryInitialState },
   $task: { config: {}, review_user: {}, service_user: {} },
   $shared: {
@@ -47,81 +35,86 @@ export const scope = observable.shallow({
 export const initialState = {
   taskId: '',
   mounted: false,
-  originPageStructure: {
-    form: { style: {} },
-    schema: {}
-  },
-  pageStructure: {
-    form: { style: {} },
-    schema: {}
-  },
+  originPageStructure: cloneDeep(defaultPageStructure),
+  pageStructure: cloneDeep(defaultPageStructure),
   task: {},
-  form,
-
+  formValues: defaultFormValues,
 }
 
-const fileDocument = {
-  state: () => initialState,
-  reducers: () => ({
-    setMounted(state, mounted) {
-      state.mounted = mounted;
-    },
-    setTaskId(state, taskId) {
-      state.taskId = taskId;
-    },
-    setPageStructure(state, pageStructure) {
-      state.pageStructure = pageStructure;
-    },
-    setOriginPageStructure(state, pageStructure) {
-      state.originPageStructure = pageStructure;
-    },
-    setTask(state, task) {
-      state.task = task;
-    },
-  }),
-  effects: (dispatch, getState, delay) => ({
+interface FileDocumentState {
+  domain: typeof initialState,
+  toolkit: {
+    fetchPageStructure: () => Promise<any>,
+    fetchLatestTask: (params: any) => Promise<void>,
+    fetchTaskDetail: (params: any) => Promise<void>,
+    submitFormValues: (params: any) => Promise<void>,
+    setPageStructure: (params: any) => void,
+    saveTempValue: (value: any) => Promise<void>
+  }
+}
+
+export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
+  domain: initialState,
+  toolkit: {
     async fetchPageStructure() {
       const response = await onceFetchPageStructure.init();
       if (!response.data.content) return;
-      const pageStructureObj = JSON.parse(response.data.content);
-      pageStructureObj.schema.properties = specialHandleProperties({ properties: pageStructureObj.schema.properties, payload: { key: 'x-pattern', value: '{{$shared.calcPattern($self, $task)}}' } })
-      dispatch(actionCreator.fileDocument.setOriginPageStructure({ ...pageStructureObj }));
-      dispatch(actionCreator.fileDocument.setPageStructure(pageStructureObj));
+      const pageStructure = JSON.parse(response.data.content);
+      pageStructure.schema.properties = specialHandleProperties({
+        properties: pageStructure.schema.properties,
+        payload: { key: 'x-pattern', value: '{{$shared.calcPattern($self, $task)}}' }
+      });
+
+      set(produce(draft => {
+        draft.domain.originPageStructure = pageStructure;
+        draft.domain.pageStructure = pageStructure;
+      }));
 
       setTimeout(() => {
-        store.dispatch(actionCreator.fileDocument.setMounted(true));
+        set(produce(draft => {
+          draft.domain.mounted = true;
+        }));
       }, 0);
+
+      return pageStructure;
     },
     async fetchLatestTask(params) {
-      dispatch(actionCreator.fileDocument.setMounted(false));
-      dispatch(actionCreator.fileDocument.setTaskId(params.task_id));
+      set(produce(draft => {
+        draft.domain.mounted = false;
+        draft.domain.taskId = params.task_id;
+      }));
       const result = await api.获取最近一次表单内容(params);
-      form.setInitialValues(result.data.content);
+      set(produce(draft => {
+        draft.domain.formValues = deepmerge(defaultFormValues, result.data.content);
+      }));
+      return result.data.content;
+      // form.setInitialValues(result.data.content);
       // form.setValues(result.data.content);
     },
-    async saveTempValue(contentObj) {
-      const state = getState();
-      if (!state.fileDocument.mounted) return;
+    async saveTempValue(values) {
+      const { domain } = get();
+      if (!domain.mounted) return;
       Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.showNavigationBarLoading();
-      await api.提交表单内容json({ task_id: state.fileDocument.taskId, content: JSON.stringify(contentObj) });
+      await api.提交表单内容json({ task_id: domain.taskId, content: JSON.stringify(values) });
+      set(produce(draft => {
+        draft.domain.formValues = values;
+      }));
       Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.hideNavigationBarLoading();
     },
     async fetchTaskDetail(params) {
       const response = await api.获取任务订单信息(params);
       scope.$task = response.data;
-      dispatch(actionCreator.fileDocument.setTask(response.data));
+      set(produce(draft => {
+        draft.domain.task = response.data;
+      }));
     },
     async submitFormValues(params) {
       await api.用户最终提交表单(params);
     },
-  })
-}
-
-// useEffect(() => {
-//   scope.$dictionary = dictionary;
-// }, [dictionary]);
-// useEffect(() => {
-//   scope.$task = fileDocument.task;
-// }, [fileDocument.task]);
-
-export default fileDocument
+    setPageStructure(pageStructure) {
+      set(produce(draft => {
+        draft.domain.pageStructure = pageStructure;
+      }));
+    }
+  }
+}));

@@ -6,6 +6,11 @@ import { actionCreator, store } from './store'
 import { Provider } from 'react-redux'
 import '@/polyfills/lodash'
 import '@/weui/style/weui.less'
+import { Schema } from '@formily/react'
+import { simpleCompiler } from './utils/formily'
+
+Schema.registerCompiler(simpleCompiler);
+
 class App extends Component {
 
   componentDidMount() {

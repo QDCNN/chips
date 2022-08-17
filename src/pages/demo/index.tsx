@@ -4,7 +4,6 @@ import { Button, Input, View, WebView } from '@tarojs/components';
 import { Cell, LinkCell, Picker } from '@/formily-components';
 import React, { useState } from 'react';
 import { createForm } from '@formily/core';
-import '@/weui/style/weui.less';
 import { simpleCompiler } from '@/utils/formily';
 import { createContext, runInContext } from '@/compiler';
 import Taro, { useDidShow } from '@tarojs/taro';
