@@ -2,7 +2,6 @@ import { View, Button, Form, Label, Input as TaroInput, Image } from '@tarojs/co
 import Taro from '@tarojs/taro'
 import classnames from 'classnames'
 import styles from './index.module.less'
-import CustomNavigationBar from '@/custom-navigation-bar'
 import { useDuraArray } from '@/hooks/use-dura'
 import { useSelector, } from 'react-redux'
 import * as yinghuoAPI from '@/api/yinghuo'
@@ -190,7 +189,6 @@ const ConfirmOrder = () => {
 
   return (
     <View className={classnames('page', styles.page)}>
-      <CustomNavigationBar back notFixed title="确认订单" />
       <View className={classnames('container', styles.container)}>
         <View className='fiche'>
           <AtListItem

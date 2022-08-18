@@ -1,7 +1,6 @@
 import { View, Text, Icon, Button } from '@tarojs/components'
 import styles from './index.module.less'
 import classnames from 'classnames'
-import CustomNavigationBar from '@/custom-navigation-bar'
 import { useEffect } from 'react'
 import Taro, { useRouter } from '@tarojs/taro'
 import * as yinghuoAPI from '@/api/yinghuo'
@@ -63,7 +62,6 @@ const PayResult = () => {
 
   return (
     <View className={classnames('page', styles.page)}>
-      <CustomNavigationBar back notFixed title="确认订单" />
       <View className={classnames('container', styles.container)}>
         <View className={styles.resultsBox}>
           <Icon size='60' type='waiting' />

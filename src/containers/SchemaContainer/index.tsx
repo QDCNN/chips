@@ -3,17 +3,17 @@ import { createSchemaField, observer } from '@formily/react';
 import {
   Switch,
   Input,
-  Picker,
+  OriginPicker,
   Text,
   Cell,
   LinkCell,
   Button,
   Radio,
-  Image,
-  Textarea,
+  // Image,
+  // Textarea,
   Uploader,
   ArrayItems,
-} from '@/formily-components'
+} from '@/formily-components-vant'
 import { View } from '@tarojs/components';
 
 export const SchemaContainer = (props) => {
@@ -24,14 +24,13 @@ export const SchemaContainer = (props) => {
       Switch,
       Cell,
       Input,
-      Textarea,
-      Picker,
+      OriginPicker,
       Text,
+      View,
       BaseView: View,
       LinkCell,
       Button,
       Radio,
-      Image,
       ArrayItems,
       Uploader,
       ...components,

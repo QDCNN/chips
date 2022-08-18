@@ -3,7 +3,6 @@ import styles from './index.module.less'
 import classnames from 'classnames'
 import Taro from '@tarojs/taro'
 import { Routes } from '@/routes'
-import CustomNavigationBar from '@/custom-navigation-bar'
 
 const PayResult = () => {
 
@@ -13,8 +12,6 @@ const PayResult = () => {
 
   return (
     <View className={classnames('page', styles.page)}>
-      <CustomNavigationBar notFixed title="结果页" />
-
       <View className={classnames('container', styles.container)}>
         <View className={styles.resultsBox}>
           <Icon size='60' type='success' />

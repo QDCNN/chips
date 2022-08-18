@@ -1,14 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Picker as TaroPicker, View } from '@tarojs/components'
-import { Cell } from '@/components'
-import classNames from 'classnames';
+import { useMemo, useState } from 'react'
+import { Picker as TaroPicker } from '@tarojs/components'
+import { Cell }  from '@antmjs/vantui'
 
 enum Mode {
   单向选择 = 'selector',
   多项选择 = 'multiSelector',
+  省市区 = 'region',
 }
 
-export const Picker = (props, ref) => {
+export const OriginPicker = (props, ref) => {
   const { options = [], value, mode, onChange, ...other } = props;
   const [tempValue, setTempValue] = useState([0, 0]);
 
@@ -51,6 +51,10 @@ export const Picker = (props, ref) => {
       nextValue = list;
     }
 
+    if (mode === Mode.省市区) {
+      nextValue = e.detail.code;
+    }
+
     onChange?.(nextValue);
   }
 
@@ -65,10 +69,23 @@ export const Picker = (props, ref) => {
       const match = options.find(item => item.value === value);
       return match && match.label;
     }
+    const showTextValue = value || [];
     if (mode === Mode.多项选择) {
       const list = [];
-      let highrUpOptions = options;
-      for (const item of value) {
+      let highrUpOptions = options || [];
+      for (const item of showTextValue) {
+        const matchOption = highrUpOptions.find(option => option.value == item);
+        if (!matchOption) break;
+        if (matchOption) list.push(matchOption.label);
+        if (matchOption.children) highrUpOptions = matchOption.children;
+      }
+      return list.join(',');
+    }
+
+    if (mode === Mode.省市区) {
+      const list = [];
+      let highrUpOptions = options || [];
+      for (const item of showTextValue) {
         const matchOption = highrUpOptions.find(option => option.value == item);
         if (!matchOption) break;
         if (matchOption) list.push(matchOption.label);
@@ -101,10 +118,9 @@ export const Picker = (props, ref) => {
   }, [mode, value, tempValue, options])
 
   return (
-    <TaroPicker mode={mode} range={range} value={pickerValue} {...other} onChange={handleChange} onColumnChange={handleColumnChange}>
-      <Cell className={classNames(props.className, { 'weui-cell_disabled': props.disabled })} style={props.style} {...other} title={other.title} value={showText}>{showText}</Cell>
+    <TaroPicker mode={mode} range={range} value={pickerValue} onChange={handleChange} onColumnChange={handleColumnChange} {...other}>
+      <Cell style={props.style} isLink size='large' value={showText} {...other}>{showText}</Cell>
     </TaroPicker>
   )
 }
 
-export default Picker;

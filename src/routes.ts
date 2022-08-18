@@ -7,9 +7,6 @@ export enum Routes {
   // 办事
   Work = '/pages/work/index',
 
-  // 联系我
-  Contact = '/pages/contact/index',
-
   // 商品详情
   GoodsDetail = '/pages/goods-detail/index',
 

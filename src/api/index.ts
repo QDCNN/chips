@@ -28,6 +28,7 @@ enum APIPath {
 
   字典落户方式 = '/es/settlement_method/get',
   字典省市 = '/es/area_city/get',
+  字典省市区 = '/es/region/get',
   字典申请人基本方式 = '/es/basic/get',
   字典家庭成员及主要社会关系 = '/es/family/get',
   字典户口迁入信息 = '/es/hukou_movein/get',
@@ -126,6 +127,10 @@ export const getAliOSSInfo = params => {
   return commomRequest({ action: APIPath.阿里OSSInfo, params, method: Method.GET })
 }
 
+
+export const getESRegion = (params?) => {
+  return commomRequest({ action: APIPath.字典省市区, params, method: Method.GET })
+}
 
 export const getESAreaCity = (params?) => {
   return commomRequest({ action: APIPath.字典省市, params, method: Method.GET })

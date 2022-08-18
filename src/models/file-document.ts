@@ -14,17 +14,21 @@ import create from 'zustand'
 import produce from 'immer'
 import { defaultFormValues } from '@/default/form'
 import deepmerge from 'deepmerge'
+import { FORM_TEMPLATE_KEY } from '@/constants/form';
+import { defaultTaskDetail } from '@/default/task';
 
-const onceFetchPageStructure = onceInit(() => api.getPageStructure({ name: 'file-document' }));
+const onceFetchPageStructure = onceInit(() => api.getPageStructure({ name: FORM_TEMPLATE_KEY }));
 
 export const scope = observable.shallow({
   $params: {},
   $dictionary: { ...dictionaryInitialState },
-  $task: { config: {}, review_user: {}, service_user: {} },
+  $page: {
+    taskDetail: { ...defaultTaskDetail }
+  },
   $shared: {
-    calcPattern($self, $task) {
+    calcPattern($self, $page) {
       if (!$self?.props?.name) return 'editable';
-      const config = {...$task.config};
+      const config = cloneDeep($page.taskDetail.config);
       const itemConfig = config[$self.props.name.split('.').shift()];
       if (itemConfig == 0) return 'disabled';
       return 'editable';
@@ -62,7 +66,7 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
       const pageStructure = JSON.parse(response.data.content);
       pageStructure.schema.properties = specialHandleProperties({
         properties: pageStructure.schema.properties,
-        payload: { key: 'x-pattern', value: '{{$shared.calcPattern($self, $task)}}' }
+        payload: { key: 'x-pattern', value: '{{$shared.calcPattern($self, $page)}}' }
       });
 
       set(produce(draft => {
@@ -103,7 +107,7 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
     },
     async fetchTaskDetail(params) {
       const response = await api.获取任务订单信息(params);
-      scope.$task = response.data;
+      scope.$page = { taskDetail: response.data };
       set(produce(draft => {
         draft.domain.task = response.data;
       }));

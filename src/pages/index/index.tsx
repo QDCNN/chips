@@ -3,7 +3,6 @@ import { Button, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import classnames from 'classnames'
 import styles from './index.module.less'
-import CustomNavigationBar from '@/custom-navigation-bar'
 import Card from '@/components/Card'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
@@ -32,7 +31,6 @@ const Index = () => {
 
   return (
     <View className={classnames('page', styles.page)}>
-      <CustomNavigationBar notFixed title="首页" />
       <View className={classnames('container', styles.container)}>
         <Card className="m-t-32" image={goodsList[0]?.goods_image} onClick={onGoodsDetailClick} />
       </View>

@@ -1,29 +1,14 @@
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
-import { FormProvider, createSchemaField, observer } from '@formily/react'
-import {
-  Switch,
-  Input,
-  Picker,
-  Text,
-  Cell,
-  LinkCell,
-  Uploader,
-  Button,
-  ArrayItems,
-} from '@/formily-components'
+import { FormProvider, observer } from '@formily/react'
 import AnchorNavigation from '@/components/AnchorNavigation'
-import Taro, { useDidHide, useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
-// import { useDispatch, useSelector } from 'react-redux'
-import { actionCreator, RootState } from '@/store'
+import Taro, { useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
 import { formDictionaryQueue } from '@/queue'
 import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import { weappBoundingClientRect } from '@/utils/dom'
 import cloneDeep from 'clone-deep'
-import { defaultPageStructure } from '@/default/page-structure'
 import { SchemaContainer } from '@/containers'
 import { createForm, onFieldInputValueChange, onFormInit } from '@formily/core'
-import { delay } from '@/utils'
 
 const FormHomeInnerPage = observer((props) => {
   const { form, scope } = props;

@@ -36,6 +36,7 @@
   ],
   "author": "",
   "dependencies": {
+    "@antmjs/vantui": "^1.9.21",
     "@antmjs/weui": "^1.4.0",
     "@babel/runtime": "^7.7.7",
     "@dura/actions": "3.4.0",
@@ -107,6 +108,7 @@
     "@types/webpack-env": "^1.13.6",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
+    "babel-plugin-import": "^1.13.5",
     "babel-preset-taro": "3.4.11",
     "babel-types": "^6.26.0",
     "eslint": "^8.12.0",

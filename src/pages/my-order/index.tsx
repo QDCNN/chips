@@ -1,4 +1,3 @@
-import CustomNavigationBar from '@/custom-navigation-bar'
 import { View, Text, } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.less'
@@ -96,7 +95,6 @@ const MyOrder = () => {
 
   return (
     <View className={classnames('page', styles.page)}>
-      <CustomNavigationBar back onBack={onBack} notFixed title="我的订单" />
       <View className={classnames('container')}>
         {orderList.map(item => (
           <Order item={item} onPay={() => { onOrderPay(item) }} />

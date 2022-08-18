@@ -5,6 +5,7 @@ import { scope } from './file-document'
 
 export enum DictionaryProperty {
   省市 = 'area_city',
+  省市区 = 'region',
   落户方式 = 'settlement_method',
   申请人基本信息 = 'basic',
   家庭成员及主要社会关系 = 'family',
@@ -37,6 +38,7 @@ const dictionaryModel = {
       formDictionaryQueue.add(async () => {
         await dispatch(actionCreator.dictionary.fetchSettlementMethod());
         await dispatch(actionCreator.dictionary.fetchAreaCity());
+        await dispatch(actionCreator.dictionary.fetchRegion());
         await dispatch(actionCreator.dictionary.fetchBasic());
         await dispatch(actionCreator.dictionary.fetchFamily());
         await dispatch(actionCreator.dictionary.fetchHukouMovein());
@@ -54,6 +56,11 @@ const dictionaryModel = {
       const response = await api.getESAreaCity();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.省市, value: response.data }));
       scope.$dictionary[DictionaryProperty.省市] = response.data;
+    },
+    async fetchRegion() {
+      const response = await api.getESRegion();
+      dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.省市区, value: response.data }));
+      scope.$dictionary[DictionaryProperty.省市区] = response.data;
     },
     async fetchBasic() {
       const response = await api.getESBasic();

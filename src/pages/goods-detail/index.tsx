@@ -1,5 +1,3 @@
-import { CommonImage } from '@/config'
-import CustomNavigationBar from '@/custom-navigation-bar'
 import { View, Image, Text, Button } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.less'
@@ -23,7 +21,6 @@ const GoodsDetail = () => {
   }, [])
   return (
     <View className={classnames('page', styles.page)}>
-      <CustomNavigationBar back title="服务详情" />
       <View dangerouslySetInnerHTML={{ __html: goodsDetail.content }} className={styles.backgroundImage}></View>
       <View className={classnames('container', styles.container)}>
 

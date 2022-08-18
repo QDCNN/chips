@@ -2,11 +2,8 @@ import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
 import { useEffect, useMemo } from 'react'
 import { View, Form } from '@tarojs/components'
 import { createForm } from '@formily/core'
-import { FormProvider, createSchemaField, observer } from '@formily/react'
-import { Switch, Input, Picker, Text, Cell, LinkCell, Button, Radio, Image, Textarea } from '@/formily-components'
+import { FormProvider } from '@formily/react'
 import styles from './index.module.less'
-import { actionCreator, RootState } from '@/store'
-import { useDispatch, useSelector } from 'react-redux'
 import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
 import { getSchemaFromPath } from '@/utils/formily'
@@ -16,15 +13,18 @@ import create from 'zustand'
 import * as api from '@/api'
 import { defaultPageStructure } from '@/default/page-structure'
 import { SchemaContainer } from '@/containers'
+import { defaultTaskDetail } from '@/default/task'
 
 const scope = observable({
   $params: {},
   $dictionary: { ...initialState },
-  $task: { config: {}, review_user: {}, service_user: {} },
+  $page: {
+    taskDetail: { ...defaultTaskDetail }
+  },
   $shared: {
-    calcPattern($self, $task) {
+    calcPattern($self, $page) {
       if (!$self?.props?.name) return 'editable';
-      const config = { ...$task.config };
+      const config = cloneDeep($page.taskDetail.config);
       const itemConfig = config[$self.props.name.split('.').shift()];
       if (itemConfig == 0) return 'disabled';
       return 'editable';
@@ -96,11 +96,16 @@ const FormDetailPage = () => {
     const currentSchema = cloneDeep(pathSchema);
     currentSchema['x-component'] = component;
     currentSchema['x-index'] = 0;
+    currentSchema['x-component-props'] = {
+      ...currentSchema['x-component-props'],
+      placeholder: '请输入' + currentSchema['title'],
+      isLink: false,
+    };
+    currentSchema['title'] = '';
     currentSchema.name = params.name;
     const fullSchema = cloneDeep(typeDataMap[paramsType]);
     fullSchema.schema.properties[currentSchema.name] = { ...currentSchema };
     toolkit.setPageStructure(fullSchema);
-    console.log('fullSchema: ', fullSchema);
   };
 
   const initPagestructure = () => {
@@ -129,7 +134,7 @@ const FormDetailPage = () => {
 
   useEffect(() => {
     scope.$dictionary = cloneDeep(globalScope.$dictionary);
-    scope.$task = cloneDeep(globalScope.$task);
+    scope.$page = { taskDetail: cloneDeep(globalScope.$page.taskDetail) };
   }, [domain.pageStructure]);
 
   return (

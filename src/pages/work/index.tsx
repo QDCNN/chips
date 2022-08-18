@@ -3,7 +3,6 @@ import styles from './index.module.less'
 import classnames from 'classnames'
 import Taro from '@tarojs/taro'
 import { Routes } from '@/routes'
-import CustomNavigationBar from '@/custom-navigation-bar'
 import ListItem from '@/components/ListItem'
 import orderIcon from '@/assets/icon/order.svg'
 import rightIcon from '@/assets/icon/right.svg'
@@ -70,7 +69,6 @@ const Work = () => {
   }
   return (
     <View className={classnames('page', styles.page)}>
-      <CustomNavigationBar notFixed title="办事" />
 
       <View className="container">
         <View className='fiche'>

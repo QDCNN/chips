@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '购买成功',
+  navigationBarTitleText: '确认订单',
   navigationStyle: 'custom',
 
 })
