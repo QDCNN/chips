@@ -16,19 +16,17 @@ export const Button = connect(
         // formType: props.functional === 'copy' ? null : props.formType,
         onClick: () => {
           if (props.disabled) return;
-          console.log('onClick: ', props);
           if (props.functional === 'copy') {
-            Taro.setClipboardData({ data: props.value });
+            Taro.setClipboardData({ data: props.data });
             Taro.showToast({ title: '复制成功', icon: 'none' });
-            console.log('previewImage: ')
           }
           if (props.functional === 'previewImage') {
-            console.log('previewImage: ')
-            Taro.previewImage({ urls: [props.value], current: props.value, showmenu: true });
+            console.log('previewImage: ', props)
+            Taro.previewImage({ urls: [props.data], current: props.data, showmenu: true });
           }
           if (props.functional === 'openDocument') {
             Taro.downloadFile({
-              url: props.value
+              url: props.data
             }).then(downloadResponse => {
               Taro.openDocument({
                 filePath: downloadResponse.tempFilePath,
@@ -37,7 +35,7 @@ export const Button = connect(
           }
           if (props.functional === 'shareFile') {
             Taro.downloadFile({
-              url: props.value
+              url: props.data
             }).then(downloadResponse => {
               Taro.shareFileMessage({
                 filePath: downloadResponse.tempFilePath,
