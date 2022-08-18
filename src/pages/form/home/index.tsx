@@ -49,14 +49,10 @@ const FormHomeInnerPage = observer((props) => {
 
   return (
     <View style={domain.pageStructure.form.style}>
-      {/* <AnchorNavigation value={anchorTextList} onClick={onAnchorClick} /> */}
-
       <Form onSubmit={handleSubmit}>
         <FormProvider form={form}>
           <SchemaContainer schema={domain.pageStructure.schema} scope={scope} />
         </FormProvider>
-
-        {domain.pageStructure.schema.properties && <Button formType="submit" type="default">提交</Button>}
       </Form>
     </View>
   )
@@ -91,7 +87,7 @@ const FormHomePage = () => {
   }), []);
 
   useEffect(() => {
-    form.setInitialValues(domain.formValues)
+    form.setInitialValues(cloneDeep(domain.formValues));
   }, [domain.formValues]);
 
   usePageScroll((pageRect) => {
