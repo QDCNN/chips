@@ -1,9 +1,8 @@
 import { Uploader as OriginUploader } from '@/components'
 import { connect, mapProps } from '@formily/react'
-import * as api from '@/api';
 import Taro from '@tarojs/taro';
 import { wxuuid } from '@/utils/uuid';
-// import short from 'short-uuid';
+import { CommonApi } from '@/api';
 
 const singleUpload = async (file, uploadParams) => {
   const uuid = wxuuid();
@@ -25,14 +24,14 @@ const singleUpload = async (file, uploadParams) => {
 }
 
 const onUpload = async (chooseResult) => {
-  const aliossResponse = await api.getAliOSSInfo({});
+  const aliossResponse = await CommonApi.getAliOSSInfo({});
 
   return await Promise.all(chooseResult.tempFiles.map(file => singleUpload(file, aliossResponse.data)));
 }
 
 const onPrePathsHandle = async (paths = []) => {
   const uuidList = paths.map(item => item.split('/').pop());
-  const response = await api.获取阿里云图片链接({ object: uuidList.join(',') });
+  const response = await CommonApi.获取阿里云图片链接({ object: uuidList.join(',') });
   const result = uuidList.map(item => response.data[item]).filter(item => item);
   return result;
 };

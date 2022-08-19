@@ -1,0 +1,178 @@
+{
+  "form": {
+    "labelCol": 6,
+    "wrapperCol": 12,
+    "style": {
+      "backgroundColor": "rgba(246,246,246,1)"
+    },
+    "wrapperWidth": "auto"
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "ukvmr4232f4": {
+        "type": "void",
+        "x-component": "View",
+        "x-component-props": {
+          "title": "Title",
+          "style": {
+            "padding": "16px 0px 16px 0px"
+          }
+        },
+        "x-designable-id": "ukvmr4232f4",
+        "x-index": 0,
+        "properties": {
+          "x38z46ydxg1": {
+            "type": "array",
+            "x-component": "ArrayItems",
+            "x-component-props": {
+              "title": "Title"
+            },
+            "x-validator": [],
+            "x-reactions": {
+              "dependencies": [
+                {
+                  "property": "value",
+                  "type": "any"
+                }
+              ],
+              "fulfill": {
+                "state": {
+                  "value": "{{$page.orderList}}"
+                }
+              }
+            },
+            "x-designable-id": "x38z46ydxg1",
+            "x-index": 0,
+            "items": {
+              "type": "object",
+              "x-validator": [],
+              "x-designable-id": "746qwux8sty",
+              "properties": {
+                "isq6o266xef": {
+                  "type": "void",
+                  "title": "CellGroup",
+                  "x-component": "CellGroup",
+                  "x-validator": [],
+                  "x-component-props": {
+                    "inset": true,
+                    "style": {
+                      "marginBottom": "16px"
+                    }
+                  },
+                  "x-designable-id": "isq6o266xef",
+                  "x-index": 0,
+                  "properties": {
+                    "1yw0ecm0zwn": {
+                      "type": "void",
+                      "title": "",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-component-props": {},
+                      "description": "{{\"订单编号：\" + $record.order_no}}",
+                      "x-designable-id": "1yw0ecm0zwn",
+                      "x-index": 0
+                    },
+                    "36zwo2n0kwf": {
+                      "type": "void",
+                      "title": "服务信息",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-component-props": {
+                        "children": "{{$record.goods[0] && $record.goods[0].goods_name}}"
+                      },
+                      "x-designable-id": "36zwo2n0kwf",
+                      "x-index": 1
+                    },
+                    "289sx4avofv": {
+                      "type": "void",
+                      "title": "下单时间",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-component-props": {
+                        "children": "{{$record.create_time}}"
+                      },
+                      "x-designable-id": "289sx4avofv",
+                      "x-index": 2
+                    },
+                    "ctr1dmynvx8": {
+                      "type": "void",
+                      "title": "服务编号",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-component-props": {
+                        "children": "{{$record.task_no}}"
+                      },
+                      "x-designable-id": "ctr1dmynvx8",
+                      "x-index": 3
+                    },
+                    "iu7opjvlb0x": {
+                      "type": "void",
+                      "title": "落户人",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-component-props": {
+                        "children": "{{$record.name}}"
+                      },
+                      "x-designable-id": "iu7opjvlb0x",
+                      "x-index": 4
+                    },
+                    "drva3a6m4h2": {
+                      "type": "void",
+                      "title": "手机号",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-component-props": {
+                        "children": "{{$record.mobile}}"
+                      },
+                      "x-designable-id": "drva3a6m4h2",
+                      "x-index": 5
+                    },
+                    "ifqer2tdzel": {
+                      "type": "void",
+                      "title": "应付款",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-component-props": {
+                        "children": "{{\"￥\" + $library.numeral($record.pay_price).format('0,0.00')}}"
+                      },
+                      "x-designable-id": "ifqer2tdzel",
+                      "x-index": 6
+                    },
+                    "pnik7l8iade": {
+                      "type": "void",
+                      "title": "实付款",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-visible": "{{$record.state_text === \"已付款，待发货\"}}",
+                      "x-component-props": {
+                        "children": "{{\"￥\" + $library.numeral($record.pay_price).format('0,0.00')}}"
+                      },
+                      "x-designable-id": "pnik7l8iade",
+                      "x-index": 7
+                    },
+                    "96z5pfep41d": {
+                      "type": "void",
+                      "title": "去支付",
+                      "description": "{{\"请在 \" + $toolkit.calcDuration($page.currentTime, $record.expiry_time) + \" 内完成付款\"}}",
+                      "x-component": "Cell",
+                      "x-validator": [],
+                      "x-visible": "{{$record.state_text === \"待付款\"}}",
+                      "x-component-props": {
+                        "isLink": true,
+                        "onClick": "{{ function() { $toolkit.orderPay($record) } }}"
+                      },
+                      "x-designable-id": "96z5pfep41d",
+                      "x-index": 8
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-designable-id": "dn6w04q3qvf"
+  }
+}

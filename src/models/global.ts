@@ -1,8 +1,9 @@
-import * as yinghuoAPI from '@/api/yinghuo'
-import * as weixinAPI from '@/api'
-import Taro from "@tarojs/taro";
-import { actionCreator, RootState, store } from '@/store';
-import { loginQueue } from '@/queue';
+import Taro from "@tarojs/taro"
+import { actionCreator, RootState, store } from '@/store'
+import { loginQueue } from '@/queue'
+import create from 'zustand'
+import { CommonApi, YinghuoApi } from '@/api'
+import produce from "immer"
 
 // 处理登录
 
@@ -27,7 +28,7 @@ async function loginWrapper() {
     referee_id: launchData.query.referee_id || '',
   }
 
-  const request = await yinghuoAPI.login({ ...userData })
+  const request = await YinghuoApi.login({ ...userData })
   store.dispatch(actionCreator.global.setUserToken(request.data))
   // store.dispatch(actionCreator.global.getService())
   Taro.hideLoading()
@@ -98,26 +99,26 @@ const globalModel = {
 
     // 获取商品列表
     async getGoodsList() {
-      const request = await yinghuoAPI.getGoodsList({})
+      const request = await YinghuoApi.getGoodsList({})
       dispatch(actionCreator.global.setGoodsList(request.data.list.data))
     },
 
     // 获取商品详情
     async getGoodsDetail() {
       const goods_id = 10001
-      const request = await yinghuoAPI.getGoodsDetail({ goods_id })
+      const request = await YinghuoApi.getGoodsDetail({ goods_id })
       dispatch(actionCreator.global.setGoodsDetail(request.data.detail))
     },
 
     // 获取客服资料
     async getService() {
-      const { data: { service } } = await weixinAPI.getService({})
+      const { data: { service } } = await CommonApi.getService({})
       dispatch(actionCreator.global.setService(service))
     },
 
     // 获取订单列表
     async getOrderList() {
-      const res = await yinghuoAPI.getOrderList({ dataType: 'all' })
+      const res = await YinghuoApi.getOrderList({ dataType: 'all' })
       console.log('订单列表', res.data.list.data);
 
       dispatch(actionCreator.global.setOrderList(res.data.list.data))
@@ -125,6 +126,44 @@ const globalModel = {
 
   })
 }
+
+interface ServiceState {
+  state: {
+    service: any[],
+    goodsList: any[],
+  },
+  actions: {
+    fetchServiceInfo: () => Promise<void>
+    fetchGoodsList: () => Promise<void>
+    init: () => Promise<void>
+  },
+}
+
+export const useGlobalState = create<ServiceState>((set, get) => ({
+  state: {
+    service: [],
+    goodsList: [],
+  },
+  actions: {
+    async init() {
+      const currentState = get();
+      currentState.actions.fetchServiceInfo();
+      currentState.actions.fetchGoodsList();
+    },
+    async fetchServiceInfo() {
+      const { data } = await CommonApi.getService();
+      set(produce(draft => {
+        draft.state.service = data.service;
+      }));
+    },
+    async fetchGoodsList() {
+      const { data } = await YinghuoApi.getGoodsList();
+      set(produce(draft => {
+        draft.state.goodsList = data.list.data;
+      }));
+    },
+  },
+}));
 
 
 export default globalModel

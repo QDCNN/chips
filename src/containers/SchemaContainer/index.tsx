@@ -6,6 +6,7 @@ import {
   OriginPicker,
   Text,
   Cell,
+  CellGroup,
   LinkCell,
   Button,
   Radio,
@@ -14,7 +15,7 @@ import {
   Uploader,
   ArrayItems,
 } from '@/formily-components-vant'
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 
 export const SchemaContainer = (props) => {
   const { schema, scope, components } = props
@@ -23,10 +24,12 @@ export const SchemaContainer = (props) => {
     components: {
       Switch,
       Cell,
+      CellGroup,
       Input,
       OriginPicker,
       Text,
       View,
+      Image,
       BaseView: View,
       LinkCell,
       Button,
@@ -38,8 +41,6 @@ export const SchemaContainer = (props) => {
   }), [components])
 
   return (
-    <View data-weui-theme="light">
-      <SchemaField schema={schema} scope={scope} />
-    </View>
+    <SchemaField schema={schema} scope={scope} />
   )
 }

@@ -8,31 +8,25 @@ import '@/polyfills/lodash'
 import '@/weui/style/weui.less'
 import { Schema } from '@formily/react'
 import { simpleCompiler } from './utils/formily'
+import { useDidShow } from '@tarojs/taro'
+import { useGlobalState } from './models'
+import '@antmjs/vantui/lib/index.less'
 
 Schema.registerCompiler(simpleCompiler);
 
-class App extends Component {
+const App = (props) => {
+  const { actions } = useGlobalState();
 
-  componentDidMount() {
-    store.dispatch(actionCreator.global.init());
-  }
+  useDidShow(() => {
+    // store.dispatch(actionCreator.global.init());
+    actions.init();
+  });
 
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  componentDidCatchError() { }
-
-  // this.props.children 是将要会渲染的页面
-  render() {
-    return (
-      <Provider store={store} >
-        {
-          this.props.children
-        }
-      </Provider>
-    )
-  }
+  return (
+    <Provider store={store}>
+      {props.children}
+    </Provider>
+  )
 }
 
 export default App

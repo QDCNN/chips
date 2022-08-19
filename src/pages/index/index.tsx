@@ -1,63 +1,35 @@
-import { Routes } from '@/routes'
-import { Button, View } from '@tarojs/components'
-import Taro from '@tarojs/taro'
-import classnames from 'classnames'
+import { Form, View } from '@tarojs/components'
 import styles from './index.module.less'
-import Card from '@/components/Card'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store'
-import Contact from './components/contact'
-import { Input } from '@/components'
-import AtListItem from '@/components/AtListItem'
+import { useEffect, useMemo } from 'react'
+import { useGlobalState } from '@/models'
+import { observable } from '@formily/reactive'
+import { FormProvider } from '@formily/react'
+import { SchemaContainer } from '@/containers'
+import pageStructure from './schema/data.json'
+import { createForm } from '@formily/core'
 
 
-const Index = () => {
-  const { global: { goodsList, service } } = useSelector((store: RootState) => store);
+const HomePage = () => {
+  const scope = useMemo(() => observable({ $page: { serviceDetail: {}, goodsList: [] } }), []);
+  const form = useMemo(() => createForm(), []);
+  const { state } = useGlobalState();
 
-  const onGoodsDetailClick = () => {
-    Taro.navigateTo({
-      url: Routes.GoodsDetail
-    })
-
-
-  }
-  // 添加微信
-  const onAddContact = () => {
-    Taro.navigateTo({
-      url: Routes.Contact
-    })
-  }
-
+  useEffect(() => {
+    scope.$page.serviceDetail = state.service[0] || {};
+  }, [state.service]);
+  useEffect(() => {
+    scope.$page.goodsList = state.goodsList;
+  }, [state.goodsList]);
 
   return (
-    <View className={classnames('page', styles.page)}>
-      <View className={classnames('container', styles.container)}>
-        <Card className="m-t-32" image={goodsList[0]?.goods_image} onClick={onGoodsDetailClick} />
-      </View>
-
-      {service[0] && (
-        <View className={styles.contact}>
-          <AtListItem
-            className={'fiche'}
-            isLink
-            avatar={service[0]?.avatar}
-            title={service[0]?.name}
-            desc={service[0]?.intro}
-            onClick={onAddContact}
-          >
-            去添加
-          </AtListItem>
-          {/* <Contact
-            avatar={service[0]?.avatar}
-            username={service[0]?.name}
-            intr={service[0]?.intro}
-            onClick={onAddContact}
-          /> */}
-        </View>
-      )}
-
+    <View className={styles.page} style={pageStructure.form.style}>
+      <Form>
+        <FormProvider form={form}>
+          <SchemaContainer schema={pageStructure.schema} scope={scope} />
+        </FormProvider>
+      </Form>
     </View>
   )
 }
 
-export default Index;
+export default HomePage;

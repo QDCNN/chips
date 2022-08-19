@@ -10,16 +10,18 @@ import { getSchemaFromPath } from '@/utils/formily'
 import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import cloneDeep from 'clone-deep'
 import create from 'zustand'
-import * as api from '@/api'
 import { defaultPageStructure } from '@/default/page-structure'
 import { SchemaContainer } from '@/containers'
 import { defaultTaskDetail } from '@/default/task'
+import { CommonApi } from '@/api'
+import { useGlobalState } from '@/models'
 
-const scope = observable({
+const scope = observable.shallow({
   $params: {},
   $dictionary: { ...initialState },
   $page: {
-    taskDetail: { ...defaultTaskDetail }
+    taskDetail: { ...defaultTaskDetail },
+    serviceDetail: {},
   },
   $shared: {
     calcPattern($self, $page) {
@@ -58,7 +60,7 @@ const usePageState = create<PageState>((set) => ({
   },
   toolkit: {
     async fetchPageStructure(name) {
-      const response = await api.getPageStructure({ name });
+      const response = await CommonApi.getPageStructure({ name });
       const pageStructure = JSON.parse(response.data.content);
       set({ domain: { pageStructure } });
     },
@@ -69,6 +71,7 @@ const usePageState = create<PageState>((set) => ({
 }))
 
 const FormDetailPage = () => {
+  const { state: globalState } = useGlobalState();
   const { domain: globalDomain, toolkit: globalToolkit } = useFileDocumentState();
   const { domain, toolkit } = usePageState();
   const form = useMemo(() => createForm({ initialValues: globalDomain.formValues }), [globalDomain.formValues]);
@@ -134,8 +137,13 @@ const FormDetailPage = () => {
 
   useEffect(() => {
     scope.$dictionary = cloneDeep(globalScope.$dictionary);
-    scope.$page = { taskDetail: cloneDeep(globalScope.$page.taskDetail) };
+    scope.$page.taskDetail = cloneDeep(globalScope.$page.taskDetail);
   }, [domain.pageStructure]);
+
+  useEffect(() => {
+    console.log('globalState.service: ', globalState.service);
+    scope.$page.serviceDetail = globalState.service[0] || {};
+  }, [globalState.service]);
 
   return (
     <View className={styles.page} style={domain.pageStructure.form.style} data-weui-theme="light">

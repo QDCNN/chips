@@ -1,4 +1,4 @@
-import * as api from '@/api'
+import { CommonApi } from '@/api'
 import { formDictionaryQueue } from '@/queue'
 import { actionCreator, RootState, store } from '@/store'
 import { scope } from './file-document'
@@ -48,47 +48,47 @@ const dictionaryModel = {
       });
     },
     async fetchSettlementMethod() {
-      const response = await api.getESSettlementMethod();
+      const response = await CommonApi.getESSettlementMethod();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.落户方式, value: response.data }));
       scope.$dictionary[DictionaryProperty.落户方式] = response.data;
     },
     async fetchAreaCity() {
-      const response = await api.getESAreaCity();
+      const response = await CommonApi.getESAreaCity();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.省市, value: response.data }));
       scope.$dictionary[DictionaryProperty.省市] = response.data;
     },
     async fetchRegion() {
-      const response = await api.getESRegion();
+      const response = await CommonApi.getESRegion();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.省市区, value: response.data }));
       scope.$dictionary[DictionaryProperty.省市区] = response.data;
     },
     async fetchBasic() {
-      const response = await api.getESBasic();
+      const response = await CommonApi.getESBasic();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.申请人基本信息, value: response.data }));
       scope.$dictionary[DictionaryProperty.申请人基本信息] = response.data;
     },
     async fetchFamily() {
-      const response = await api.getESFamily();
+      const response = await CommonApi.getESFamily();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.家庭成员及主要社会关系, value: response.data }));
       scope.$dictionary[DictionaryProperty.家庭成员及主要社会关系] = response.data;
     },
     async fetchHukouMovein() {
-      const response = await api.getESHukouMovein();
+      const response = await CommonApi.getESHukouMovein();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.户口迁入信息, value: response.data }));
       scope.$dictionary[DictionaryProperty.户口迁入信息] = response.data;
     },
     async fetchArchive() {
-      const response = await api.getESArchive();
+      const response = await CommonApi.getESArchive();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.档案信息, value: response.data }));
       scope.$dictionary[DictionaryProperty.档案信息] = response.data;
     },
     async fetchEducation() {
-      const response = await api.getESEducation();
+      const response = await CommonApi.getESEducation();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.教育经历, value: response.data }));
       scope.$dictionary[DictionaryProperty.教育经历] = response.data;
     },
     async fetchChildren() {
-      const response = await api.getESChildren();
+      const response = await CommonApi.getESChildren();
       dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.子女信息, value: response.data }));
       scope.$dictionary[DictionaryProperty.子女信息] = response.data;
     },

@@ -1,8 +1,6 @@
 import { View, Text, } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.less'
-import { useDuraArray } from '@/hooks/use-dura'
-import * as yinghuoAPI from '@/api/yinghuo'
 import { useEffect } from 'react'
 import Order from './order'
 import Taro from '@tarojs/taro'
@@ -10,6 +8,7 @@ import { Routes } from '@/routes'
 import { actionCreator, RootState, store } from '@/store';
 import { useSelector } from 'react-redux'
 import { combineQuery } from '@/utils/route'
+import { YinghuoApi } from '@/api'
 
 
 // const model = {
@@ -24,7 +23,7 @@ import { combineQuery } from '@/utils/route'
 //   effects: ({ dispatch, actionCreator }) => ({
 
 //     async getOrderList() {
-//       const res = await yinghuoAPI.getOrderList({ dataType: 'all' })
+//       const res = await YinghuoApi.getOrderList({ dataType: 'all' })
 //       dispatch(actionCreator.setOrderList(res.data.list.data))
 //     }
 //   }),
@@ -44,13 +43,13 @@ const MyOrder = () => {
   // console.log('订单列表', orderList);
 
   // const onOrderCancel = (item) => {
-  //   yinghuoAPI.orderCancel({ order_id: item.order_id }).then(res => {
+  //   YinghuoApi.orderCancel({ order_id: item.order_id }).then(res => {
   //     console.log('订单取消', res);
   //   })
   // }
 
   const onOrderPay = (item) => {
-    yinghuoAPI.orderPay({ order_id: item.order_id }).then(res => {
+    YinghuoApi.orderPay({ order_id: item.order_id }).then(res => {
       if (res.code === 1) {
         Taro.requestPayment({
           timeStamp: res.data.payment.timeStamp,

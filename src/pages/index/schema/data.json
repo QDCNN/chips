@@ -1,0 +1,130 @@
+{
+  "form": {
+    "labelCol": 6,
+    "wrapperCol": 12,
+    "style": {
+      "backgroundColor": "#f7f7f7"
+    },
+    "wrapperWidth": "auto"
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "e5812hqntwf": {
+        "type": "void",
+        "x-component": "View",
+        "x-component-props": {
+          "title": "Title",
+          "style": {
+            "display": "flex",
+            "height": "100vh"
+          }
+        },
+        "x-designable-id": "e5812hqntwf",
+        "x-index": 0,
+        "properties": {
+          "g8cgnm59sn1": {
+            "type": "void",
+            "x-component": "View",
+            "x-component-props": {
+              "title": "Title",
+              "style": {
+                "padding": "16px 16px 16px 16px",
+                "display": "flex",
+                "flex": 1,
+                "flexDirection": "column",
+                "justifyContent": "space-between",
+                "alignItems": "stretch"
+              }
+            },
+            "x-designable-id": "g8cgnm59sn1",
+            "x-index": 0,
+            "properties": {
+              "z3g4tnibj86": {
+                "type": "array",
+                "x-component": "ArrayItems",
+                "x-component-props": {
+                  "title": "Title"
+                },
+                "x-validator": [],
+                "x-reactions": {
+                  "dependencies": [
+                    {
+                      "property": "value",
+                      "type": "any"
+                    }
+                  ],
+                  "fulfill": {
+                    "state": {
+                      "value": "{{$page.goodsList}}"
+                    }
+                  }
+                },
+                "x-designable-id": "z3g4tnibj86",
+                "x-index": 0,
+                "items": {
+                  "type": "object",
+                  "x-validator": [],
+                  "x-designable-id": "gd2ietktbg3",
+                  "properties": {
+                    "1ns8royuost": {
+                      "type": "void",
+                      "title": "",
+                      "x-component": "Image",
+                      "x-component-props": {
+                        "src": "{{$record.goods_image}}",
+                        "style": {
+                          "width": "100%"
+                        },
+                        "mode": "widthFix",
+                        "onClick": "{{function() { Taro.navigateTo({ url: $shared.combineQuery('/pages/goods-detail/index',{ id: $record.goods_id }) }) }}}"
+                      },
+                      "x-decorator": "BaseView",
+                      "x-decorator-props": {},
+                      "x-designable-id": "1ns8royuost",
+                      "x-index": 0
+                    }
+                  }
+                }
+              },
+              "3q1ayhuaame": {
+                "type": "void",
+                "title": "CellGroup",
+                "x-component": "CellGroup",
+                "x-validator": [],
+                "x-component-props": {
+                  "inset": true,
+                  "style": {
+                    "width": "100%"
+                  }
+                },
+                "x-designable-id": "3q1ayhuaame",
+                "x-index": 1,
+                "properties": {
+                  "fy3gdvt211p": {
+                    "type": "void",
+                    "title": "{{$page.serviceDetail.name}}",
+                    "x-component": "Cell",
+                    "x-validator": [],
+                    "x-component-props": {
+                      "icon": "{{$page.serviceDetail.avatar}}",
+                      "isLink": true,
+                      "children": "去添加",
+                      "border": false,
+                      "linkType": "navigateTo",
+                      "url": "/pages/form/detail/index?name=file-document__home-service__1.0.0&type=custom"
+                    },
+                    "description": "{{$page.serviceDetail.intro}}",
+                    "x-designable-id": "fy3gdvt211p",
+                    "x-index": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-designable-id": "o1fmxcuelz3"
+  }
+}

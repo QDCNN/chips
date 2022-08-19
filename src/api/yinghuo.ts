@@ -81,7 +81,7 @@ export const login = params => {
 }
 
 // 获取商品列表
-export const getGoodsList = params => {
+export const getGoodsList = (params?) => {
   return commomRequest({ action: APIPath.获取商品列表, params, method: Method.GET })
 }
 

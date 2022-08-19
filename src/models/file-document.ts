@@ -1,12 +1,9 @@
-import * as api from '@/api'
-import { actionCreator, store } from '@/store';
 import Taro from '@tarojs/taro';
 // import Taro from '@tarojs/taro';
 // import objectPath from 'object-path'
 import { observable } from '@formily/reactive'
 import { initialState as dictionaryInitialState } from './dictionary'
 import onceInit from 'once-init'
-// import { getFullName } from '@/utils/formily'
 import { specialHandleProperties } from '@/utils/schema'
 import { defaultPageStructure } from '@/default/page-structure'
 import cloneDeep from 'clone-deep'
@@ -16,8 +13,9 @@ import { defaultFormValues } from '@/default/form'
 import deepmerge from 'deepmerge'
 import { FORM_TEMPLATE_KEY } from '@/constants/form';
 import { defaultTaskDetail } from '@/default/task';
+import { CommonApi } from '@/api';
 
-const onceFetchPageStructure = onceInit(() => api.getPageStructure({ name: FORM_TEMPLATE_KEY }));
+const onceFetchPageStructure = onceInit(() => CommonApi.getPageStructure({ name: FORM_TEMPLATE_KEY }));
 
 export const scope = observable.shallow({
   $params: {},
@@ -87,7 +85,7 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
         draft.domain.mounted = false;
         draft.domain.taskId = params.task_id;
       }));
-      const result = await api.获取最近一次表单内容(params);
+      const result = await CommonApi.获取最近一次表单内容(params);
       set(produce(draft => {
         draft.domain.formValues = deepmerge(defaultFormValues, result.data.content);
       }));
@@ -99,21 +97,21 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
       const { domain } = get();
       if (!domain.mounted) return;
       Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.showNavigationBarLoading();
-      await api.提交表单内容json({ task_id: domain.taskId, content: JSON.stringify(values) });
+      await CommonApi.提交表单内容json({ task_id: domain.taskId, content: JSON.stringify(values) });
       set(produce(draft => {
         draft.domain.formValues = values;
       }));
       Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.hideNavigationBarLoading();
     },
     async fetchTaskDetail(params) {
-      const response = await api.获取任务订单信息(params);
+      const response = await CommonApi.获取任务订单信息(params);
       scope.$page = { taskDetail: response.data };
       set(produce(draft => {
         draft.domain.task = response.data;
       }));
     },
     async submitFormValues(params) {
-      await api.用户最终提交表单(params);
+      await CommonApi.用户最终提交表单(params);
     },
     setPageStructure(pageStructure) {
       set(produce(draft => {

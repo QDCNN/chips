@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { actionCreator, store } from "@/store";
 import AtListItem from "@/components/AtListItem";
-import * as yinghuoAPI from '@/api/yinghuo'
+import { YinghuoApi } from "@/api";
+
 
 
 export const useCountdown = (expiryTime, order_id) => {
@@ -69,7 +70,7 @@ export const useCountdown = (expiryTime, order_id) => {
         timeText = timeList.join(':');
       }
       if (diffTime <= 0) {
-        yinghuoAPI.orderCancel({ order_id }).then(res => {
+        YinghuoApi.orderCancel({ order_id }).then(res => {
           store.dispatch(actionCreator.global.getOrderList())
         })
       }

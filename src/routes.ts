@@ -10,8 +10,14 @@ export enum Routes {
   // 商品详情
   GoodsDetail = '/pages/goods-detail/index',
 
-  // 确认订单
-  ConfirmOrder = '/pages/confirm-order/index',
+  // 确认订单（订单创建）
+  OrderCreate = '/pages/order/create/index',
+
+  // 我的订单
+  OrderList = '/pages/order/list/index',
+
+  // 订单结果页
+  OrderResult = '/pages/order/result/index',
 
   // 支付结果等待
   PayResultAwait = '/pages/pay-result-await/index',
