@@ -1,7 +1,7 @@
 import { ArrayItems } from '@/components';
 import { createSchemaField, FormProvider } from '@formily/react';
 import { Button, Input, View, WebView } from '@tarojs/components';
-import { Cell, LinkCell, Picker } from '@/formily-components';
+// import { Cell, LinkCell, Picker } from '@/formily-components';
 import React, { useState } from 'react';
 import { createForm } from '@formily/core';
 import { simpleCompiler } from '@/utils/formily';
@@ -58,7 +58,7 @@ const SchemaField = createSchemaField({
     // Space,
     // Input,
     // Select,
-    LinkCell,
+    // LinkCell,
     ArrayItems,
     BaseView: View,
   },

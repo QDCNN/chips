@@ -19,15 +19,6 @@ export enum Routes {
   // 订单结果页
   OrderResult = '/pages/order/result/index',
 
-  // 支付结果等待
-  PayResultAwait = '/pages/pay-result-await/index',
-
-  // 支付结果成功
-  PayResultSuccess = '/pages/pay-result-success/index',
-
-  // 我的订单
-  MyOrder = '/pages/my-order/index',
-
   // 表单填写页
   FormPage = '/pages/form/home/index',
 

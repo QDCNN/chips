@@ -1,4 +1,4 @@
-import { Radio as VantRadio } from '@/components'
+import { Radio as VantRadio } from '@antmjs/vantui'
 import { connect, mapProps } from '@formily/react'
 import { RadioGroupProps } from '@antmjs/vantui/types/radio'
 
