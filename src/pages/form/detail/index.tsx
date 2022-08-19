@@ -141,7 +141,6 @@ const FormDetailPage = () => {
   }, [domain.pageStructure]);
 
   useEffect(() => {
-    console.log('globalState.service: ', globalState.service);
     scope.$page.serviceDetail = globalState.service[0] || {};
   }, [globalState.service]);
 
