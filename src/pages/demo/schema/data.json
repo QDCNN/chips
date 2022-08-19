@@ -1,0 +1,59 @@
+{
+  "form": {
+    "labelCol": 6,
+    "wrapperCol": 12,
+    "style": {
+      "backgroundColor": "rgba(246,246,246,1)"
+    }
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "wi78q2pk7hk": {
+        "type": "string",
+        "title": "确认",
+        "x-component": "Button",
+        "x-validator": [],
+        "x-component-props": {
+          "formType": "submit",
+          "style": {
+            "marginTop": "16px"
+          }
+        },
+        "x-designable-id": "wi78q2pk7hk",
+        "x-index": 1
+      },
+      "settlement_method_id": {
+        "type": "string",
+        "title": "",
+        "x-component": "Radio.Group",
+        "x-component-props": {
+          "isLink": false,
+          "type": "radio",
+          "placeholder": "请输入落户方式"
+        },
+        "x-validator": [],
+        "description": "",
+        "required": true,
+        "x-designable-id": "8hlrlltsykc",
+        "x-index": 0,
+        "name": "settlement_method_id",
+        "x-reactions": {
+          "dependencies": [
+            {
+              "property": "value",
+              "type": "any"
+            }
+          ],
+          "fulfill": {
+            "state": {
+              "dataSource": "{{$dictionary.settlement_method}}"
+            }
+          }
+        },
+        "x-pattern": "{{$shared.calcPattern($self, $page)}}"
+      }
+    },
+    "x-designable-id": "b9z6p1b71yg"
+  }
+}

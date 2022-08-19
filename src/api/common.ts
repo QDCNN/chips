@@ -1,6 +1,32 @@
-import { baseAxios } from "./base";
+import { useGlobalState } from '@/models';
+import axios from 'axios';
+import onceInit from 'once-init'
+import { TaroAdapter } from './utils/adapter';
 
-const ROOT_PATH = 'https://api.oscac-sh.com';
+const API_PATH = 'https://api.oscac-sh.com';
+export const baseAxios = axios.create({
+  baseURL: API_PATH,
+  timeout: 10000,
+  adapter: TaroAdapter, // add this line，添加这一行使用taroAdapter
+});
+
+const onceLogin = onceInit(() => useGlobalState.getState().actions.login());
+
+baseAxios.interceptors.request.use(async (config) => {
+  const filtered = skipLoginUrls.filter(item => config.url?.includes(item));
+  // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+  if (filtered.length) return config;
+
+  const userInfo = await onceLogin.init();
+  config.headers['openid'] = userInfo.open_id
+
+  return config;
+});
+
+baseAxios.interceptors.response.use(response => {
+  return response.data;
+});
 
 // 请求方式
 enum Method {
@@ -101,8 +127,8 @@ export const skipLoginUrls = [
 // }
 
 const common = ({ action, method, params }) => method === Method.GET ?
-  baseAxios.get(ROOT_PATH + '/' + action, { params }) :
-  baseAxios.post(ROOT_PATH + '/' + action, params);
+  baseAxios.get(action, { params }) :
+  baseAxios.post(action, params);
 
 
 // 获取客服资料

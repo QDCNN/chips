@@ -5,16 +5,15 @@ export const Input = connect(
   Field,
   mapProps({
     title: 'label',
+    onInput: 'onChange',
   }, (props, field) => {
-    const { onChange } = props;
-    delete props.onChange;
+    const onInput = props.onInput;
     return ({
-      onChange: (e) => {
-        onChange(e.detail)
+      onInput: (e) => {
+        onInput?.(e.detail);
       }
     })
   })
-  // mapReadPretty(WeInput)
 )
 
 export default Input

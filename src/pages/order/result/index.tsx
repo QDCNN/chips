@@ -8,6 +8,7 @@ import { YinghuoApi } from '@/api';
 import Taro, { useDidShow, useRouter } from '@tarojs/taro';
 import { Routes } from '@/routes';
 import produce from 'immer';
+import { combineQuery } from '@/utils/route';
 
 interface PageState {
   state: {
@@ -65,10 +66,11 @@ const OrderResultPage = () => {
     Taro.showLoading({ title: '加载中' });
   });
 
-
   useEffect(() => {
     return actions.handleCycleFetch(params);
   }, []);
+
+  const toFormPage = () => Taro.redirectTo({ url: Routes.Work })
 
   if (state.status === 'finished') return (
     <View className={styles.page}>
@@ -80,7 +82,7 @@ const OrderResultPage = () => {
         <View className={classNames(styles.mb32, styles.descriptionBox)}>
           <Text className={styles.description}>已为您分配审核老师，可前往「材料详情」联系审核老师，请尽快提交您的申请资料。</Text>
         </View>
-        <Button type="primary">去上传材料</Button>
+        <Button type="primary" onClick={toFormPage}>去上传材料</Button>
       </View>
     </View>
   );

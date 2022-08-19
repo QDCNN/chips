@@ -1,4 +1,4 @@
-import { Radio as VantRadio } from '@antmjs/vantui'
+import { Radio as RadioComponent } from '@/components'
 import { connect, mapProps } from '@formily/react'
 import { RadioGroupProps } from '@antmjs/vantui/types/radio'
 
@@ -7,20 +7,21 @@ type ComposedRadio = React.FC<React.PropsWithChildren<any>> & {
 }
 
 export const Radio: ComposedRadio = connect(
-  VantRadio,
+  RadioComponent,
   mapProps(
     { dataSource: 'options' },
   ),
 )
 
 Radio.Group = connect(
-  VantRadio.Group,
+  RadioComponent.Group,
   mapProps(
     { dataSource: 'options' },
     (props, field) => {
       const onChange = props.onChange
       return {
         onChange(e) {
+          console.log('radios onChange: ', e);
           onChange(e.detail);
         }
       }

@@ -8,5 +8,5 @@ export const getPromise = () => {
   }
 }
 
-export const formDictionaryQueue = new PQueue();
+export const formDictionaryQueue = new PQueue({ concurrency: 1 });
 export const loginQueue = new PQueue({ concurrency: 1 });

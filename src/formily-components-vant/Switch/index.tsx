@@ -10,6 +10,7 @@ export const Switch = connect(
     },
     (props) => {
       const onChange = props.onChange
+      delete props['value']
       return {
         onChange(checked) {
           onChange?.(checked);

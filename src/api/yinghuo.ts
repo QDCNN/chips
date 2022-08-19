@@ -1,6 +1,34 @@
-import { baseAxios } from './base';
+import { useGlobalState } from "@/models";
+import axios from "axios";
+import onceInit from 'once-init'
+import { TaroAdapter } from "./utils/adapter";
 
-const ROOT_PATH = 'https://store.oscac-sh.com/index.php';
+const API_URL = 'https://store.oscac-sh.com/index.php';
+export const baseAxios = axios.create({
+  baseURL: API_URL,
+  timeout: 10000,
+  adapter: TaroAdapter, // add this line，添加这一行使用taroAdapter
+});
+
+const onceLogin = onceInit(() => useGlobalState.getState().actions.login());
+
+baseAxios.interceptors.request.use(async (config) => {
+  // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+  const match = skipLoginUrls.find(item => config.params.s === item);
+  if (match) return config;
+
+  const userInfo = await onceLogin.init();
+
+  if (!config.params) config.params = {}
+  config.params.token = userInfo.token
+
+  return config;
+});
+
+baseAxios.interceptors.response.use(response => {
+  return response.data;
+});
 
 // 请求列表
 enum APIPath {
@@ -64,9 +92,12 @@ export const skipLoginUrls = [
 //   })
 // }
 
-const common = ({ action, method, params }) => method === Method.GET ?
-  baseAxios.get(ROOT_PATH, { params: { ...params, s: action } }) :
-  baseAxios.post(ROOT_PATH, params, { params: { s: action } });
+const common = ({ action, method, params }) => {
+  console.log(' action, method, params : ', action, method, params)
+  return method === Method.GET ?
+    baseAxios.get('', { params: { ...params, s: action } }) :
+    baseAxios.post('', params, { params: { s: action } });
+}
 
 // 用户登录
 export const login = params => {

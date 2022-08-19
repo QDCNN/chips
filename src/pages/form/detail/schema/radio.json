@@ -16,12 +16,20 @@
         "x-validator": [],
         "x-component-props": {
           "formType": "submit",
+          "block": true,
+          "type": "primary",
           "style": {
             "marginTop": "16px"
           }
         },
         "x-designable-id": "wi78q2pk7hk",
-        "x-index": 1
+        "x-index": 1,
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "16px 16px 16px 16px"
+          }
+        }
       }
     },
     "x-designable-id": "b9z6p1b71yg"

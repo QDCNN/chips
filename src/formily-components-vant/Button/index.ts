@@ -1,3 +1,4 @@
+import { Routes } from '@/routes';
 import { combineQuery } from '@/utils/route';
 import { Button as VantButton } from '@antmjs/vantui'
 import { connect, mapProps } from '@formily/react'

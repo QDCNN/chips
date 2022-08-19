@@ -14,19 +14,24 @@ export const Radio: ComposedRadio = (props: any) => {
 }
 
 const CellRadio = (props) => {
-  const { label, value, name } = props;
+  const { label, name, onChange } = props;
+  console.log('cellRadio: ', props);
 
-  return <Cell title={label} clickable renderRightIcon={<Radio name={name} />} />
+  return (
+    <Cell title={label} clickable onClick={() => onChange({ detail: name })} renderRightIcon={<Radio name={name} value={name} />} />
+  )
 }
 
 Radio.Group = (props) => {
-  const { children, cell, name, onChange, onClick, options, ...other } = props;
+  console.log('Radio.Group: ', props);
+  const { children, cell, name, value, onClick, options, ...other } = props;
+
   const childrenRender = useMemo(() => {
     const ContainerComponent = cell ? CellRadio : Radio;
     if (options) return (
       <>
         {options.map(item => (
-          <ContainerComponent name={item.value} key={item.value} label={item.label} value={item.value} {...other} />
+          <ContainerComponent name={item.value} key={item.value} label={item.label} {...other} />
         ))}
       </>
     )
@@ -34,7 +39,7 @@ Radio.Group = (props) => {
   }, [options, cell]);
 
   return (
-    <VantRadioGroup onChange={onChange} {...other}>
+    <VantRadioGroup {...other}>
       {childrenRender}
     </VantRadioGroup>
   )

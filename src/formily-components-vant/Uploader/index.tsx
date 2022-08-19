@@ -6,13 +6,14 @@ export const Uploader = connect(
   mapProps(
     {
       title: 'uploadText',
+    },
+    (props, field: any) => {
+      return {
+        afterRead: async (file) => {
+          console.log('file: ', file);
+        }
+      }
     }
-    // (props, field: any) => {
-    //   return {
-    //     title: field?.title || props.title,
-    //     description: field?.description || props.description,
-    //   }
-    // }
   )
 )
 

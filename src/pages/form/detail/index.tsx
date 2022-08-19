@@ -1,7 +1,7 @@
 import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
 import { useEffect, useMemo } from 'react'
 import { View, Form } from '@tarojs/components'
-import { createForm } from '@formily/core'
+import { createForm, onFieldInputValueChange, onFieldValueChange } from '@formily/core'
 import { FormProvider } from '@formily/react'
 import styles from './index.module.less'
 import { initialState } from '@/models/dictionary'
@@ -15,6 +15,7 @@ import { SchemaContainer } from '@/containers'
 import { defaultTaskDetail } from '@/default/task'
 import { CommonApi } from '@/api'
 import { useGlobalState } from '@/models'
+import produce from 'immer'
 
 const scope = observable.shallow({
   $params: {},
@@ -41,31 +42,50 @@ const typeDataMap = {
 }
 const typeComponentMap = {
   input: 'Input',
-  radio: 'Radio',
+  radio: 'Radio.Group',
   textarea: 'Textarea',
 }
 
 interface PageState {
   domain: {
     pageStructure: any;
+    changedValues: any;
   },
   toolkit: {
     fetchPageStructure: (name: string) => Promise<any>;
     setPageStructure: (pageStructure: any) => void;
+    setChangedValues: (payload: any) => void;
+    clearChangedValues: () => void;
   }
 }
 const usePageState = create<PageState>((set) => ({
   domain: {
     pageStructure: cloneDeep(defaultPageStructure),
+    changedValues: {},
   },
   toolkit: {
     async fetchPageStructure(name) {
       const response = await CommonApi.getPageStructure({ name });
       const pageStructure = JSON.parse(response.data.content);
-      set({ domain: { pageStructure } });
+      set(produce(draft => {
+        draft.domain.pageStructure = pageStructure;
+      }));
     },
     setPageStructure(pageStructure) {
-      set({ domain: { pageStructure } });
+      console.log('setPageStructure: ', pageStructure);
+      set(produce(draft => {
+        draft.domain.pageStructure = pageStructure;
+      }));
+    },
+    setChangedValues({ path, value }) {
+      set(produce(draft => {
+        draft.domain.changedValues[path] = value;
+      }));
+    },
+    clearChangedValues() {
+      set(produce(draft => {
+        draft.domain.changedValues = {};
+      }));
     }
   }
 }))
@@ -74,10 +94,20 @@ const FormDetailPage = () => {
   const { state: globalState } = useGlobalState();
   const { domain: globalDomain, toolkit: globalToolkit } = useFileDocumentState();
   const { domain, toolkit } = usePageState();
-  const form = useMemo(() => createForm({ initialValues: globalDomain.formValues }), [globalDomain.formValues]);
+  const form = useMemo(() => createForm({
+    initialValues: globalDomain.formValues,
+    effects: () => {
+      onFieldInputValueChange('*', (field, form) => {
+        // toolkit.setChangedValues({ path: field.path.entire, value: field.value })
+        // console.log('field, form: ', field, form);
+      });
+    }
+  }), [globalDomain.formValues, domain.pageStructure]);
   const { params } = useRouter();
 
   useDidShow(() => {
+    // toolkit.setPageStructure(cloneDeep(defaultPageStructure));
+
     scope.$params = params;
 
     initPagestructure();
@@ -85,6 +115,8 @@ const FormDetailPage = () => {
 
   useEffect(() => {
     form.setValues(cloneDeep(globalDomain.formValues));
+    scope.$dictionary = cloneDeep(globalScope.$dictionary);
+    scope.$page.taskDetail = cloneDeep(globalScope.$page.taskDetail);
   }, [form])
 
   const handleCustom = async () => {
@@ -103,6 +135,8 @@ const FormDetailPage = () => {
       ...currentSchema['x-component-props'],
       placeholder: '请输入' + currentSchema['title'],
       isLink: false,
+      cell: true,
+      clickable: true,
     };
     currentSchema['title'] = '';
     currentSchema.name = params.name;
@@ -134,11 +168,6 @@ const FormDetailPage = () => {
     globalToolkit.saveTempValue(form.getFormState().values);
     Taro.navigateBack();
   }
-
-  useEffect(() => {
-    scope.$dictionary = cloneDeep(globalScope.$dictionary);
-    scope.$page.taskDetail = cloneDeep(globalScope.$page.taskDetail);
-  }, [domain.pageStructure]);
 
   useEffect(() => {
     scope.$page.serviceDetail = globalState.service[0] || {};

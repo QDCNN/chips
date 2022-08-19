@@ -1,27 +1,25 @@
-import './app.less'
-import { store } from './store'
-import { Provider } from 'react-redux'
 import '@/polyfills/lodash'
 import { Schema } from '@formily/react'
 import { simpleCompiler } from './utils/formily'
-import { useDidShow } from '@tarojs/taro'
 import { useGlobalState } from './models'
 import '@antmjs/vantui/lib/index.less'
+import { useDictionaryState } from './models/dictionary'
+import './app.less'
+import { useEffect } from 'react'
 
 Schema.registerCompiler(simpleCompiler);
 
 const App = (props) => {
-  const { actions } = useGlobalState();
+  const { actions: globalAction } = useGlobalState();
+  const { actions: dictionaryAction } = useDictionaryState();
 
-  useDidShow(() => {
-    // store.dispatch(actionCreator.global.init());
-    actions.init();
-  });
+  useEffect(() => {
+    dictionaryAction.init();
+    globalAction.init();
+  }, []);
 
   return (
-    <Provider store={store}>
-      {props.children}
-    </Provider>
+    props.children
   )
 }
 

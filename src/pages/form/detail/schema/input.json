@@ -26,6 +26,7 @@
             "formType": "submit",
             "x-component": "Button",
             "x-component-props": {
+              "formType": "submit",
               "block": true,
               "type": "primary"
             },
@@ -33,7 +34,13 @@
             "x-index": 0
           }
         },
-        "x-index": 1
+        "x-index": 1,
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "16px 16px 16px 16px"
+          }
+        }
       }
     },
     "x-designable-id": "8zrie9t17ss"

@@ -13,6 +13,7 @@ import { SchemaContainer } from '@/containers'
 import { defaultTaskDetail } from '@/default/task'
 import { CommonApi } from '@/api'
 import { useGlobalState } from '@/models'
+import pageStructure from './schema/data.json'
 
 const scope = observable.shallow({
   $params: {},
@@ -74,7 +75,7 @@ const DemoPage = () => {
   }, [form])
 
   const initPagestructure = () => {
-    toolkit.fetchPageStructure('kokoro-demo');
+    // toolkit.fetchPageStructure('kokoro-demo');
   }
 
   useDidHide(() => {
@@ -101,10 +102,10 @@ const DemoPage = () => {
   }, [globalState.service]);
 
   return (
-    <View style={domain.pageStructure.form.style} data-weui-theme="light">
+    <View style={pageStructure.form.style} data-weui-theme="light">
       <Form onSubmit={onSubmit}>
         <FormProvider form={form}>
-          <SchemaContainer schema={domain.pageStructure.schema} scope={scope} />
+          <SchemaContainer schema={pageStructure.schema} scope={scope} />
         </FormProvider>
       </Form>
     </View>

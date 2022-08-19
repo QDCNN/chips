@@ -8,6 +8,7 @@ import { createDrawer } from '@/hooks/create-drawer'
 import { commonResponsePipeline, formParamsPipeline } from '@/transformers'
 import { CommonApi } from '@/api'
 import { Badge } from '@/components'
+import { combineQuery } from '@/utils/route'
 
 const useDrawer = createDrawer(commonResponsePipeline(formParamsPipeline(CommonApi.getTaskList)), { defaultValue: { pagination: { pageSize: 3 } } });
 
@@ -82,6 +83,8 @@ const WorkPage = () => {
               )}
               isLink
               size="large"
+              linkType="navigateTo"
+              url={combineQuery(Routes.FormPage, { id: item.task_id })}
             />
           </CellGroup>
         ))}
