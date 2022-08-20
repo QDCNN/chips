@@ -93,7 +93,6 @@ export const skipLoginUrls = [
 // }
 
 const common = ({ action, method, params }) => {
-  console.log(' action, method, params : ', action, method, params)
   return method === Method.GET ?
     baseAxios.get('', { params: { ...params, s: action } }) :
     baseAxios.post('', params, { params: { s: action } });
