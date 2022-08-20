@@ -18,10 +18,9 @@ Radio.Group = connect(
   mapProps(
     { dataSource: 'options' },
     (props, field) => {
-      const onChange = props.onChange
+      const onChange = props.onChange;
       return {
         onChange(e) {
-          console.log('radios onChange: ', e);
           onChange(e.detail);
         }
       }

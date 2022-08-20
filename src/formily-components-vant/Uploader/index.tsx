@@ -31,7 +31,8 @@ const handleAfterRead = async (files) => {
   return await Promise.all(files.map(file => singleUpload(file, aliossResponse.data)));
 }
 
-const onPreShowFileList = async (paths = [] as any[]) => {
+const handlePreShowFileList = async (paths = [] as any[]) => {
+  if (!paths.length) return paths;
   const uuidList = paths.map(item => item.split('/').pop());
   const response = await CommonApi.获取阿里云图片链接({ object: uuidList.join(',') });
   const result = uuidList.map(item => response.data[item]).filter(item => item);
@@ -83,15 +84,12 @@ export const Uploader = connect(
         },
         onDelete: (e) => {
           const { fileList, index } = e.detail;
-          // const nextValue = e.detail.fileList;
-          // const index = e.detail.index;
-          // nextValue.splice()
           const nextValue = produce(fileList, draft => {
             draft.splice(index, 1);
           });
           onChange(nextValue);
         },
-        onPreShowFileList,
+        onPreShowFileList: handlePreShowFileList,
       }
     }
   )

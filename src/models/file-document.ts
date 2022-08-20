@@ -14,6 +14,7 @@ import deepmerge from 'deepmerge'
 import { FORM_TEMPLATE_KEY } from '@/constants/form';
 import { defaultTaskDetail } from '@/default/task';
 import { CommonApi } from '@/api';
+import { calcPattern } from '@/utils/formily';
 
 const onceFetchPageStructure = onceInit(() => CommonApi.getPageStructure({ name: FORM_TEMPLATE_KEY }));
 
@@ -24,13 +25,7 @@ export const scope = observable.shallow({
     taskDetail: { ...defaultTaskDetail }
   },
   $shared: {
-    calcPattern($self, $page) {
-      if (!$self?.props?.name) return 'editable';
-      const config = cloneDeep($page.taskDetail.config);
-      const itemConfig = config[$self.props.name.split('.').shift()];
-      if (itemConfig == 0) return 'disabled';
-      return 'editable';
-    }
+    calcPattern
   }
 });
 
@@ -64,11 +59,18 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
       const pageStructure = JSON.parse(response.data.content);
       pageStructure.schema.properties = specialHandleProperties({
         properties: pageStructure.schema.properties,
-        payload: { key: 'x-pattern', value: '{{$shared.calcPattern($self, $page)}}' }
+        payload: [
+          // 处理 disabled 开关
+          { key: 'x-pattern', value: '{{$shared.calcPattern($self, $page)}}' },
+          { key: 'x-decorator-props.disabled', value: '{{$shared.calcPattern($self, $page) == "disabled"}}' },
+          // 处理 required 显示
+          { key: 'x-decorator-props.required', value: '{{!$self.required ? $self.required : $self.value == undefined}}' },
+          { key: 'x-component-props.required', value: '{{!$self.required ? $self.required : $self.value == undefined}}' },
+        ]
       });
 
       set(produce(draft => {
-        draft.domain.originPageStructure = pageStructure;
+        draft.domain.originPageStructure = cloneDeep(pageStructure);
         draft.domain.pageStructure = pageStructure;
       }));
 
@@ -86,8 +88,9 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
         draft.domain.taskId = params.task_id;
       }));
       const result = await CommonApi.获取最近一次表单内容(params);
+      const nextformValues = deepmerge(defaultFormValues, JSON.parse(result.data.content));
       set(produce(draft => {
-        draft.domain.formValues = deepmerge(defaultFormValues, result.data.content);
+        draft.domain.formValues = nextformValues;
       }));
       return result.data.content;
       // form.setInitialValues(result.data.content);

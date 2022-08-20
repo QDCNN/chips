@@ -1,16 +1,16 @@
 import { Routes } from '@/routes';
-import { getFullName } from '@/utils/formily';
 import { combineQuery } from '@/utils/route';
-import { Cell } from '@antmjs/vantui'
-import { connect, mapProps } from '@formily/react'
+// import { Cell } from '@antmjs/vantui'
+import { connect, mapProps } from '@formily/react';
 import Taro from '@tarojs/taro';
+import { Cell } from '@/components';
 
 export const LinkCell = connect(
   Cell,
   mapProps(
     {
       title: 'title',
-      description: 'children',
+      description: 'label',
     },
     (props, field) => {
       const { dataSource = [] } = field;

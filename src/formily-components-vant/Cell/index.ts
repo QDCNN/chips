@@ -1,17 +1,16 @@
-import { Cell as VantCell, CellGroup as VantCellGroup } from '@antmjs/vantui'
+import { CellGroup as VantCellGroup } from '@antmjs/vantui'
 import { connect, mapProps } from '@formily/react'
+import { Cell as CellComponent } from '@/components'
 
 export const Cell = connect(
-  VantCell,
+  CellComponent,
   mapProps({
     title: 'title',
     description: 'label',
-  }, (props: any, field) => {
+  }, (props, field) => {
     return {
       size: 'large',
       className: 'van-ellipsis',
-      children: props.value || props.children,
-      required: (field.props as any).required,
     };
   })
 )

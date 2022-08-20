@@ -11,6 +11,10 @@ enum Mode {
 export const OriginPicker = (props, ref) => {
   const { options = [], value, mode, onChange, ...other } = props;
   const [tempValue, setTempValue] = useState([0, 0]);
+  const style: any = props.style || {};
+  if (props.disabled) {
+    style.color = '#c8c9cc';
+  };
 
   const range = useMemo(() => {
     if (mode == Mode.多项选择) {
@@ -19,7 +23,6 @@ export const OriginPicker = (props, ref) => {
       let highrUpOptions: string[] = options;
 
       for (const item of currentTempValue) {
-        // console.log('multiOptions: ', multiOptions, item);
         multiOptions.push(highrUpOptions.map(option => option.label));
         if (highrUpOptions[item]) highrUpOptions = highrUpOptions[item].children;
       }
@@ -119,7 +122,7 @@ export const OriginPicker = (props, ref) => {
 
   return (
     <TaroPicker mode={mode} range={range} value={pickerValue} onChange={handleChange} onColumnChange={handleColumnChange} {...other}>
-      <Cell style={props.style} isLink size='large' value={showText} {...other}>{showText}</Cell>
+      <Cell style={style} isLink size='large' value={showText} {...other}>{showText}</Cell>
     </TaroPicker>
   )
 }

@@ -15,7 +15,6 @@ export const Radio: ComposedRadio = (props: any) => {
 
 const CellRadio = (props) => {
   const { label, name, onChange } = props;
-  console.log('cellRadio: ', props);
 
   return (
     <Cell title={label} clickable onClick={() => onChange({ detail: name })} renderRightIcon={<Radio name={name} value={name} />} />
@@ -23,7 +22,6 @@ const CellRadio = (props) => {
 }
 
 Radio.Group = (props) => {
-  console.log('Radio.Group: ', props);
   const { children, cell, name, value, onClick, options, ...other } = props;
 
   const childrenRender = useMemo(() => {
@@ -39,7 +37,7 @@ Radio.Group = (props) => {
   }, [options, cell]);
 
   return (
-    <VantRadioGroup {...other}>
+    <VantRadioGroup value={value} {...other}>
       {childrenRender}
     </VantRadioGroup>
   )

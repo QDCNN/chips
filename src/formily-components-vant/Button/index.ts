@@ -21,7 +21,6 @@ export const Button = connect(
             Taro.showToast({ title: '复制成功', icon: 'none' });
           }
           if (props.functional === 'previewImage') {
-            console.log('previewImage: ', props)
             Taro.previewImage({ urls: [props.data], current: props.data, showmenu: true });
           }
           if (props.functional === 'openDocument') {

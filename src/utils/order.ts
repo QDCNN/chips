@@ -11,7 +11,7 @@ export const handlePay = async (data) => {
       signType: 'MD5',
       paySign: data.payment.paySign,
     });
-    Taro.navigateTo({ url: combineQuery(Routes.OrderResult, { id: data.order_id }) })
+    Taro.redirectTo({ url: combineQuery(Routes.OrderResult, { id: data.order_id }) })
   } catch (e) {
     Taro.showToast({
       title: '支付失败',

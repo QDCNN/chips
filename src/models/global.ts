@@ -36,7 +36,6 @@ export const useGlobalState = create<ServiceState>((set, get) => ({
     },
     async fetchGoodsList() {
       const { data } = await YinghuoApi.getGoodsList();
-      console.log('data: ', data);
       set(produce(draft => {
         draft.state.goodsList = data.list.data;
       }));
@@ -60,7 +59,6 @@ export const useGlobalState = create<ServiceState>((set, get) => ({
         referee_id: launchOptions.query.referee_id || '',
       }
       const response = await YinghuoApi.login(params);
-      console.log('login: ', response);
       Taro.hideLoading();
       set(produce(draft => {
         draft.userInfo = response.data;

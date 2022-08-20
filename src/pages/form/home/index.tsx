@@ -62,18 +62,15 @@ const FormHomePage = () => {
   const { params } = useRouter();
   const form = useMemo(() => createForm({
     effects() {
-      // onFormInit(() => {
-      //   console.log('onFormInit');
-      // });
       onFieldInputValueChange('*', (field, $form) => {
         toolkit.saveTempValue($form.getFormState().values);
       });
     }
-  }), []);
+  }), [domain.formValues]);
 
   useEffect(() => {
     form.setInitialValues(cloneDeep(domain.formValues));
-  }, [domain.formValues]);
+  }, [form]);
 
   usePageScroll((pageRect) => {
     setScrollTop(pageRect.scrollTop);

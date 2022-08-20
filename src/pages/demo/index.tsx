@@ -13,7 +13,7 @@ import { SchemaContainer } from '@/containers'
 import { defaultTaskDetail } from '@/default/task'
 import { CommonApi } from '@/api'
 import { useGlobalState } from '@/models'
-import pageStructure from './schema/data.json'
+import { calcPattern } from '@/utils/formily'
 
 const scope = observable.shallow({
   $params: {},
@@ -23,13 +23,7 @@ const scope = observable.shallow({
     serviceDetail: {},
   },
   $shared: {
-    calcPattern($self, $page) {
-      if (!$self?.props?.name) return 'editable';
-      const config = cloneDeep($page.taskDetail.config);
-      const itemConfig = config[$self.props.name.split('.').shift()];
-      if (itemConfig == 0) return 'disabled';
-      return 'editable';
-    }
+    calcPattern
   }
 });
 interface PageState {
@@ -64,7 +58,7 @@ const DemoPage = () => {
   const form = useMemo(() => createForm({ initialValues: globalDomain.formValues }), [globalDomain.formValues]);
   const { params } = useRouter();
 
-  useDidShow(() => {
+  useDidShow(async () => {
     scope.$params = params;
 
     initPagestructure();
@@ -75,7 +69,7 @@ const DemoPage = () => {
   }, [form])
 
   const initPagestructure = () => {
-    // toolkit.fetchPageStructure('kokoro-demo');
+    toolkit.fetchPageStructure('kokoro-demo');
   }
 
   useDidHide(() => {
@@ -102,10 +96,10 @@ const DemoPage = () => {
   }, [globalState.service]);
 
   return (
-    <View style={pageStructure.form.style} data-weui-theme="light">
+    <View style={domain.pageStructure.form.style}>
       <Form onSubmit={onSubmit}>
         <FormProvider form={form}>
-          <SchemaContainer schema={pageStructure.schema} scope={scope} />
+          <SchemaContainer schema={domain.pageStructure.schema} scope={scope} />
         </FormProvider>
       </Form>
     </View>

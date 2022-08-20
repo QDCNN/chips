@@ -37,6 +37,7 @@ const usePageState = create<PageState>((set, get) => ({
         Taro.reLaunch({ url: Routes.OrderList })
       }
       if (order.pay_status.value === 20) {
+        Taro.hideLoading();
         set(produce(draft => {
           draft.state.status = 'finished';
         }));
@@ -47,7 +48,6 @@ const usePageState = create<PageState>((set, get) => ({
         const { state, actions } = get();
         if (state.status === 'finished') {
           clearInterval(timer);
-          Taro.hideLoading();
           return;
         }
         actions.fetchOrderDetail(params);

@@ -6,7 +6,7 @@ import { FormProvider } from '@formily/react'
 import styles from './index.module.less'
 import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
-import { getSchemaFromPath } from '@/utils/formily'
+import { calcPattern, getSchemaFromPath } from '@/utils/formily'
 import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import cloneDeep from 'clone-deep'
 import create from 'zustand'
@@ -25,13 +25,7 @@ const scope = observable.shallow({
     serviceDetail: {},
   },
   $shared: {
-    calcPattern($self, $page) {
-      if (!$self?.props?.name) return 'editable';
-      const config = cloneDeep($page.taskDetail.config);
-      const itemConfig = config[$self.props.name.split('.').shift()];
-      if (itemConfig == 0) return 'disabled';
-      return 'editable';
-    }
+    calcPattern,
   }
 });
 
@@ -72,7 +66,6 @@ const usePageState = create<PageState>((set) => ({
       }));
     },
     setPageStructure(pageStructure) {
-      console.log('setPageStructure: ', pageStructure);
       set(produce(draft => {
         draft.domain.pageStructure = pageStructure;
       }));
@@ -96,18 +89,10 @@ const FormDetailPage = () => {
   const { domain, toolkit } = usePageState();
   const form = useMemo(() => createForm({
     initialValues: globalDomain.formValues,
-    effects: () => {
-      onFieldInputValueChange('*', (field, form) => {
-        // toolkit.setChangedValues({ path: field.path.entire, value: field.value })
-        // console.log('field, form: ', field, form);
-      });
-    }
   }), [globalDomain.formValues, domain.pageStructure]);
   const { params } = useRouter();
 
   useDidShow(() => {
-    // toolkit.setPageStructure(cloneDeep(defaultPageStructure));
-
     scope.$params = params;
 
     initPagestructure();
@@ -174,7 +159,7 @@ const FormDetailPage = () => {
   }, [globalState.service]);
 
   return (
-    <View className={styles.page} style={domain.pageStructure.form.style} data-weui-theme="light">
+    <View className={styles.page} style={domain.pageStructure.form.style}>
       <Form onSubmit={onSubmit}>
         <FormProvider form={form}>
           <SchemaContainer schema={domain.pageStructure.schema} scope={scope} />
