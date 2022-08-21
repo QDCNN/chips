@@ -6,8 +6,10 @@ import '@antmjs/vantui/lib/index.less'
 import { useDictionaryState } from './models/dictionary'
 import './app.less'
 import { useEffect } from 'react'
+import { setValidateLanguage } from '@formily/core'
 
 Schema.registerCompiler(simpleCompiler);
+setValidateLanguage('zh-CN');
 
 const App = (props) => {
   const { actions: globalAction } = useGlobalState();

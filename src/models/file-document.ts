@@ -101,9 +101,9 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
       if (!domain.mounted) return;
       Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.showNavigationBarLoading();
       await CommonApi.提交表单内容json({ task_id: domain.taskId, content: JSON.stringify(values) });
-      set(produce(draft => {
-        draft.domain.formValues = values;
-      }));
+      // set(produce(draft => {
+      //   draft.domain.formValues = values;
+      // }));
       Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.hideNavigationBarLoading();
     },
     async fetchTaskDetail(params) {

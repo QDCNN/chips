@@ -233,10 +233,10 @@ ArrayBase.Remove = React.forwardRef((props, ref) => {
   if (!array) return null
   if (array.field?.pattern !== 'editable') return null
   return (
-    <Icon
-      name="cross"
+    <Button
+      {...props}
       ref={ref}
-      size="mini"
+      disabled={self?.disabled}
       onClick={(e) => {
         if (self?.disabled) return
         e.stopPropagation()
@@ -246,8 +246,9 @@ ArrayBase.Remove = React.forwardRef((props, ref) => {
           props.onClick(e)
         }
       }}
-      {...props}
-    />
+    >
+      删除
+    </Button>
   )
 })
 

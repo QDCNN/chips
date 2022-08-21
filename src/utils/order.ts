@@ -13,8 +13,11 @@ export const handlePay = async (data) => {
     });
     Taro.redirectTo({ url: combineQuery(Routes.OrderResult, { id: data.order_id }) })
   } catch (e) {
+    let message = '支付失败';
+    if (e.errMsg == 'requestPayment:fail cancel') message = '取消支付';
+    console.log('e: ', e);
     Taro.showToast({
-      title: '支付失败',
+      title: message,
       icon: 'error',
       duration: 3000
     })

@@ -10,7 +10,7 @@ import { CommonApi } from '@/api'
 import { Badge } from '@/components'
 import { combineQuery } from '@/utils/route'
 
-const useDrawer = createDrawer(commonResponsePipeline(formParamsPipeline(CommonApi.getTaskList)), { defaultValue: { pagination: { pageSize: 3 } } });
+const useDrawer = createDrawer(commonResponsePipeline(formParamsPipeline(CommonApi.getTaskList)), { defaultValue: { pagination: { pageSize: 20 } } });
 
 const statusMapBadgeType = {
   10: 'primary',
@@ -76,7 +76,7 @@ const WorkPage = () => {
             />
             <Cell
               renderTitle={(
-                <View>
+                <View style={{ display: 'flex', alignItems: 'center' }}>
                   <Text>{showTaskStatusText(item.task_status)}</Text>
                   <Badge type={statusMapBadgeType[item.task_status]} />
                 </View>

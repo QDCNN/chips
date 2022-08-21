@@ -4,18 +4,21 @@ import { Uploader as VantUploader} from '@antmjs/vantui'
 import { connect, mapProps } from '@formily/react'
 import Taro from '@tarojs/taro';
 import produce from 'immer';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
+import url from 'url';
 
 const singleUpload = async (file, uploadParams) => {
   const uuid = wxuuid();
-  const targetUrl = uploadParams.host + '/' + uuid;
+  const timestamp = +new Date();
+  const objectKey = `${timestamp}-${uuid}`
+  const targetUrl = `${uploadParams.host}/${objectKey}`;
 
   await Taro.uploadFile({
     url: uploadParams.host,
     filePath: file.url,
     name: 'file',
     formData: {
-      key: uuid,
+      key: objectKey,
       signature: uploadParams.signature,
       policy: uploadParams.policy,
       OSSAccessKeyId: uploadParams.accessKeyId,
@@ -32,10 +35,11 @@ const handleAfterRead = async (files) => {
 }
 
 const handlePreShowFileList = async (paths = [] as any[]) => {
-  if (!paths.length) return paths;
-  const uuidList = paths.map(item => item.split('/').pop());
-  const response = await CommonApi.获取阿里云图片链接({ object: uuidList.join(',') });
-  const result = uuidList.map(item => response.data[item]).filter(item => item);
+  // if (!paths.length) return paths;
+  const objectKeyList = paths.map(item => url.parse(item)?.pathname?.slice(1));
+  if (!objectKeyList.filter(item => item).length) return paths;
+  const response = await CommonApi.获取阿里云图片链接({ object: objectKeyList.join(',') });
+  const result = objectKeyList.map(item => response.data[item]).filter(item => item);
   return result;
 };
 
@@ -48,7 +52,7 @@ const transformToUploaderFileList = (fileList = [] as string[]) => {
   }));
 }
 
-const CustomVantUploader = (props) => {
+const CustomVantUploader = memo((props) => {
   const [showFileList, setShowFileList] = useState<any[]>([]);
   const { fileList, onPreShowFileList, ...other } = props;
 
@@ -65,7 +69,7 @@ const CustomVantUploader = (props) => {
   return (
     <VantUploader fileList={showFileList} {...other} />
   )
-}
+})
 
 export const Uploader = connect(
   CustomVantUploader,

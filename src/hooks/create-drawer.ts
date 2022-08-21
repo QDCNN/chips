@@ -66,12 +66,13 @@ export const createDrawer = (api: API, options = { defaultValue: {} }) => create
       const state = get();
       return state.toolkit.search(state.drawer.params);
     },
-    loadMore: () => {
-      const state = get();
+    loadMore: async () => {
+      const { drawer, toolkit } = get();
+      if (drawer.list.length >= drawer.total) return null;
       set(produce((draft: DrawerState) => {
         draft.drawer.pagination.page += 1;
       }));
-      return state.toolkit.commonSearch({ append: true });
+      return toolkit.commonSearch({ append: true });
     },
     jumpPage: async (page: number) => {
       const state = get();

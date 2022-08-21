@@ -12,6 +12,7 @@ export const Switch = connect(
       const onChange = props.onChange
       delete props['value']
       return {
+        activeColor: '#07c160',
         activeValue: 1,
         inactiveValue: 0,
         onChange(e) {
