@@ -9,19 +9,38 @@
   "schema": {
     "type": "object",
     "properties": {
-      "o5jbw47w5nf": {
-        "type": "string",
-        "title": "确认",
-        "x-component": "Button",
-        "x-validator": [],
+      "gzlep0zb5jv": {
+        "type": "void",
+        "x-component": "View",
         "x-component-props": {
-          "formType": "submit",
+          "title": "Title",
           "style": {
-            "marginTop": "16px"
+            "padding": "16px 16px 16px 16px"
           }
         },
-        "x-designable-id": "o5jbw47w5nf",
-        "x-index": 1
+        "x-designable-id": "gzlep0zb5jv",
+        "properties": {
+          "2zauwbi4249": {
+            "type": "void",
+            "title": "确认",
+            "formType": "submit",
+            "x-component": "Button",
+            "x-component-props": {
+              "formType": "submit",
+              "block": true,
+              "type": "primary"
+            },
+            "x-designable-id": "2zauwbi4249",
+            "x-index": 0
+          }
+        },
+        "x-index": 1,
+        "x-decorator": "BaseView",
+        "x-decorator-props": {
+          "style": {
+            "padding": "16px 16px 16px 16px"
+          }
+        }
       }
     },
     "x-designable-id": "8zrie9t17ss"

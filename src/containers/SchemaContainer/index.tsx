@@ -3,18 +3,19 @@ import { createSchemaField, observer } from '@formily/react';
 import {
   Switch,
   Input,
-  Picker,
+  OriginPicker,
   Text,
   Cell,
+  CellGroup,
   LinkCell,
   Button,
   Radio,
-  Image,
-  Textarea,
+  // Image,
+  // Textarea,
   Uploader,
   ArrayItems,
-} from '@/formily-components'
-import { View } from '@tarojs/components';
+} from '@/formily-components-vant'
+import { View, Image } from '@tarojs/components';
 
 export const SchemaContainer = (props) => {
   const { schema, scope, components } = props
@@ -23,15 +24,16 @@ export const SchemaContainer = (props) => {
     components: {
       Switch,
       Cell,
+      CellGroup,
       Input,
-      Textarea,
-      Picker,
+      OriginPicker,
       Text,
+      View,
+      Image,
       BaseView: View,
       LinkCell,
       Button,
       Radio,
-      Image,
       ArrayItems,
       Uploader,
       ...components,
@@ -39,8 +41,6 @@ export const SchemaContainer = (props) => {
   }), [components])
 
   return (
-    <View data-weui-theme="light">
-      <SchemaField schema={schema} scope={scope} />
-    </View>
+    <SchemaField schema={schema} scope={scope} />
   )
 }

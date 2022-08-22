@@ -1,60 +1,44 @@
-import { RadioGroup, Label, Radio as TaroRadio, View, Text } from '@tarojs/components';
-import Taro from '@tarojs/taro';
-import cls from 'classnames';
-import React from 'react';
-import Cell from '../Cell';
+ /* eslint-disable */
+import { Radio as VantRadio, RadioGroup as VantRadioGroup } from '@antmjs/vantui'
+import { RadioGroupProps } from '@antmjs/vantui/types/radio'
+import React, { useMemo } from 'react'
+import { Cell } from '@antmjs/vantui'
 
-const WebLabel = (props) => {
-  const { ...other } = props;
-  delete other.for;
+type ComposedRadio = React.FC<React.PropsWithChildren<any>> & {
+  Group?: React.FC<React.PropsWithChildren<RadioGroupProps & { options?: any[], cell?: boolean, name?: string }>>
+}
+
+export const Radio: ComposedRadio = (props: any) => {
+  const { label, value, ...other } = props;
+  return <VantRadio name={value} {...other}>{label}</VantRadio>
+}
+
+const CellRadio = (props) => {
+  const { label, name, onChange } = props;
+
   return (
-    <label htmlFor={other.for} {...other}>{other.children}</label>
+    <Cell title={label} clickable onClick={() => onChange({ detail: name })} renderRightIcon={<Radio name={name} value={name} />} />
   )
 }
 
-const UsedLabel = Taro.getEnv() === Taro.ENV_TYPE.WEB ? WebLabel : Label
+Radio.Group = (props) => {
+  const { children, cell, name, value, onClick, options, ...other } = props;
 
-export const Radio = (props) => {
-  const {
-    className, children,
-    vcode, warn, name,
-    select, selectPos, value, options = [],
-    onChange, ...others
-  } = props;
-
-  const classNameList = cls({
-    'weui-check': true,
-    [className]: className
-  });
-  const radioClassNameList = cls({
-    'weui-cell': true,
-    'weui-check__label': true,
-    'weui-cell_vcode': vcode,
-    'weui-cell_warn': warn,
-    'weui-cell_switch': props.switch,
-    'weui-cell_select': select,
-    'weui-cell_select-before': selectPos === 'before',
-    'weui-cell_select-after': selectPos === 'after',
-    [className]: className
-  });
-
-  return (
-    <View clasName="weui-cells__group weui-cells__group_form">
-      <RadioGroup name={name} className="weui-cells weui-cells_radio" onChange={onChange}>
-        {options.map((item, index) => (
-          <UsedLabel className={radioClassNameList} key={index} for={index} {...others}>
-            <Cell content={(
-              // <View className="weui-cell__bd">
-                <Text>{item.label}</Text>
-              // </View>
-            )}>
-              <TaroRadio value={item.value} checked={item.value === value} />
-            </Cell>
-          </UsedLabel>
+  const childrenRender = useMemo(() => {
+    const ContainerComponent = cell ? CellRadio : Radio;
+    if (options) return (
+      <>
+        {options.map(item => (
+          <ContainerComponent name={item.value} key={item.value} label={item.label} {...other} />
         ))}
-      </RadioGroup>
-    </View>
+      </>
+    )
+    return children;
+  }, [options, cell]);
+
+  return (
+    <VantRadioGroup value={value} {...other}>
+      {childrenRender}
+    </VantRadioGroup>
   )
 }
-
-export default Radio;

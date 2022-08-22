@@ -1,6 +1,7 @@
+global.HTMLElement = function HTMLElement() { };
 import React, { createContext, useContext } from 'react'
-global.HTMLElement = function HTMLElement() {};
-import { Button, ButtonProps, Text, View } from '@tarojs/components'
+import { Text } from '@tarojs/components'
+import { Button } from '@antmjs/vantui'
 import { ArrayField } from '@formily/core'
 import {
   useField,
@@ -12,10 +13,11 @@ import {
 } from '@formily/react'
 import { isValid, clone } from '@formily/shared'
 import { SortableHandle } from 'react-sortable-hoc'
-import { usePrefixCls } from '@/__builtins__'
 import cls from 'classnames'
+import { usePrefixCls } from '@/__builtins__'
+import { Icon } from '@antmjs/vantui'
 
-export interface IArrayBaseAdditionProps extends ButtonProps {
+export interface IArrayBaseAdditionProps {
   title?: string
   method?: 'push' | 'unshift'
   defaultValue?: any
@@ -33,15 +35,15 @@ export interface IArrayBaseItemProps {
 }
 
 export type ArrayBaseMixins = {
-  Addition?: React.FC<React.PropsWithChildren<IArrayBaseAdditionProps>>
-  Copy?: React.FC<React.PropsWithChildren<ButtonProps & { index?: number }>>
-  Remove?: React.FC<React.PropsWithChildren<ButtonProps & { index?: number }>>
-  MoveUp?: React.FC<React.PropsWithChildren<ButtonProps & { index?: number }>>
+  Addition?: React.FC<React.PropsWithChildren<any>>
+  Copy?: React.FC<React.PropsWithChildren<any & { index?: number }>>
+  Remove?: React.FC<React.PropsWithChildren<any & { index?: number }>>
+  MoveUp?: React.FC<React.PropsWithChildren<any & { index?: number }>>
   MoveDown?: React.FC<
-    React.PropsWithChildren<ButtonProps & { index?: number }>
+    React.PropsWithChildren<any & { index?: number }>
   >
   SortHandle?: React.FC<
-    React.PropsWithChildren<ButtonProps & { index?: number }>
+    React.PropsWithChildren<any & { index?: number }>
   >
   Index?: React.FC
   useArray?: () => IArrayBaseContext
@@ -105,7 +107,6 @@ const getDefaultValue = (defaultValue: any, schema: Schema) => {
 export const ArrayBase: ComposedArrayBase = (props) => {
   const field = useField<ArrayField>()
   const schema = useFieldSchema()
-
   return (
     <RecordsScope getRecords={() => field.value}>
       <ArrayBaseContext.Provider value={{ field, schema, props }}>
@@ -129,19 +130,13 @@ ArrayBase.Item = ({ children, ...props }) => {
 }
 
 const SortHandle = SortableHandle((props: any) => {
-  const prefixCls = usePrefixCls('formily-array-base')
   return (
-    <Button
-      {...props}
-      className={cls(`${prefixCls}-sort-handle`, props.className)}
-      style={{ ...props.style }}
-    >
-      排序
-    </Button>
+    <Icon name="wap-nav" size="32px" {...props} />
   )
-}) as any
+});
 
 ArrayBase.SortHandle = (props) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const array = useArray()
   if (!array) return null
   if (array.field?.pattern !== 'editable') return null
@@ -149,7 +144,9 @@ ArrayBase.SortHandle = (props) => {
 }
 
 ArrayBase.Index = (props) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const index = useIndex()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const prefixCls = usePrefixCls('formily-array-base')
   return (
     <Text {...props} className={`${prefixCls}-index`}>
@@ -159,8 +156,11 @@ ArrayBase.Index = (props) => {
 }
 
 ArrayBase.Addition = (props) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const self = useField()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const array = useArray()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const prefixCls = usePrefixCls('formily-array-base')
   if (!array) return null
   if (
@@ -169,35 +169,27 @@ ArrayBase.Addition = (props) => {
   )
     return null
   return (
-    <View className="weui-flex">
-      <Button
-        // type="dashed"
-        // block
-        style={{ marginTop: '8px' }}
-        {...props}
-        size="mini"
-        disabled={self?.disabled}
-        className={cls(`${prefixCls}-addition`, props.className)}
-        onClick={(e) => {
-          if (array.props?.disabled) return
-          const defaultValue = getDefaultValue(props.defaultValue, array.schema)
-          if (props.method === 'unshift') {
-            array.field?.unshift?.(defaultValue)
-            array.props?.onAdd?.(0)
-          } else {
-            array.field?.push?.(defaultValue)
-            array.props?.onAdd?.(array?.field?.value?.length - 1)
-          }
-          if (props.onClick) {
-            props.onClick(e)
-          }
-        }}
-      // icon={<PlusOutlined />}
-      >
-        新增
-        {/* {props.title || self.title} */}
-      </Button>
-    </View>
+    <Button
+      {...props}
+      disabled={self?.disabled}
+      className={cls(`${prefixCls}-addition`, props.className)}
+      onClick={(e) => {
+        if (array.props?.disabled) return
+        const defaultValue = getDefaultValue(props.defaultValue, array.schema)
+        if (props.method === 'unshift') {
+          array.field?.unshift?.(defaultValue)
+          array.props?.onAdd?.(0)
+        } else {
+          array.field?.push?.(defaultValue)
+          array.props?.onAdd?.(array?.field?.value?.length - 1)
+        }
+        if (props.onClick) {
+          props.onClick(e)
+        }
+      }}
+    >
+      {props.title || self.title}
+    </Button>
   )
 }
 
@@ -209,7 +201,8 @@ ArrayBase.Copy = React.forwardRef((props, ref) => {
   if (!array) return null
   if (array.field?.pattern !== 'editable') return null
   return (
-    <Button
+    <Icon
+      name="description"
       {...props}
       className={cls(
         `${prefixCls}-copy`,
@@ -229,9 +222,7 @@ ArrayBase.Copy = React.forwardRef((props, ref) => {
           props.onClick(e)
         }
       }}
-    >
-      复制
-    </Button>
+    />
   )
 })
 
@@ -239,44 +230,25 @@ ArrayBase.Remove = React.forwardRef((props, ref) => {
   const index = useIndex(props.index)
   const self = useField()
   const array = useArray()
-  const prefixCls = usePrefixCls('formily-array-base')
   if (!array) return null
   if (array.field?.pattern !== 'editable') return null
   return (
-    // <DeleteOutlined
-    //   {...props}
-    //   className={cls(
-    //     `${prefixCls}-remove`,
-    //     self?.disabled ? `${prefixCls}-remove-disabled` : '',
-    //     props.className
-    //   )}
-    //   ref={ref}
-    //   onClick={(e) => {
-    //     if (self?.disabled) return
-    //     e.stopPropagation()
-    //     array.field?.remove?.(index)
-    //     array.props?.onRemove?.(index)
-    //     if (props.onClick) {
-    //       props.onClick(e)
-    //     }
-    //   }}
-    // />
-    <View className="weui-flex">
-      <Button
-        ref={ref}
-        size="mini"
-        onClick={(e) => {
-          if (self?.disabled) return
-          e.stopPropagation()
-          array.field?.remove?.(index)
-          array.props?.onRemove?.(index)
-          if (props.onClick) {
-            props.onClick(e)
-          }
-        }}
-        {...props}
-      >删除</Button>
-    </View>
+    <Button
+      {...props}
+      ref={ref}
+      disabled={self?.disabled}
+      onClick={(e) => {
+        if (self?.disabled) return
+        e.stopPropagation()
+        array.field?.remove?.(index)
+        array.props?.onRemove?.(index)
+        if (props.onClick) {
+          props.onClick(e)
+        }
+      }}
+    >
+      删除
+    </Button>
   )
 })
 
@@ -288,14 +260,14 @@ ArrayBase.MoveDown = React.forwardRef((props, ref) => {
   if (!array) return null
   if (array.field?.pattern !== 'editable') return null
   return (
-    <Button
+    <Icon
+      name="arrow-down"
       {...props}
       className={cls(
         `${prefixCls}-move-down`,
         self?.disabled ? `${prefixCls}-move-down-disabled` : '',
         props.className
       )}
-      ref={ref}
       onClick={(e) => {
         if (self?.disabled) return
         e.stopPropagation()
@@ -305,9 +277,7 @@ ArrayBase.MoveDown = React.forwardRef((props, ref) => {
           props.onClick(e)
         }
       }}
-    >
-      下移
-    </Button>
+    />
   )
 })
 
@@ -319,7 +289,8 @@ ArrayBase.MoveUp = React.forwardRef((props, ref) => {
   if (!array) return null
   if (array.field?.pattern !== 'editable') return null
   return (
-    <Button
+    <Icon
+      name="arrow-up"
       {...props}
       className={cls(
         `${prefixCls}-move-up`,
@@ -336,9 +307,7 @@ ArrayBase.MoveUp = React.forwardRef((props, ref) => {
           props.onClick(e)
         }
       }}
-    >
-      上移
-    </Button>
+    />
   )
 })
 

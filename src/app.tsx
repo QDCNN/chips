@@ -1,38 +1,28 @@
-import { Component } from 'react'
-import './app.less'
-// 骨架屏样式
-import 'taro-skeleton/dist/index.css'
-import { actionCreator, store } from './store'
-import { Provider } from 'react-redux'
 import '@/polyfills/lodash'
-import '@/weui/style/weui.less'
 import { Schema } from '@formily/react'
 import { simpleCompiler } from './utils/formily'
+import { useGlobalState } from './models'
+import '@antmjs/vantui/lib/index.less'
+import { useDictionaryState } from './models/dictionary'
+import './app.less'
+import { useEffect } from 'react'
+import { setValidateLanguage } from '@formily/core'
 
 Schema.registerCompiler(simpleCompiler);
+setValidateLanguage('zh-CN');
 
-class App extends Component {
+const App = (props) => {
+  const { actions: globalAction } = useGlobalState();
+  const { actions: dictionaryAction } = useDictionaryState();
 
-  componentDidMount() {
-    store.dispatch(actionCreator.global.init());
-  }
+  useEffect(() => {
+    dictionaryAction.init();
+    globalAction.init();
+  }, []);
 
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  componentDidCatchError() { }
-
-  // this.props.children 是将要会渲染的页面
-  render() {
-    return (
-      <Provider store={store} >
-        {
-          this.props.children
-        }
-      </Provider>
-    )
-  }
+  return (
+    props.children
+  )
 }
 
 export default App

@@ -3,19 +3,15 @@
   min-height: 100vh;
   height: 100%;
   background-size: 100%;
-}
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+  :global {
+    .van-cell-group--inset {
+      margin: 0;
+    }
 
-.contact {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 96px);
-  // background-color: #fff;
+    .van-cell__left-icon {
+      width: 96px;
+      height: 96px;
+    }
+  }
 }

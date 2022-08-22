@@ -1,48 +1,65 @@
-import { CommonImage } from '@/config'
-import CustomNavigationBar from '@/custom-navigation-bar'
-import { View, Image, Text, Button } from '@tarojs/components'
-import classnames from 'classnames'
+import { View, Form } from '@tarojs/components'
 import styles from './index.module.less'
-import Card from '@/components/Card'
 import { Routes } from '@/routes'
-import Taro from '@tarojs/taro'
-import { useSelector } from 'react-redux'
-import { formatMoney } from '@/utils/formatMoney'
-import { useEffect } from 'react'
-import { actionCreator, RootState, store } from '@/store';
+import Taro, { useDidShow, useRouter } from '@tarojs/taro'
+import { useEffect, useMemo } from 'react'
+import { FormProvider } from '@formily/react'
+import { SchemaContainer } from '@/containers'
+import { observable } from '@formily/reactive'
+import { createForm } from '@formily/core'
+import pageStructure from './schema/data.json'
+import create from 'zustand'
+import { YinghuoApi } from '@/api'
+import produce from 'immer'
 
+interface PageState {
+  state: {
+    goodsDetail: { goods_sku: {} },
+  },
+  actions: {
+    fetchGoodsDetail: (id: string) => Promise<any>
+  }
+}
+
+const usePageState = create<PageState>((set) => ({
+  state: {
+    goodsDetail: { goods_sku: {} }
+  },
+  actions: {
+    async fetchGoodsDetail(goods_id) {
+      const response = await YinghuoApi.getGoodsDetail({ goods_id });
+      set(produce(draft => {
+        draft.state.goodsDetail = response.data.detail;
+      }));
+    }
+  },
+}))
 
 const GoodsDetail = () => {
-  const { global: { goodsDetail } } = useSelector((store: RootState) => store);
+  const scope = useMemo(() => observable({ $page: { goodsDetail: { goods_sku: {} } } }), []);
+  const form = useMemo(() => createForm(), []);
+  const { params } = useRouter();
+  const { state, actions } = usePageState();
 
   const onOrderClick = () => {
     Taro.navigateTo({ url: Routes.ConfirmOrder })
   }
-  useEffect(() => {
-    store.dispatch(actionCreator.global.getGoodsDetail())
-  }, [])
-  return (
-    <View className={classnames('page', styles.page)}>
-      <CustomNavigationBar back title="服务详情" />
-      <View dangerouslySetInnerHTML={{ __html: goodsDetail.content }} className={styles.backgroundImage}></View>
-      <View className={classnames('container', styles.container)}>
 
-        <View className={classnames(styles.footer, 'm-t-48')}>
-          <View className={styles.footerBox}>
-            <View className={styles.footerLeft}>
-              <View>
-                <Text>{goodsDetail.goods_name}</Text>
-              </View>
-              <View>
-                <Text className={styles.fontBold}>￥{formatMoney(goodsDetail.goods_sku.goods_price, 2)}</Text>
-              </View>
-            </View>
-            <View className={styles.footerRight}>
-              <Button className={styles.button} type='primary' onClick={onOrderClick}>下单</Button>
-            </View>
-          </View>
-        </View>
-      </View>
+  useDidShow(() => {
+    actions.fetchGoodsDetail(params.id);
+  });
+
+  useEffect(() => {
+    scope.$page.goodsDetail = state.goodsDetail;
+  }, [state.goodsDetail]);
+
+  return (
+    <View className={styles.page} style={pageStructure.form.style}>
+      <Form>
+        <FormProvider form={form}>
+          <SchemaContainer schema={pageStructure.schema} scope={scope} />
+        </FormProvider>
+      </Form>
     </View>
   )
 }

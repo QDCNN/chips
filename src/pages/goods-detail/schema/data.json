@@ -1,0 +1,127 @@
+{
+  "form": {
+    "labelCol": 6,
+    "wrapperCol": 12,
+    "style": {
+      "backgroundColor": "rgba(246,246,246,1)"
+    }
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "kp5zz5q2xgw": {
+        "type": "void",
+        "x-component": "View",
+        "x-component-props": {
+          "title": "Title",
+          "dangerouslySetInnerHTML": {
+            "__html": "{{ $page.goodsDetail.content }}"
+          },
+          "style": {
+            "width": "100%",
+            "height": "100%"
+          }
+        },
+        "x-designable-id": "kp5zz5q2xgw",
+        "x-index": 0
+      },
+      "7ra0dnh9zpa": {
+        "type": "void",
+        "x-component": "View",
+        "x-component-props": {
+          "title": "Title",
+          "style": {
+            "display": "flex",
+            "justifyContent": "space-between",
+            "alignItems": "center",
+            "backgroundColor": "",
+            "position": "absolute",
+            "bottom": "32px",
+            "width": "100%"
+          }
+        },
+        "x-designable-id": "7ra0dnh9zpa",
+        "x-index": 1,
+        "properties": {
+          "75mejicj44a": {
+            "type": "void",
+            "x-component": "View",
+            "x-component-props": {
+              "title": "Title",
+              "style": {
+                "display": "flex",
+                "flex": 1,
+                "justifyContent": "space-between",
+                "alignItems": "center",
+                "margin": "16px 16px 16px 16px",
+                "padding": "16px 16px 16px 16px",
+                "borderRadius": "8px",
+                "backgroundColor": "rgba(255,255,255,0.9)"
+              }
+            },
+            "x-designable-id": "75mejicj44a",
+            "x-index": 0,
+            "properties": {
+              "b11u6tjmlvi": {
+                "type": "void",
+                "x-component": "View",
+                "x-component-props": {
+                  "title": "Title",
+                  "style": {
+                    "flex": 1
+                  }
+                },
+                "x-designable-id": "b11u6tjmlvi",
+                "x-index": 0,
+                "properties": {
+                  "vortt13wut0": {
+                    "type": "string",
+                    "x-component": "Text",
+                    "x-component-props": {
+                      "content": "{{ $page.goodsDetail.goods_name }}",
+                      "style": {
+                        "fontWeight": 900
+                      }
+                    },
+                    "x-decorator": "BaseView",
+                    "x-decorator-props": {
+                      "style": {
+                        "padding": "0 0 8px 0"
+                      }
+                    },
+                    "x-designable-id": "vortt13wut0",
+                    "x-index": 0
+                  },
+                  "oylnj764o9q": {
+                    "type": "string",
+                    "x-component": "Text",
+                    "x-component-props": {
+                      "content": "{{\"￥\" + $library.numeral($page.goodsDetail.goods_sku.goods_price).format('0,0.00')}}"
+                    },
+                    "x-decorator": "BaseView",
+                    "x-decorator-props": {},
+                    "x-designable-id": "oylnj764o9q",
+                    "x-index": 1
+                  }
+                }
+              },
+              "zra22mv5zkb": {
+                "type": "void",
+                "title": "下单",
+                "x-component": "Button",
+                "x-component-props": {
+                  "type": "primary",
+                  "block": false,
+                  "onClick": "{{function() { Taro.navigateTo({ url: $shared.combineQuery('/pages/order/create/index', { goods_id: $page.goodsDetail.goods_id, goods_sku_id: $page.goodsDetail.goods_sku.goods_sku_id }) }) }}}"
+                },
+                "x-designable-id": "zra22mv5zkb",
+                "x-index": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-designable-id": "u3azi604qd7"
+  }
+}

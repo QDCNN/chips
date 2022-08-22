@@ -1,36 +1,19 @@
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
-import { FormProvider, createSchemaField, observer } from '@formily/react'
-import {
-  Switch,
-  Input,
-  Picker,
-  Text,
-  Cell,
-  LinkCell,
-  Uploader,
-  Button,
-  ArrayItems,
-} from '@/formily-components'
+import { FormProvider } from '@formily/react'
 import AnchorNavigation from '@/components/AnchorNavigation'
-import Taro, { useDidHide, useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
-// import { useDispatch, useSelector } from 'react-redux'
-import { actionCreator, RootState } from '@/store'
+import Taro, { useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
 import { formDictionaryQueue } from '@/queue'
 import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import { weappBoundingClientRect } from '@/utils/dom'
 import cloneDeep from 'clone-deep'
-import { defaultPageStructure } from '@/default/page-structure'
 import { SchemaContainer } from '@/containers'
 import { createForm, onFieldInputValueChange, onFormInit } from '@formily/core'
-import { delay } from '@/utils'
 
-const FormHomeInnerPage = observer((props) => {
-  const { form, scope } = props;
+const FormHomeInnerPage = memo((props) => {
+  const { form } = props;
   const { domain, toolkit } = useFileDocumentState();
 
-  // const { fileDocument } = useSelector((store: RootState) => store);
-  // const dispatch = useDispatch();
   const { params } = useRouter();
 
   const handleSubmit = async () => {
@@ -51,7 +34,7 @@ const FormHomeInnerPage = observer((props) => {
     <View style={domain.pageStructure.form.style}>
       <Form onSubmit={handleSubmit}>
         <FormProvider form={form}>
-          <SchemaContainer schema={domain.pageStructure.schema} scope={scope} />
+          <SchemaContainer schema={domain.pageStructure.schema} scope={globalScope} />
         </FormProvider>
       </Form>
     </View>
@@ -76,19 +59,13 @@ const FormHomePage = () => {
   const [anchorTextList, setAnchorTextList] = useState<any[]>([]);
   const { params } = useRouter();
   const form = useMemo(() => createForm({
+    initialValues: cloneDeep(domain.formValues),
     effects() {
-      // onFormInit(() => {
-      //   console.log('onFormInit');
-      // });
       onFieldInputValueChange('*', (field, $form) => {
         toolkit.saveTempValue($form.getFormState().values);
       });
     }
-  }), []);
-
-  useEffect(() => {
-    form.setInitialValues(cloneDeep(domain.formValues));
-  }, [domain.formValues]);
+  }), [domain.formValues]);
 
   usePageScroll((pageRect) => {
     setScrollTop(pageRect.scrollTop);
@@ -126,7 +103,7 @@ const FormHomePage = () => {
     <View>
       <AnchorNavigation scrollTop={scrollTop} value={anchorTextList} onClick={onAnchorClick} />
 
-      <FormHomeInnerPage form={form} scope={globalScope} />
+      <FormHomeInnerPage form={form} />
     </View>
   )
 }

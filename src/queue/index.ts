@@ -8,7 +8,5 @@ export const getPromise = () => {
   }
 }
 
-export const loginQueue: (callback?) => Promise<any> = getPromise();
-// export const singlePromise: (callback?) => Promise<any> = getPromise();
-export const formDictionaryQueue = new PQueue();
-export const formOncePromise: (callback?) => Promise<any> = getPromise();
+export const formDictionaryQueue = new PQueue({ concurrency: 1 });
+export const loginQueue = new PQueue({ concurrency: 1 });

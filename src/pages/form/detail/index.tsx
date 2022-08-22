@@ -1,34 +1,31 @@
 import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
 import { useEffect, useMemo } from 'react'
 import { View, Form } from '@tarojs/components'
-import { createForm } from '@formily/core'
-import { FormProvider, createSchemaField, observer } from '@formily/react'
-import { Switch, Input, Picker, Text, Cell, LinkCell, Button, Radio, Image, Textarea } from '@/formily-components'
+import { createForm, onFieldInputValueChange, onFieldValueChange } from '@formily/core'
+import { FormProvider } from '@formily/react'
 import styles from './index.module.less'
-import { actionCreator, RootState } from '@/store'
-import { useDispatch, useSelector } from 'react-redux'
 import { initialState } from '@/models/dictionary'
 import { observable } from '@formily/reactive'
-import { getSchemaFromPath } from '@/utils/formily'
+import { calcPattern, getSchemaFromPath } from '@/utils/formily'
 import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import cloneDeep from 'clone-deep'
 import create from 'zustand'
-import * as api from '@/api'
 import { defaultPageStructure } from '@/default/page-structure'
 import { SchemaContainer } from '@/containers'
+import { defaultTaskDetail } from '@/default/task'
+import { CommonApi } from '@/api'
+import { useGlobalState } from '@/models'
+import produce from 'immer'
 
-const scope = observable({
+const scope = observable.shallow({
   $params: {},
   $dictionary: { ...initialState },
-  $task: { config: {}, review_user: {}, service_user: {} },
+  $page: {
+    taskDetail: { ...defaultTaskDetail },
+    serviceDetail: {},
+  },
   $shared: {
-    calcPattern($self, $task) {
-      if (!$self?.props?.name) return 'editable';
-      const config = { ...$task.config };
-      const itemConfig = config[$self.props.name.split('.').shift()];
-      if (itemConfig == 0) return 'disabled';
-      return 'editable';
-    }
+    calcPattern,
   }
 });
 
@@ -39,39 +36,60 @@ const typeDataMap = {
 }
 const typeComponentMap = {
   input: 'Input',
-  radio: 'Radio',
+  radio: 'Radio.Group',
   textarea: 'Textarea',
 }
 
 interface PageState {
   domain: {
     pageStructure: any;
+    changedValues: any;
   },
   toolkit: {
     fetchPageStructure: (name: string) => Promise<any>;
     setPageStructure: (pageStructure: any) => void;
+    setChangedValues: (payload: any) => void;
+    clearChangedValues: () => void;
   }
 }
 const usePageState = create<PageState>((set) => ({
   domain: {
     pageStructure: cloneDeep(defaultPageStructure),
+    changedValues: {},
   },
   toolkit: {
     async fetchPageStructure(name) {
-      const response = await api.getPageStructure({ name });
+      const response = await CommonApi.getPageStructure({ name });
       const pageStructure = JSON.parse(response.data.content);
-      set({ domain: { pageStructure } });
+      set(produce(draft => {
+        draft.domain.pageStructure = pageStructure;
+      }));
     },
     setPageStructure(pageStructure) {
-      set({ domain: { pageStructure } });
+      set(produce(draft => {
+        draft.domain.pageStructure = pageStructure;
+      }));
+    },
+    setChangedValues({ path, value }) {
+      set(produce(draft => {
+        draft.domain.changedValues[path] = value;
+      }));
+    },
+    clearChangedValues() {
+      set(produce(draft => {
+        draft.domain.changedValues = {};
+      }));
     }
   }
 }))
 
 const FormDetailPage = () => {
+  const { state: globalState } = useGlobalState();
   const { domain: globalDomain, toolkit: globalToolkit } = useFileDocumentState();
   const { domain, toolkit } = usePageState();
-  const form = useMemo(() => createForm({ initialValues: globalDomain.formValues }), [globalDomain.formValues]);
+  const form = useMemo(() => createForm({
+    initialValues: globalDomain.formValues,
+  }), [globalDomain.formValues, domain.pageStructure]);
   const { params } = useRouter();
 
   useDidShow(() => {
@@ -82,6 +100,8 @@ const FormDetailPage = () => {
 
   useEffect(() => {
     form.setValues(cloneDeep(globalDomain.formValues));
+    scope.$dictionary = cloneDeep(globalScope.$dictionary);
+    scope.$page.taskDetail = cloneDeep(globalScope.$page.taskDetail);
   }, [form])
 
   const handleCustom = async () => {
@@ -96,11 +116,18 @@ const FormDetailPage = () => {
     const currentSchema = cloneDeep(pathSchema);
     currentSchema['x-component'] = component;
     currentSchema['x-index'] = 0;
+    currentSchema['x-component-props'] = {
+      ...currentSchema['x-component-props'],
+      placeholder: '请输入' + currentSchema['title'],
+      isLink: false,
+      cell: true,
+      clickable: true,
+    };
+    currentSchema['title'] = '';
     currentSchema.name = params.name;
     const fullSchema = cloneDeep(typeDataMap[paramsType]);
     fullSchema.schema.properties[currentSchema.name] = { ...currentSchema };
     toolkit.setPageStructure(fullSchema);
-    console.log('fullSchema: ', fullSchema);
   };
 
   const initPagestructure = () => {
@@ -128,12 +155,11 @@ const FormDetailPage = () => {
   }
 
   useEffect(() => {
-    scope.$dictionary = cloneDeep(globalScope.$dictionary);
-    scope.$task = cloneDeep(globalScope.$task);
-  }, [domain.pageStructure]);
+    scope.$page.serviceDetail = globalState.service[0] || {};
+  }, [globalState.service]);
 
   return (
-    <View className={styles.page} style={domain.pageStructure.form.style} data-weui-theme="light">
+    <View className={styles.page} style={domain.pageStructure.form.style}>
       <Form onSubmit={onSubmit}>
         <FormProvider form={form}>
           <SchemaContainer schema={domain.pageStructure.schema} scope={scope} />
