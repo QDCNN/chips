@@ -58,14 +58,17 @@ const FormHomePage = () => {
   const [scrollTop, setScrollTop] = useState(0);
   const [anchorTextList, setAnchorTextList] = useState<any[]>([]);
   const { params } = useRouter();
-  const form = useMemo(() => createForm({
-    initialValues: cloneDeep(domain.formValues),
-    effects() {
-      onFieldInputValueChange('*', (field, $form) => {
-        toolkit.saveTempValue($form.getFormState().values);
-      });
-    }
-  }), [domain.formValues]);
+  const form = useMemo(() => {
+    console.log('domain.formValues: ', domain.formValues)
+    return createForm({
+      initialValues: cloneDeep(domain.formValues),
+      effects() {
+        onFieldInputValueChange('*', (field, $form) => {
+          toolkit.saveTempValue($form.getFormState().values);
+        });
+      }
+    });
+  }, [domain.formValues]);
 
   usePageScroll((pageRect) => {
     setScrollTop(pageRect.scrollTop);

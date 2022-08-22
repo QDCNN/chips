@@ -35,7 +35,7 @@ export const initialState = {
   originPageStructure: cloneDeep(defaultPageStructure),
   pageStructure: cloneDeep(defaultPageStructure),
   task: {},
-  formValues: defaultFormValues,
+  formValues: null,
   form: null as any,
 }
 
@@ -90,7 +90,7 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
         draft.domain.taskId = params.task_id;
       }));
       const result = await CommonApi.获取最近一次表单内容(params);
-      const nextformValues = deepmerge(defaultFormValues, JSON.parse(result.data.content));
+      const nextformValues = JSON.parse(result.data.content);
       set(produce(draft => {
         draft.domain.formValues = nextformValues;
       }));
