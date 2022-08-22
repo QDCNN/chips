@@ -9,8 +9,6 @@ import { defaultPageStructure } from '@/default/page-structure'
 import cloneDeep from 'clone-deep'
 import create from 'zustand'
 import produce from 'immer'
-import { defaultFormValues } from '@/default/form'
-import deepmerge from 'deepmerge'
 import { FORM_TEMPLATE_KEY } from '@/constants/form';
 import { defaultTaskDetail } from '@/default/task';
 import { CommonApi } from '@/api';

@@ -59,7 +59,6 @@ const FormHomePage = () => {
   const [anchorTextList, setAnchorTextList] = useState<any[]>([]);
   const { params } = useRouter();
   const form = useMemo(() => {
-    console.log('domain.formValues: ', domain.formValues)
     return createForm({
       initialValues: cloneDeep(domain.formValues),
       effects() {
@@ -69,6 +68,11 @@ const FormHomePage = () => {
       }
     });
   }, [domain.formValues]);
+
+  // hack
+  useEffect(() => {
+    toolkit.setForm(form);
+  }, [form]);
 
   usePageScroll((pageRect) => {
     setScrollTop(pageRect.scrollTop);

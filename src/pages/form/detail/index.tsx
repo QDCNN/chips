@@ -89,7 +89,7 @@ const FormDetailPage = () => {
   const { domain, toolkit } = usePageState();
   const [changedFormValues, setChangedFormValues] = useState<any>({});
   const form = useMemo(() => createForm({
-    initialValues: globalDomain.formValues,
+    initialValues: cloneDeep(globalDomain.formValues),
     effects() {
       onFieldInputValueChange('*', (field, form) => {
         setChangedFormValues({ [field.props.name]: field.value });
@@ -152,6 +152,7 @@ const FormDetailPage = () => {
 
   const onSubmit = async (e) => {
     await form.validate();
+    console.log('changedFormValues: ', changedFormValues, globalDomain.form);
     for (const key of Object.keys(changedFormValues)) {
       globalDomain.form?.setValuesIn(key, changedFormValues[key]);
     }
