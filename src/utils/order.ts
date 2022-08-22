@@ -11,11 +11,10 @@ export const handlePay = async (data) => {
       signType: 'MD5',
       paySign: data.payment.paySign,
     });
-    Taro.redirectTo({ url: combineQuery(Routes.OrderResult, { id: data.order_id }) })
+    Taro.switchTab({ url: combineQuery(Routes.OrderResult, { id: data.order_id }) })
   } catch (e) {
     let message = '支付失败';
     if (e.errMsg == 'requestPayment:fail cancel') message = '取消支付';
-    console.log('e: ', e);
     Taro.showToast({
       title: message,
       icon: 'error',

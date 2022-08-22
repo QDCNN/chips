@@ -9,6 +9,7 @@ export const Input = connect(
   }, (props, field) => {
     const onInput = props.onInput;
     return ({
+      name: field.props.name,
       onInput: (e) => {
         onInput?.(e.detail);
       }

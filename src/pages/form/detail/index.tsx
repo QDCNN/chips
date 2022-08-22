@@ -1,5 +1,5 @@
 import Taro, { useDidHide, useDidShow, useRouter } from '@tarojs/taro'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
 import { createForm, onFieldInputValueChange, onFieldValueChange } from '@formily/core'
 import { FormProvider } from '@formily/react'
@@ -87,8 +87,14 @@ const FormDetailPage = () => {
   const { state: globalState } = useGlobalState();
   const { domain: globalDomain, toolkit: globalToolkit } = useFileDocumentState();
   const { domain, toolkit } = usePageState();
+  const [changedFormValues, setChangedFormValues] = useState<any>({});
   const form = useMemo(() => createForm({
     initialValues: globalDomain.formValues,
+    effects() {
+      onFieldInputValueChange('*', (field, form) => {
+        setChangedFormValues({ [field.props.name]: field.value });
+      });
+    }
   }), [globalDomain.formValues, domain.pageStructure]);
   const { params } = useRouter();
 
@@ -146,8 +152,8 @@ const FormDetailPage = () => {
 
   const onSubmit = async (e) => {
     await form.validate();
-    for (const key of Object.keys(e.detail.value)) {
-      form.setValuesIn(key, e.detail.value[key]);
+    for (const key of Object.keys(changedFormValues)) {
+      globalDomain.form?.setValuesIn(key, changedFormValues[key]);
     }
 
     globalToolkit.saveTempValue(form.getFormState().values);

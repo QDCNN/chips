@@ -36,6 +36,7 @@ export const initialState = {
   pageStructure: cloneDeep(defaultPageStructure),
   task: {},
   formValues: defaultFormValues,
+  form: null as any,
 }
 
 interface FileDocumentState {
@@ -46,7 +47,8 @@ interface FileDocumentState {
     fetchTaskDetail: (params: any) => Promise<void>,
     submitFormValues: (params: any) => Promise<void>,
     setPageStructure: (params: any) => void,
-    saveTempValue: (value: any) => Promise<void>
+    saveTempValue: (value: any) => Promise<void>,
+    setForm: (form: any) => void,
   }
 }
 
@@ -119,6 +121,11 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
     setPageStructure(pageStructure) {
       set(produce(draft => {
         draft.domain.pageStructure = pageStructure;
+      }));
+    },
+    setForm(form) {
+      set(produce(draft => {
+        draft.domain.form = form;
       }));
     }
   }
