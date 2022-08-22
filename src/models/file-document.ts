@@ -66,8 +66,8 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
           { key: 'x-pattern', value: '{{$shared.calcPattern($self, $page)}}' },
           { key: 'x-decorator-props.disabled', value: '{{$shared.calcPattern($self, $page) == "disabled"}}' },
           // 处理 required 显示
-          { key: 'x-decorator-props.required', value: '{{!$self.required ? $self.required : $self.value == undefined}}' },
-          { key: 'x-component-props.required', value: '{{!$self.required ? $self.required : $self.value == undefined}}' },
+          { key: 'x-decorator-props.required', value: '{{!$self.required ? $self.required : ($self.value == undefined || $self.value == "")}}' },
+          { key: 'x-component-props.required', value: '{{!$self.required ? $self.required : ($self.value == undefined || $self.value == "")}}' },
         ]
       });
 
