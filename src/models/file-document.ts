@@ -34,6 +34,7 @@ export const initialState = {
   pageStructure: cloneDeep(defaultPageStructure),
   task: {},
   formValues: null,
+  detailPageformValues: null,
   form: null as any,
 }
 
@@ -91,6 +92,7 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
       const nextformValues = JSON.parse(result.data.content);
       set(produce(draft => {
         draft.domain.formValues = nextformValues;
+        draft.domain.detailPageformValues = nextformValues;
       }));
       return result.data.content;
       // form.setInitialValues(result.data.content);
@@ -101,9 +103,9 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
       if (!domain.mounted) return;
       Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.showNavigationBarLoading();
       await CommonApi.提交表单内容json({ task_id: domain.taskId, content: JSON.stringify(values) });
-      // set(produce(draft => {
-      //   draft.domain.formValues = values;
-      // }));
+      set(produce(draft => {
+        draft.domain.detailPageformValues = values;
+      }));
       Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.hideNavigationBarLoading();
     },
     async fetchTaskDetail(params) {

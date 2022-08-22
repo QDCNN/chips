@@ -74,16 +74,15 @@ const CustomVantUploader = memo((props) => {
 export const Uploader = connect(
   CustomVantUploader,
   mapProps(
-    {
-      value: 'fileList',
-    },
     (props, field: any) => {
       const { onChange } = props;
+      const { value = [] } = field;
+      console.log('value: ', value);
 
       return {
+        fileList: value,
         onAfterRead: async (e) => {
-          const { value = [] } = props;
-          const uploadImageList = await handleAfterRead(e.detail.file);
+          const uploadImageList = await handleAfterRead(Array.isArray(e.detail.file) ? e.detail.file : [e.detail.file]);
           onChange([...value, ...uploadImageList]);
         },
         onDelete: (e) => {

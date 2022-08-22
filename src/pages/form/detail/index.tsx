@@ -89,13 +89,14 @@ const FormDetailPage = () => {
   const { domain, toolkit } = usePageState();
   const [changedFormValues, setChangedFormValues] = useState<any>({});
   const form = useMemo(() => createForm({
-    initialValues: cloneDeep(globalDomain.formValues),
+    values: cloneDeep(globalDomain.detailPageformValues),
     effects() {
       onFieldInputValueChange('*', (field, form) => {
         setChangedFormValues({ [field.props.name]: field.value });
       });
     }
-  }), [globalDomain.formValues, domain.pageStructure]);
+  }), [globalDomain.detailPageformValues]);
+  console.log('globalDomain.detailPageformValues: ', globalDomain.detailPageformValues);
   const { params } = useRouter();
 
   useDidShow(() => {
@@ -105,7 +106,6 @@ const FormDetailPage = () => {
   });
 
   useEffect(() => {
-    form.setValues(cloneDeep(globalDomain.formValues));
     scope.$dictionary = cloneDeep(globalScope.$dictionary);
     scope.$page.taskDetail = cloneDeep(globalScope.$page.taskDetail);
   }, [form])
@@ -152,7 +152,11 @@ const FormDetailPage = () => {
 
   const onSubmit = async (e) => {
     await form.validate();
-    console.log('changedFormValues: ', changedFormValues, globalDomain.form);
+    if (!globalDomain.form) {
+      Taro.showToast({ title: '表单错误 请重新进入表单' });
+      Taro.navigateBack();
+    }
+
     for (const key of Object.keys(changedFormValues)) {
       globalDomain.form?.setValuesIn(key, changedFormValues[key]);
     }

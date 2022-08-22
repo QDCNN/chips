@@ -15,7 +15,7 @@ export const LinkCell = connect(
     (props, field) => {
       const { dataSource = [] } = field;
       const finalProps = {
-        value: props.value,
+        value: props.content || props.value,
         size: 'large',
         className: 'van-ellipsis',
         onClick: () => {
