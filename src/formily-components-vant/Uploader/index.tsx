@@ -77,7 +77,6 @@ export const Uploader = connect(
     (props, field: any) => {
       const { onChange } = props;
       const { value = [] } = field;
-      console.log('value: ', value);
 
       return {
         fileList: value,
