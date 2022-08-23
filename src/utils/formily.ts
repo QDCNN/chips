@@ -1,8 +1,9 @@
 import numeral from 'numeral';
 import Taro from '@tarojs/taro';
 import { createContext, runInContext } from '@/compiler';
-import cloneDeep from 'clone-deep';
 import objectPath from 'object-path';
+import dayjs from 'dayjs';
+import { combineQuery } from '@/utils/route';
 
 export const simpleCompiler = (expression, scope) => {
   // const result = singleCompiler(expression, { ...scope });
@@ -12,8 +13,14 @@ export const simpleCompiler = (expression, scope) => {
   usedExpression = 'module.exports = ' + usedExpression;
 
   const context = createContext({
-    numeral,
     Taro,
+    $library: {
+      numeral,
+      dayjs,
+    },
+    $shared: {
+      combineQuery,
+    },
     ...scope
   });
   // console.log('simpleCompiler before: ', expression, scope)

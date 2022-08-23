@@ -1,8 +1,4 @@
-import { UNDEFINED } from "./constant";
-import Taro from "@tarojs/taro";
-import { combineQuery } from '@/utils/route';
-import numeral from 'numeral';
-import dayjs from 'dayjs';
+import { UNDEFINED } from './constant';
 
 export interface ISandBox {
   [k: string]: any;
@@ -49,14 +45,6 @@ export const DEFAULT_CONTEXT: ISandBox = {
   TypeError,
   unescape,
   URIError,
-  Taro,
-  $library: {
-    numeral,
-    dayjs,
-  },
-  $shared: {
-    combineQuery,
-  }
 };
 
 // need to polyfill by user
