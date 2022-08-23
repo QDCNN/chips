@@ -89,14 +89,13 @@ const FormDetailPage = () => {
   const { domain, toolkit } = usePageState();
   const [changedFormValues, setChangedFormValues] = useState<any>({});
   const form = useMemo(() => createForm({
-    values: cloneDeep(globalDomain.detailPageformValues),
+    values: cloneDeep(globalDomain.formValues),
     effects() {
       onFieldInputValueChange('*', (field, form) => {
         setChangedFormValues({ [field.props.name]: field.value });
       });
     }
-  }), [globalDomain.detailPageformValues]);
-  console.log('globalDomain.detailPageformValues: ', globalDomain.detailPageformValues);
+  }), [globalDomain.formValues]);
   const { params } = useRouter();
 
   useDidShow(() => {

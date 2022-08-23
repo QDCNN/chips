@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { memo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
 import { FormProvider } from '@formily/react'
 import AnchorNavigation from '@/components/AnchorNavigation'
@@ -6,9 +6,7 @@ import Taro, { useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
 import { formDictionaryQueue } from '@/queue'
 import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import { weappBoundingClientRect } from '@/utils/dom'
-import cloneDeep from 'clone-deep'
 import { SchemaContainer } from '@/containers'
-import { createForm, onFieldInputValueChange, onFormInit } from '@formily/core'
 
 const FormHomeInnerPage = memo((props) => {
   const { form } = props;
@@ -58,21 +56,6 @@ const FormHomePage = () => {
   const [scrollTop, setScrollTop] = useState(0);
   const [anchorTextList, setAnchorTextList] = useState<any[]>([]);
   const { params } = useRouter();
-  const form = useMemo(() => {
-    return createForm({
-      initialValues: cloneDeep(domain.formValues),
-      effects() {
-        onFieldInputValueChange('*', (field, $form) => {
-          toolkit.saveTempValue($form.getFormState().values);
-        });
-      }
-    });
-  }, [domain.formValues]);
-
-  // hack
-  useEffect(() => {
-    toolkit.setForm(form);
-  }, [form]);
 
   usePageScroll((pageRect) => {
     setScrollTop(pageRect.scrollTop);
@@ -110,7 +93,7 @@ const FormHomePage = () => {
     <View>
       <AnchorNavigation scrollTop={scrollTop} value={anchorTextList} onClick={onAnchorClick} />
 
-      <FormHomeInnerPage form={form} />
+      <FormHomeInnerPage form={domain.form} />
     </View>
   )
 }
