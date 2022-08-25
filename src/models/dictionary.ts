@@ -15,6 +15,8 @@ export enum DictionaryProperty {
   档案信息 = 'archive',
   教育经历 = 'education',
   子女信息 = 'children',
+  配偶信息 = 'spouse_basic'
+  // 需要增加配偶字段表
 }
 
 export const initialState = {
@@ -26,6 +28,7 @@ export const initialState = {
   [DictionaryProperty.档案信息]: {},
   [DictionaryProperty.教育经历]: {},
   [DictionaryProperty.子女信息]: {},
+  [DictionaryProperty.配偶信息]: {},
 }
 
 interface DictionaryState {
@@ -41,6 +44,7 @@ interface DictionaryState {
     fetchArchive: () => Promise<void>;
     fetchEducation: () => Promise<void>;
     fetchChildren: () => Promise<void>;
+    fetchSpouseBasic: () => Promise<void>;
   }
 }
 
@@ -60,6 +64,7 @@ export const useDictionaryState = create<DictionaryState>((set, get) => ({
           actions.fetchArchive(),
           actions.fetchEducation(),
           actions.fetchChildren(),
+          actions.fetchSpouseBasic(),
         ];
         await Promise.all(promiseList);
         scope.$dictionary = cloneDeep(get().state);
@@ -137,6 +142,12 @@ export const useDictionaryState = create<DictionaryState>((set, get) => ({
       // dispatch(actionCreator.dictionary.setCommonItem({ key: DictionaryProperty.子女信息, value: response.data }));
       // scope.$dictionary[DictionaryProperty.子女信息] = response.data;
     },
+    async fetchSpouseBasic() {
+      const response = await CommonApi.getESSpouseBasic();
+      set(produce(draft => {
+        draft.state[DictionaryProperty.配偶信息] = response.data;
+      }));
+    }
   }
 }))
 // const dictionaryModel = {

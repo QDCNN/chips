@@ -56,6 +56,7 @@ enum APIPath {
   字典档案信息 = '/es/archive/get',
   字典教育经历 = '/es/education/get',
   字典子女信息 = '/es/children/get',
+  字典配偶基本信息 = '/es/spouse_basic/get',
 
   获取最近一次表单内容 = '/weixin/task/cloudget',
   提交表单内容json = '/weixin/task/cloudsave',
@@ -187,6 +188,10 @@ export const getESEducation = (params?) => {
 
 export const getESChildren = (params?) => {
   return common({ action: APIPath.字典子女信息, params, method: Method.GET })
+}
+
+export const getESSpouseBasic = (params?) => {
+  return common({ action: APIPath.字典配偶基本信息, params, method: Method.GET })
 }
 
 export const 获取最近一次表单内容 = (params?) => {
