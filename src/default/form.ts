@@ -10,4 +10,10 @@ export const defaultFormValues = {
   spouse_archive: {},
   spouse_abroad: {},
   img: {},
+  family: [{}],
+  education: [{}],
+  workexp: [{}],
+  spouse_workexp: [{}],
+  children: [{}],
+  spouse_education: [{}],
 }

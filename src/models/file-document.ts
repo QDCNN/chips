@@ -9,12 +9,11 @@ import { defaultPageStructure } from '@/default/page-structure'
 import cloneDeep from 'clone-deep'
 import create from 'zustand'
 import produce from 'immer'
-import { defaultFormValues } from '@/default/form'
-import deepmerge from 'deepmerge'
 import { FORM_TEMPLATE_KEY } from '@/constants/form';
 import { defaultTaskDetail } from '@/default/task';
 import { CommonApi } from '@/api';
 import { calcPattern } from '@/utils/formily';
+import { createForm, onFieldInputValueChange } from '@formily/core';
 
 const onceFetchPageStructure = onceInit(() => CommonApi.getPageStructure({ name: FORM_TEMPLATE_KEY }));
 
@@ -35,7 +34,8 @@ export const initialState = {
   originPageStructure: cloneDeep(defaultPageStructure),
   pageStructure: cloneDeep(defaultPageStructure),
   task: {},
-  formValues: defaultFormValues,
+  formValues: null,
+  form: createForm(),
 }
 
 interface FileDocumentState {
@@ -46,7 +46,9 @@ interface FileDocumentState {
     fetchTaskDetail: (params: any) => Promise<void>,
     submitFormValues: (params: any) => Promise<void>,
     setPageStructure: (params: any) => void,
-    saveTempValue: (value: any) => Promise<void>
+    saveTempValue: (value: any) => Promise<void>,
+    setForm: (form: any) => void,
+    setFormValues: (values: any) => void,
   }
 }
 
@@ -64,8 +66,8 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
           { key: 'x-pattern', value: '{{$shared.calcPattern($self, $page)}}' },
           { key: 'x-decorator-props.disabled', value: '{{$shared.calcPattern($self, $page) == "disabled"}}' },
           // 处理 required 显示
-          { key: 'x-decorator-props.required', value: '{{!$self.required ? $self.required : $self.value == undefined}}' },
-          { key: 'x-component-props.required', value: '{{!$self.required ? $self.required : $self.value == undefined}}' },
+          { key: 'x-decorator-props.required', value: '{{!$self.required ? $self.required : ($self.value == undefined || $self.value == "")}}' },
+          { key: 'x-component-props.required', value: '{{!$self.required ? $self.required : ($self.value == undefined || $self.value == "")}}' },
         ]
       });
 
@@ -83,28 +85,36 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
       return pageStructure;
     },
     async fetchLatestTask(params) {
+      const { domain, toolkit } = get();
       set(produce(draft => {
         draft.domain.mounted = false;
-        draft.domain.taskId = params.task_id;
       }));
       const result = await CommonApi.获取最近一次表单内容(params);
-      const nextformValues = deepmerge(defaultFormValues, JSON.parse(result.data.content));
+      const nextformValues = JSON.parse(result.data.content);
+      const form = createForm({
+        initialValues: cloneDeep(nextformValues),
+        effects() {
+          onFieldInputValueChange('*', (field, $form) => {
+            toolkit.saveTempValue($form.getFormState().values);
+          });
+        }
+      });
       set(produce(draft => {
+        draft.domain.form = form;
+        draft.domain.taskId = params.task_id;
         draft.domain.formValues = nextformValues;
       }));
       return result.data.content;
-      // form.setInitialValues(result.data.content);
-      // form.setValues(result.data.content);
     },
     async saveTempValue(values) {
       const { domain } = get();
       if (!domain.mounted) return;
-      Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.showNavigationBarLoading();
+      Taro.getEnv() !== Taro.ENV_TYPE.WEB && Taro.showNavigationBarLoading();
       await CommonApi.提交表单内容json({ task_id: domain.taskId, content: JSON.stringify(values) });
-      // set(produce(draft => {
-      //   draft.domain.formValues = values;
-      // }));
-      Taro.getEnv() === Taro.ENV_TYPE.WEB && Taro.hideNavigationBarLoading();
+      set(produce(draft => {
+        draft.domain.formValues = values;
+      }));
+      Taro.getEnv() !== Taro.ENV_TYPE.WEB && Taro.hideNavigationBarLoading();
     },
     async fetchTaskDetail(params) {
       const response = await CommonApi.获取任务订单信息(params);
@@ -119,6 +129,16 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
     setPageStructure(pageStructure) {
       set(produce(draft => {
         draft.domain.pageStructure = pageStructure;
+      }));
+    },
+    setForm(form) {
+      set(produce(draft => {
+        draft.domain.form = form;
+      }));
+    },
+    setFormValues(values) {
+      set(produce(draft => {
+        draft.domain.formValues = values;
       }));
     }
   }

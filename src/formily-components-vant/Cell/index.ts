@@ -11,6 +11,7 @@ export const Cell = connect(
     return {
       size: 'large',
       className: 'van-ellipsis',
+      value: props.content || props.value,
     };
   })
 )

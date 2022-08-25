@@ -70,7 +70,7 @@ const OrderResultPage = () => {
     return actions.handleCycleFetch(params);
   }, []);
 
-  const toFormPage = () => Taro.redirectTo({ url: Routes.Work })
+  const toWorkPage = () => Taro.switchTab({ url: Routes.Work })
 
   if (state.status === 'finished') return (
     <View className={styles.page}>
@@ -82,7 +82,7 @@ const OrderResultPage = () => {
         <View className={classNames(styles.mb32, styles.descriptionBox)}>
           <Text className={styles.description}>已为您分配审核老师，可前往「材料详情」联系审核老师，请尽快提交您的申请资料。</Text>
         </View>
-        <Button type="primary" onClick={toFormPage}>去上传材料</Button>
+        <Button type="primary" onClick={toWorkPage}>去上传材料</Button>
       </View>
     </View>
   );

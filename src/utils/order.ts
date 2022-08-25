@@ -15,7 +15,6 @@ export const handlePay = async (data) => {
   } catch (e) {
     let message = '支付失败';
     if (e.errMsg == 'requestPayment:fail cancel') message = '取消支付';
-    console.log('e: ', e);
     Taro.showToast({
       title: message,
       icon: 'error',
