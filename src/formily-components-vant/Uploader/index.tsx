@@ -85,8 +85,8 @@ export const Uploader = connect(
           onChange([...value, ...uploadImageList]);
         },
         onDelete: (e) => {
-          const { fileList, index } = e.detail;
-          const nextValue = produce(fileList, draft => {
+          const { index } = e.detail;
+          const nextValue = produce(value, draft => {
             draft.splice(index, 1);
           });
           onChange(nextValue);

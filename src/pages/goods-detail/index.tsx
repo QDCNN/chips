@@ -41,10 +41,6 @@ const GoodsDetail = () => {
   const { params } = useRouter();
   const { state, actions } = usePageState();
 
-  const onOrderClick = () => {
-    Taro.navigateTo({ url: Routes.ConfirmOrder })
-  }
-
   useDidShow(() => {
     actions.fetchGoodsDetail(params.id);
   });
