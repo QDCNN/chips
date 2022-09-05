@@ -42,9 +42,10 @@ const FormHomeInnerPage = memo((props) => {
 const filterAnchorTextList = (properties, list = [] as any[]) => {
     for (const key in properties) {
       const componentProps = properties[key]['x-component-props'];
-      const component = properties[key]['x-component'];
-      if (component === 'Text' && componentProps.isAnchor && componentProps.id) {
-        list.push({ title: componentProps.content, index: properties[key]['x-index'], id: componentProps.id })
+      const component = properties[key];
+      const componentName = component['x-component'];
+      if (componentName === 'Text' && componentProps.isAnchor && componentProps.id) {
+        list.push({ title: componentProps.content, index: component['x-index'], id: componentProps.id })
       }
       if (component.properties) filterAnchorTextList(component.properties, list);
     }

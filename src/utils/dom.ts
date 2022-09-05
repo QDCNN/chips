@@ -5,7 +5,9 @@ export const weappBoundingClientRect = (id) => {
     Taro.createSelectorQuery()
       .select('#' + id)
       .boundingClientRect((doms: any) => {
-        if (!doms) reject();
+        if (!doms) {
+          return reject();
+        }
         resolve({ ...doms, isOver: doms.top + doms.height < 0, fixed: doms.top <= 0 });
       })
       .exec();

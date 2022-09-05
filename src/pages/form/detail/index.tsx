@@ -101,6 +101,8 @@ const FormDetailPage = () => {
   useDidShow(() => {
     scope.$params = params;
 
+    form && form.clearFormGraph('*');
+
     initPagestructure();
   });
 
@@ -150,18 +152,26 @@ const FormDetailPage = () => {
   });
 
   const onSubmit = async (e) => {
-    await form.validate();
-    if (!globalDomain.form) {
-      Taro.showToast({ title: '表单错误 请重新进入表单' });
+    try {
+      await form.validate();
+      if (!globalDomain.form) {
+        Taro.showToast({ title: '表单错误 请重新进入表单' });
+        Taro.navigateBack();
+      }
+
+      for (const key of Object.keys(changedFormValues)) {
+        globalDomain.form?.setValuesIn(key, changedFormValues[key]);
+      }
+
+      globalToolkit.saveTempValue(form.getFormState().values);
       Taro.navigateBack();
+    } catch(e) {
+      if (e.length) {
+        Taro.showToast({ title: e.reduce((prev, item) => prev.concat(item.messages), []).join(', '), icon: 'error' })
+      }
+      console.log('e: ', e);
+      console.dir(e);
     }
-
-    for (const key of Object.keys(changedFormValues)) {
-      globalDomain.form?.setValuesIn(key, changedFormValues[key]);
-    }
-
-    globalToolkit.saveTempValue(form.getFormState().values);
-    Taro.navigateBack();
   }
 
   useEffect(() => {
