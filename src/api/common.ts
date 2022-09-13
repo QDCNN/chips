@@ -3,7 +3,7 @@ import axios from 'axios';
 import onceInit from 'once-init'
 import { TaroAdapter } from './utils/adapter';
 
-const API_PATH = 'https://api.oscac-sh.com';
+const API_PATH = 'https://api-dev.oscac-sh.com';
 export const baseAxios = axios.create({
   baseURL: API_PATH,
   timeout: 10000,

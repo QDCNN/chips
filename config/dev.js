@@ -9,7 +9,7 @@ module.exports = {
     devServer: {
       proxy: {
         '/api': {
-          target: 'https://api.oscac-sh.com',
+          target: 'https://api-dev.oscac-sh.com',
           changeOrigin: true,
           // secure: false,
           pathRewrite: {
