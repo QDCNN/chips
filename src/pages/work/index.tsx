@@ -7,7 +7,6 @@ import { CellGroup, Cell } from '@antmjs/vantui'
 import { createDrawer } from '@/hooks/create-drawer'
 import { commonResponsePipeline, formParamsPipeline } from '@/transformers'
 import { CommonApi } from '@/api'
-import { Badge } from '@/components'
 import { combineQuery } from '@/utils/route'
 
 const useDrawer = createDrawer(commonResponsePipeline(formParamsPipeline(CommonApi.getTaskList)), { defaultValue: { pagination: { pageSize: 20 } } });
@@ -20,7 +19,6 @@ const statusMapBadgeType = {
 const WorkPage = () => {
   const { drawer, toolkit } = useDrawer();
   const [taskStatus, setTaskStatus] = useState([]);
-
   const handleInit = async () => {
     const response = await toolkit.search();
     setTaskStatus(response.origin.task_status);
@@ -77,8 +75,9 @@ const WorkPage = () => {
             <Cell
               renderTitle={(
                 <View style={{ display: 'flex', alignItems: 'center' }}>
-                  <Text>{showTaskStatusText(item.task_status)}</Text>
-                  <Badge type={statusMapBadgeType[item.task_status]} />
+                  <Text style={{ color: item.task_status == 10 ? '#637ba3' : null }}>
+                    {showTaskStatusText(item.task_status)}
+                  </Text>
                 </View>
               )}
               isLink
@@ -89,7 +88,7 @@ const WorkPage = () => {
           </CellGroup>
         ))}
       </View>
-    </View>
+    </View >
   )
 }
 
