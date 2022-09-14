@@ -2,11 +2,13 @@ import React, { memo, useState } from 'react'
 import { View, Form } from '@tarojs/components'
 import { FormProvider } from '@formily/react'
 import AnchorNavigation from '@/components/AnchorNavigation'
-import Taro, { useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
+import Taro, { useDidHide, useDidShow, usePageScroll, useRouter } from '@tarojs/taro'
 import { formDictionaryQueue } from '@/queue'
 import { scope as globalScope, useFileDocumentState } from '@/models/file-document'
 import { weappBoundingClientRect } from '@/utils/dom'
 import { SchemaContainer } from '@/containers'
+import cloneDeep from 'clone-deep'
+import { defaultPageStructure } from '@/default/page-structure'
 
 const FormHomeInnerPage = memo((props) => {
   const { form } = props;
@@ -65,21 +67,26 @@ const FormHomePage = () => {
   const init = async () => {
     await formDictionaryQueue.onEmpty();
 
-    fetchTaskDetail();
-    fetchPageSturture();
+    fetchTaskDetail(params.id);
+    fetchPageSturture(params.name);
   }
 
   useDidShow(() => {
     init();
   });
 
-  const fetchPageSturture = async () => {
-    const pageStructure = await toolkit.fetchPageStructure();
+  useDidHide(() => {
+    toolkit.setPageStructure(cloneDeep(defaultPageStructure));
+  });
+
+  const fetchPageSturture = async (name: string) => {
+    if (name == domain.pageName) return;
+    const pageStructure = await toolkit.fetchPageStructure(name);
     setAnchorTextList(filterAnchorTextList(pageStructure.schema.properties, []));
   }
 
-  const fetchTaskDetail = async () => {
-    if (params.id == domain.taskId) return;
+  const fetchTaskDetail = async (id) => {
+    if (!id || id == domain.taskId) return;
 
     toolkit.fetchTaskDetail({ task_id: params.id });
     toolkit.fetchLatestTask({ task_id: params.id });

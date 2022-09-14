@@ -83,7 +83,7 @@ const WorkPage = () => {
               isLink
               size="large"
               linkType="navigateTo"
-              url={combineQuery(Routes.FormPage, { id: item.task_id })}
+              url={combineQuery(Routes.FormPage, { type: 'custom', name: 'file-document__form-home', id: item.task_id })}
             />
           </CellGroup>
         ))}

@@ -22,9 +22,17 @@ export const LinkCell = connect(
           if (props?.disabled) return;
           const params: { type: string, name: string } = {
             type: props.type,
+            name: field.path.entire as string,
           }
-          params.name = props.type == 'custom' ? props.pageName : field.path.entire;
 
+          if (props.type == 'form-custom') {
+            params.name = props.pageName;
+            Taro.navigateTo({ url: combineQuery(Routes.FormPage, params) });
+            return;
+          }
+          if (props.type == 'custom') {
+            params.name = props.pageName;
+          }
           Taro.navigateTo({ url: combineQuery(Routes.FormDetailPage, params) });
         }
       }

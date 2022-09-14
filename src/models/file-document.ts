@@ -15,7 +15,7 @@ import { CommonApi } from '@/api';
 import { calcPattern } from '@/utils/formily';
 import { createForm, onFieldInputValueChange } from '@formily/core';
 
-const onceFetchPageStructure = onceInit(() => CommonApi.getPageStructure({ name: FORM_TEMPLATE_KEY }));
+// const onceFetchPageStructure = onceInit(() => CommonApi.getPageStructure({ name: FORM_TEMPLATE_KEY }));
 
 export const scope = observable.shallow({
   $params: {},
@@ -33,6 +33,7 @@ export const initialState = {
   mounted: false,
   originPageStructure: cloneDeep(defaultPageStructure),
   pageStructure: cloneDeep(defaultPageStructure),
+  pageName: '',
   task: {},
   formValues: null,
   form: createForm(),
@@ -41,7 +42,7 @@ export const initialState = {
 interface FileDocumentState {
   domain: typeof initialState,
   toolkit: {
-    fetchPageStructure: () => Promise<any>,
+    fetchPageStructure: (name: string) => Promise<any>,
     fetchLatestTask: (params: any) => Promise<void>,
     fetchTaskDetail: (params: any) => Promise<void>,
     submitFormValues: (params: any) => Promise<void>,
@@ -55,8 +56,8 @@ interface FileDocumentState {
 export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
   domain: initialState,
   toolkit: {
-    async fetchPageStructure() {
-      const response = await onceFetchPageStructure.init();
+    async fetchPageStructure(name) {
+      const response = await CommonApi.getPageStructure({ name });
       if (!response.data.content) return;
       const pageStructure = JSON.parse(response.data.content);
       pageStructure.schema.properties = specialHandleProperties({
@@ -74,6 +75,7 @@ export const useFileDocumentState = create<FileDocumentState>((set, get) => ({
       set(produce(draft => {
         draft.domain.originPageStructure = cloneDeep(pageStructure);
         draft.domain.pageStructure = pageStructure;
+        draft.domain.pageName = name;
       }));
 
       setTimeout(() => {
