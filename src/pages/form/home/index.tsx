@@ -55,6 +55,7 @@ const filterAnchorTextList = (properties, list = [] as any[]) => {
 }
 
 const FormHomePage = () => {
+  const [loading, setLoading] = useState(false);
   const { domain, toolkit } = useFileDocumentState();
   const [scrollTop, setScrollTop] = useState(0);
   const [anchorTextList, setAnchorTextList] = useState<any[]>([]);
@@ -65,18 +66,16 @@ const FormHomePage = () => {
   });
 
   const init = async () => {
+    setLoading(true);
     await formDictionaryQueue.onEmpty();
 
     fetchTaskDetail(params.id);
-    fetchPageSturture(params.name);
+    await fetchPageSturture(params.name);
+    setLoading(false);
   }
 
   useDidShow(() => {
     init();
-  });
-
-  useDidHide(() => {
-    toolkit.setPageStructure(cloneDeep(defaultPageStructure));
   });
 
   const fetchPageSturture = async (name: string) => {
@@ -88,8 +87,8 @@ const FormHomePage = () => {
   const fetchTaskDetail = async (id) => {
     if (!id || id == domain.taskId) return;
 
-    toolkit.fetchTaskDetail({ task_id: params.id });
-    toolkit.fetchLatestTask({ task_id: params.id });
+    await toolkit.fetchTaskDetail({ task_id: params.id });
+    await toolkit.fetchLatestTask({ task_id: params.id });
   }
 
   const onAnchorClick = async (item) => {
@@ -98,7 +97,7 @@ const FormHomePage = () => {
   };
 
   return (
-    <View>
+    <View style={{ display: loading ? 'none' : 'block' }}>
       <AnchorNavigation scrollTop={scrollTop} value={anchorTextList} onClick={onAnchorClick} />
 
       <FormHomeInnerPage form={domain.form} />
