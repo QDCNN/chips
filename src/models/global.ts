@@ -61,7 +61,7 @@ export const useGlobalState = create<ServiceState>((set, get) => ({
       const response = await YinghuoApi.login(params);
       Taro.hideLoading();
       set(produce(draft => {
-        draft.userInfo = response.data;
+        draft.state.userInfo = response.data;
       }));
       return response.data;
     }

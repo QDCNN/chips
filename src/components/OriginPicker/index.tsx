@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Picker as TaroPicker } from '@tarojs/components'
-import { Cell }  from '@antmjs/vantui'
+import { Cell } from '@antmjs/vantui'
 
 enum Mode {
   单向选择 = 'selector',
