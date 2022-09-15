@@ -46,13 +46,14 @@ export const objectGetByPath = (object, path) => {
 export const getSchemaFromPath = (schema, pathStr) => {
   const execResult = /(\.\d\.)/.exec(pathStr);
 
-  if (!execResult || !execResult[1]) return objectGetByPath(schema.properties, pathStr);
+  if ((!execResult || !execResult[1]) && pathStr.split('.').length <= 1) return objectGetByPath(schema.properties, pathStr);
 
-  const pathList = pathStr.split(execResult[1]);
+  const pathList = pathStr.split(execResult ? execResult[1] : '.');
+  let property = schema;
   for (let i = 0; i < pathList.length; i++) {
     const path = pathList[i];
-    const property = objectGetByPath(schema.properties, path);
-    if (property.type === 'array') return getSchemaFromPath(property.items, pathList[i + 1])
-    i++;
+    property = objectGetByPath(property.properties, path);
+    if (property && property.type === 'array') return getSchemaFromPath(property.items, pathList[i + 1])
   }
+  return property;
 }

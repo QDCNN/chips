@@ -16,6 +16,7 @@ import { defaultTaskDetail } from '@/default/task'
 import { CommonApi } from '@/api'
 import { useGlobalState } from '@/models'
 import produce from 'immer'
+import { delay } from '@/utils'
 
 const scope = observable.shallow({
   $params: {},
@@ -84,6 +85,7 @@ const usePageState = create<PageState>((set) => ({
 }))
 
 const FormDetailPage = () => {
+  const [loading, setLoading] = useState(false);
   const { state: globalState } = useGlobalState();
   const { domain: globalDomain, toolkit: globalToolkit } = useFileDocumentState();
   const { domain, toolkit } = usePageState();
@@ -98,12 +100,18 @@ const FormDetailPage = () => {
   }), [globalDomain.formValues]);
   const { params } = useRouter();
 
-  useDidShow(() => {
+  const init = async () => {
+    setLoading(true);
     scope.$params = params;
 
     form && form.clearFormGraph('*');
 
-    initPagestructure();
+    await initPagestructure();
+    setLoading(false);
+  }
+
+  useDidShow(() => {
+    init();
   });
 
   useEffect(() => {
@@ -137,13 +145,12 @@ const FormDetailPage = () => {
     toolkit.setPageStructure(fullSchema);
   };
 
-  const initPagestructure = () => {
+  const initPagestructure = async () => {
     if (params.type === 'custom') {
-      handleCustom();
+      await handleCustom();
     } else {
-      setTimeout(() => {
-        handleSpecific();
-      }, 100);
+      await delay(100)
+      handleSpecific();
     }
   }
 
