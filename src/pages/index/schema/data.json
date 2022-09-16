@@ -74,7 +74,8 @@
                       "x-component-props": {
                         "src": "{{$record.goods_image}}",
                         "style": {
-                          "width": "100%"
+                          "width": "100%",
+                          "marginBottom": "10px"
                         },
                         "mode": "widthFix",
                         "onClick": "{{function() { Taro.navigateTo({ url: $shared.combineQuery('/pages/goods-detail/index',{ id: $record.goods_id }) }) }}}"

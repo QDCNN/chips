@@ -1,0 +1,3 @@
+.page :global .van-cell__value {
+  overflow: visible;
+}

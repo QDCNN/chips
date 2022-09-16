@@ -60,7 +60,6 @@ const OrderCreatePage = () => {
   const { params } = useRouter();
   const scope = useMemo(() => observable({
     $page: { serviceDetail: {}, goodsDetail: { goods_sku: {} } },
-    // $toolkit: { chooseAddress: null }
   }), []);
   const form = useMemo(() => createForm(), []);
   const { state, actions } = usePageState();
@@ -84,16 +83,6 @@ const OrderCreatePage = () => {
     await form.validate();
     actions.buy({ ...form.getFormState().values, goods_id: params.goods_id });
   };
-
-  // const chooseAddress = async ($form) => {
-  //   const response = await Taro.chooseAddress();
-  //   if (response.errMsg !== 'chooseAddress:ok') return;
-  //   $form.values.address = `${response.userName} ${response.telNumber} ${response.cityName} ${response.countyName} ${response.detailInfo}`;
-  // }
-
-  // useEffect(() => {
-  //   scope.$toolkit.chooseAddress = chooseAddress;
-  // }, [chooseAddress])
 
   return (
     <View className={styles.page} style={state.pageStructure.form.style}>
