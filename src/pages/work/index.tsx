@@ -53,8 +53,12 @@ const WorkPage = () => {
         {drawer.list.map(item => (
           <CellGroup className={styles.mb32} inset key={item.task_id}>
             <Cell
+              className={styles.iconstyle}
               title={item.title}
               size="large"
+              isLink
+              linkType="navigateTo"
+              url={combineQuery(Routes.FormPage, { type: 'custom', name: 'file-document__form-home', id: item.task_id })}
               renderLabel={(
                 <View>
                   <View>
