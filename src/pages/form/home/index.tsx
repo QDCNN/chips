@@ -9,6 +9,8 @@ import { weappBoundingClientRect } from '@/utils/dom'
 import { SchemaContainer } from '@/containers'
 import cloneDeep from 'clone-deep'
 import { defaultPageStructure } from '@/default/page-structure'
+import styles from './index.module.less'
+import { CellGroup, Cell } from '@antmjs/vantui'
 
 const FormHomeInnerPage = memo((props) => {
   const { form } = props;
@@ -42,16 +44,16 @@ const FormHomeInnerPage = memo((props) => {
 })
 
 const filterAnchorTextList = (properties, list = [] as any[]) => {
-    for (const key in properties) {
-      const componentProps = properties[key]['x-component-props'];
-      const component = properties[key];
-      const componentName = component['x-component'];
-      if (componentName === 'Text' && componentProps.isAnchor && componentProps.id) {
-        list.push({ title: componentProps.content, index: component['x-index'], id: componentProps.id })
-      }
-      if (component.properties) filterAnchorTextList(component.properties, list);
+  for (const key in properties) {
+    const componentProps = properties[key]['x-component-props'];
+    const component = properties[key];
+    const componentName = component['x-component'];
+    if (componentName === 'Text' && componentProps.isAnchor && componentProps.id) {
+      list.push({ title: componentProps.content, index: component['x-index'], id: componentProps.id })
     }
-    return list;
+    if (component.properties) filterAnchorTextList(component.properties, list);
+  }
+  return list;
 }
 
 const FormHomePage = () => {
@@ -81,6 +83,11 @@ const FormHomePage = () => {
   const fetchPageSturture = async (name: string) => {
     if (name == domain.pageName) return;
     const pageStructure = await toolkit.fetchPageStructure(name);
+    if (pageStructure.form.title) {
+      Taro.setNavigationBarTitle({
+        title: pageStructure.form.title,
+      })
+    }
     setAnchorTextList(filterAnchorTextList(pageStructure.schema.properties, []));
   }
 
@@ -97,10 +104,14 @@ const FormHomePage = () => {
   };
 
   return (
-    <View style={{ display: loading ? 'none' : 'block' }}>
+    <View style={{ display: loading ? 'none' : 'block' }} className={styles.page}>
       <AnchorNavigation scrollTop={scrollTop} value={anchorTextList} onClick={onAnchorClick} />
 
-      <FormHomeInnerPage form={domain.form} />
+      <View className={styles.mb32}>
+        <CellGroup inset>
+          <FormHomeInnerPage form={domain.form} />
+        </CellGroup>
+      </View>
     </View>
   )
 }
